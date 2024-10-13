@@ -1,0 +1,37 @@
+.table input[type=number] {
+    width: 50%;
+  }
+  
+  .stat {
+    width:50px;
+    vertical-align:middle;
+  }
+  
+  .btn {
+    border-radius:5px;
+  }
+  
+  .center-me {
+    text-align:center;
+  }
+  
+  select {
+    padding:4px;
+    min-width:50px;
+    vertical-align:middle;
+  }
+  
+  .big-image {
+    height: 300vh;
+    width: 100vw;
+    position: relative;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-image:
+  url(Images/Tirnoch\ New.png);
+  }
+  
+  textarea{
+    width: 100%;
+    vertical-align:middle;
+  }
