@@ -21,16 +21,15 @@
     vertical-align:middle;
   }
   
+
   .big-image {
-    height: 300vh;
-    width: 100vw;
-    position: relative;
-    background-size: cover;
-    background-position: 50% 50%;
-    background-image:
-  url(Images/websitebackground.png);
+    background-image: url(Images/websitebackground.png);
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh; 
+    width: 100%; 
   }
-  
   textarea{
     width: 100%;
     vertical-align:middle;
