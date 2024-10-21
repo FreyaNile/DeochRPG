@@ -32,7 +32,7 @@
     
             <div class="col-4">
     
-              <h2>Player Level</h2>
+              <h2>Level</h2>
     
               <input class="stat" type="number" id="playerLevel" min="0" max="10" value="0" onchange="playerLevelChange();">
               <br>Proficency Bonus
@@ -129,7 +129,7 @@
               </tr>
               <br>
               <tr>
-                <td><input type="checkbox" id="cantLang" <td>Thieves Cant</td>
+                <td><input type="checkbox" id="cantLang" <td>Savvy</td>
               </tr>
     
               <br><br>
@@ -140,30 +140,6 @@
             </div>
     
             <div class="col-4">
-    
-              <h2>Armor</h2>
-    
-              <h6>Equipped Armor:</h6>
-              <select id="equippedArmor" onchange="equipArmor(this);">
-                <option value="unarmored">None</option>
-                <optgroup id="lightArmor" value="Light Armor" label="Light Armor">
-                  <option value="padded">Padded</option>
-                  <option value="leather">Leather</option>
-                  <option value="studded">Studded Leather</option>
-                </optgroup>
-                <optgroup id="mediumArmor" value="Medium Armor" label="Medium Armor">
-                  <option value="hide">Hide</option>
-                  <option value="scale">Scale Mail</option>
-                  <option value="breastplate">Breastplate</option>
-                </optgroup>
-                <optgroup id="heavyArmor" value="Heavy Armor" label="Heavy Armor">
-                  <option id="chainmailArmor" value="chainmail">Chain Mail</option>
-                  <option id="splintArmor" value="splint">Splint</option>
-                  <option id="plateArmor" value="plate">Plate</option>
-                </optgroup>
-              </select>
-    
-              <br><br>
               <h6>Equipped Shield:</h6>
               <select id="equippedShield" onchange="shieldEquip(this);">
                 <option value="none">None</option>
@@ -173,7 +149,7 @@
               </select>
               <br><br>
     
-              <h6>AC:</h6><input class="stat" type="number" id="armorClass" placeholder="0">
+              <h6>AC:</h6><input class="stat" type="number" id="armorClass" placeholder="9">
     
               <br><br>
               <tr>
@@ -234,15 +210,15 @@
                   <span class="btn btn-info" onclick="takeMana();">Cast Spell</span>
     
                   <select id="modMana">
-                    <option>4</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>5</option>
                     <option>6</option>
+                    <option>7</option>
+                    <option>9</option>
                     <option>10</option>
-                    <option>12</option>
-                    <option>14</option>
-                    <option>18</option>
-                    <option>20</option>
-                    <option>22</option>
-                    <option>26</option>
+                    <option>11</option>
+                    <option>13</option>
                   </select>
                 </div>
               </div>

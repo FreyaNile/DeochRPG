@@ -23,11 +23,11 @@
   
 
   .big-image {
-    background-image: url(Images/websitebackground.png);
-    background-size: cover; 
+    background-image: url(Images/websitebackground1.png);
+    background-size: contain; 
     background-repeat: no-repeat;
     background-position: center;
-    height: 100vh; 
+    height: 150vh; 
     width: 100%; 
   }
   textarea{
