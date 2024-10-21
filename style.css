@@ -1,37 +1,37 @@
+body {
+  background: black;
+  background-image: url(images/websitebackground1.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 150vh;
+  width: 100%;
+  color: white;
+}
+
 .table input[type=number] {
-    width: 50%;
-  }
-  
-  .stat {
-    width:50px;
-    vertical-align:middle;
-  }
-  
-  .btn {
-    border-radius:5px;
-  }
-  
-  .center-me {
-    text-align:center;
-  }
-  
-  select {
-    padding:4px;
-    min-width:50px;
-    vertical-align:middle;
-  }
-  
+  width: 50%;
+}
 
-  .big-image {
-    background-image: url(Images/websitebackground1.png);
-    background-size: contain; 
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 150vh; 
-    width: 100%; 
-  }
-  textarea{
-    width: 100%;
-    vertical-align:middle;
-  }
+.stat {
+  width: 50px;
+  vertical-align: middle;
+}
 
+.btn {
+  border-radius: 5px;
+}
+
+.center-me {
+  text-align: center;
+}
+
+select {
+  padding: 4px;
+  min-width: 50px;
+  vertical-align: middle;
+}
+
+textarea {
+  width: 100%;
+  vertical-align: middle;
+}
