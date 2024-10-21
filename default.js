@@ -14,6 +14,11 @@ function getStoredValues() {
     document.getElementById("chaScore").value = localStorage.getItem("chaScore");
     updateModifiers();
     
+    
+    
+    
+    
+    
     // Set armor + shield
     document.getElementById("equippedShield").value = localStorage.getItem("equippedShield");
     
