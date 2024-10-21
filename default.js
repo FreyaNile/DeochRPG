@@ -13,12 +13,8 @@ function getStoredValues() {
     document.getElementById("wisScore").value = localStorage.getItem("wisScore");
     document.getElementById("chaScore").value = localStorage.getItem("chaScore");
     updateModifiers();
-    
-    
-    
-    
-    
-    
+   
+
     // Set armor + shield
     document.getElementById("equippedShield").value = localStorage.getItem("equippedShield");
     
@@ -74,7 +70,6 @@ function getStoredValues() {
     document.getElementById("thieftools").checked = JSON.parse(localStorage.getItem('thieftools'));
     document.getElementById("thieftools2").checked = JSON.parse(localStorage.getItem('thieftools2'));
     document.getElementById("armorClass").value = localStorage.getItem("armorClass");
-    document.getElementById("info").value = (localStorage.getItem('info'));
     setSkills();
     enableStats();
   }
@@ -148,8 +143,6 @@ function getStoredValues() {
     localStorage.setItem('thieftools', document.getElementById('thieftools').checked);
     localStorage.setItem('thieftools2', document.getElementById('thieftools2').checked);
     localStorage.setItem("armorClass", document.getElementById("armorClass").value);
- // Save text box
- localStorage.setItem('info', document.getElementById('info').value);
 
     // debug log
     var i;
