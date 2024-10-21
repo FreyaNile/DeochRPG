@@ -28,10 +28,11 @@
     background-size: cover;
     background-position: 50% 50%;
     background-image:
-  url(Images/Tirnoch\ New.png);
+  url(Images/websitebackground.png);
   }
   
   textarea{
     width: 100%;
     vertical-align:middle;
   }
+
