@@ -10,225 +10,233 @@
   <link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/favicon32.png" type="image/png">
-  <script src="Default.js"></script>
+  <script src="default.js"></script>
   <style>
     body {
-        background-color: black;
-        color: white; 
+      background-color: black;
+      color: white;
     }
-</style>
+  </style>
 </head>
 
 <body>
-  
-    
 
-    <div class="big-imag" <br>
-    
-      <div class="container">
-        <font color="white" <form id="charSheet">
-    
-          <div class="row">
-    
-            <div class="col-4">
-    
-              <h2>Level</h2>
-    
-              <input class="stat" type="number" id="playerLevel" min="0" max="10" value="0" onchange="playerLevelChange();">
-              <br>Proficency Bonus
-              <br>
-              <input class="stat" type="number" id="profBonus" value="1"disabled>
-              <br><br>
-    
-              <h2>Stats & Mods</h2>
-     Stat Points
-            
-              <input class="stat" type="number" id="statPoints" value="3"onchange="enableStats"disabled>
-              <button type="button" onclick="addStat();"class="btn btn-dark">+</button>
-              <br>
-              <style>
-                th {
-                  color: white;
-                }
-    
-                td {
-                  color: white;
-                }
-              </style>
-              <table class="table">
-                <tr>
-                  <th>Stat</th>
-                  <th>Score</th>
-                  <th>Mod</th>
-                </tr>
-                <tr>
-                  <td>Strength</td>
-                  <td><input type="number" value="9" id="strScore" oninput="loseStats()" onchange="updateModifiers()"></td>
-                  <td><input type="number" value="-1" id="strMod"disabled></td>
-                </tr>
-                <tr>
-                  <td>Dexterity</td>
-                  <td><input type="number" value="9" id="dexScore" oninput="loseStats()" onchange="updateModifiers()"></td>
-                  <td><input type="number" value="-1" id="dexMod"disabled></td>
-                </tr>
-                <tr>
-                  <td>Constitution</td>
-                  <td><input type="number" value="9" id="conScore" oninput="loseStats()" onchange="updateModifiers()"></td>
-                  <td><input type="number" value="-1" id="conMod"disabled></td>
-                </tr>
-                <tr>
-                  <td>Intelligence</td>
-                  <td><input type="number" value="9" id="intScore" oninput="loseStats()" onchange="updateModifiers()"></td>
-                  <td><input type="number" value="-1" id="intMod"disabled></td>
-                </tr>
-                <tr>
-                  <td>Wisdom</td>
-                  <td><input type="number" value="9" id="wisScore" oninput="loseStats()" onchange="updateModifiers()"></td>
-                  <td><input type="number" value="-1" id="wisMod"disabled></td>
-                </tr>
-                <tr>
-                  <td>Charisma</td>
-                  <td><input type="number" value="9" id="chaScore" oninput="loseStats()" onchange="updateModifiers()"></td>
-                  <td><input type="number" value="-1" id="chaMod"disabled></td>
-                </tr>
-    
-              </table>
-    
-              <h2>Languages</h2>
-    
+
+
+  <div class="big-imag" <br>
+
+    <div class="container">
+      <font color="white" <form id="charSheet">
+
+        <div class="row">
+
+          <div class="col-4">
+
+            <h2>Level</h2>
+
+            <input class="stat" type="number" id="playerLevel" min="0" max="10" value="0"
+              onchange="playerLevelChange();">
+            <br>Proficency Bonus
+            <br>
+            <input class="stat" type="number" id="profBonus" value="1" disabled>
+            <br><br>
+
+            <h2>Stats & Mods</h2>
+            Stat Points
+
+            <input class="stat" type="number" id="statPoints" value="3" onchange="enableStats" disabled>
+            <button type="button" onclick="addStat();" class="btn btn-dark">+</button>
+            <br>
+            <style>
+              th {
+                color: white;
+              }
+
+              td {
+                color: white;
+              }
+            </style>
+            <table class="table">
               <tr>
-                <td><input type="checkbox" id="arcLang" <td>Arcana</td>
+                <th>Stat</th>
+                <th>Score</th>
+                <th>Mod</th>
               </tr>
-              <br>
               <tr>
-                <td><input type="checkbox" id="draLang" <td>Draconic</td>
+                <td>Strength</td>
+                <td><input type="number" value="9" id="strScore" oninput="loseStats()" onchange="updateModifiers()">
+                </td>
+                <td><input type="number" value="-1" id="strMod" disabled></td>
               </tr>
-              <br>
               <tr>
-                <td><input type="checkbox" id="dweLang" <td>Dwelsh</td>
+                <td>Dexterity</td>
+                <td><input type="number" value="9" id="dexScore" oninput="loseStats()" onchange="updateModifiers()">
+                </td>
+                <td><input type="number" value="-1" id="dexMod" disabled></td>
               </tr>
-              <br>
               <tr>
-                <td><input type="checkbox" id="gishLang" <td>Gish</td>
+                <td>Constitution</td>
+                <td><input type="number" value="9" id="conScore" oninput="loseStats()" onchange="updateModifiers()">
+                </td>
+                <td><input type="number" value="-1" id="conMod" disabled></td>
               </tr>
-              <br>
               <tr>
-                <td><input type="checkbox" id="neweLang" <td>Newelvish</td>
+                <td>Intelligence</td>
+                <td><input type="number" value="9" id="intScore" oninput="loseStats()" onchange="updateModifiers()">
+                </td>
+                <td><input type="number" value="-1" id="intMod" disabled></td>
               </tr>
-              <br>
               <tr>
-                <td><input type="checkbox" id="oldeLang" <td>Oldelvish</td>
+                <td>Wisdom</td>
+                <td><input type="number" value="9" id="wisScore" oninput="loseStats()" onchange="updateModifiers()">
+                </td>
+                <td><input type="number" value="-1" id="wisMod" disabled></td>
               </tr>
-              <br>
               <tr>
-                <td><input type="checkbox" id="orenLang" <td>Oren</td>
+                <td>Charisma</td>
+                <td><input type="number" value="9" id="chaScore" oninput="loseStats()" onchange="updateModifiers()">
+                </td>
+                <td><input type="number" value="-1" id="chaMod" disabled></td>
               </tr>
-              <br>
-              <tr>
-                <td><input type="checkbox" id="runicLang" <td>Runic</td>
-              </tr>
-              <br>
-              <tr>
-                <td><input type="checkbox" id="cantLang" <td>Savvy</td>
-              </tr>
-    
-              <br><br>
-              <div class="text-center">
-                <btn class="btn btn-secondary" onclick="setLocalStorage();">Save Data</btn>
-                <btn class="btn btn-secondary" onclick="getStoredValues();">Load Data</btn>
-              </div>
+
+            </table>
+
+            <h2>Languages</h2>
+
+            <tr>
+              <td><input type="checkbox" id="arcLang" <td>Arcana</td>
+            </tr>
+            <br>
+            <tr>
+              <td><input type="checkbox" id="draLang" <td>Draconic</td>
+            </tr>
+            <br>
+            <tr>
+              <td><input type="checkbox" id="dweLang" <td>Dwelsh</td>
+            </tr>
+            <br>
+            <tr>
+              <td><input type="checkbox" id="gishLang" <td>Gish</td>
+            </tr>
+            <br>
+            <tr>
+              <td><input type="checkbox" id="neweLang" <td>Newelvish</td>
+            </tr>
+            <br>
+            <tr>
+              <td><input type="checkbox" id="oldeLang" <td>Oldelvish</td>
+            </tr>
+            <br>
+            <tr>
+              <td><input type="checkbox" id="orenLang" <td>Oren</td>
+            </tr>
+            <br>
+            <tr>
+              <td><input type="checkbox" id="runicLang" <td>Runic</td>
+            </tr>
+            <br>
+            <tr>
+              <td><input type="checkbox" id="cantLang" <td>Savvy</td>
+            </tr>
+
+            <br><br>
+            <div class="text-center">
+              <btn class="btn btn-secondary" onclick="setLocalStorage();">Save Data</btn>
+              <btn class="btn btn-secondary" onclick="getStoredValues();">Load Data</btn>
             </div>
-    
-            <div class="col-4">
-              <h6>Equipped Shield:</h6>
-              <select id="equippedShield" onchange="shieldEquip(this);">
-                <option value="none">None</option>
-                <option value="buck">Buckler</option>
-                <option value="kshield">Kite Shield</option>
-                <option value="ishield">Iron Heater</option>
+          </div>
+
+          <div class="col-4">
+            <h6>Equipped Shield:</h6>
+            <select id="equippedShield" onchange="shieldEquip(this);">
+              <option value="none">None</option>
+              <option value="buck">Buckler</option>
+              <option value="kshield">Kite Shield</option>
+              <option value="ishield">Iron Heater</option>
+            </select>
+            <br><br>
+
+            <h6>AC:</h6><input class="stat" type="number" id="armorClass" placeholder="9">
+
+            <br><br>
+            <tr>
+              <h6>Damage Reduction:</h6>
+              <td><input class="stat" type="number" id="dmgRed" value="0"></td>
+            </tr>
+
+            <br><br>
+
+            <div class="center-me">
+              <h2>Health</h2>
+
+              <span>HP: </span>
+              <input class="stat" type="number" id="currentHP" /> /
+              <input class="stat" type="number" id="maxHP" />
+
+              <span>Temp HP: </span>
+              <input class="stat" type="number" id="currenttempHP" value="0" />
+            </div>
+
+            <br>
+
+            <div class="center-me">
+              <span class="btn btn-danger" onclick="takeDamage();">Damage</span>
+              <span class="btn btn-success" onclick="healHP();">Heal</span>
+              <input type="number" class="stat" id="modHP" value="1" />
+              <span class="btn btn-danger" onclick="taketempDamage();">Temp Damage</span>
+
+
+            </div>
+
+            <br>
+
+            <div class="center-me">
+              <span>Healing Dice: </span><input class="stat" id="hitDice" type="number" /> /
+              <select id="hitDie">
+                <option value="4">d4</option>
+                <option value="6">d6</option>
+                <option value="8">d8</option>
+                <option value="10">d10</option>
+                <option value="12">d12</option>
               </select>
               <br><br>
-    
-              <h6>AC:</h6><input class="stat" type="number" id="armorClass" placeholder="9">
-    
+              <btn class="btn btn-success" onclick="shortRest();">Short Rest - Use Healing Dice on HP</btn>
               <br><br>
-              <tr>
-                <h6>Damage Reduction:</h6>
-                <td><input class="stat" type="number" id="dmgRed" value="0"></td>
-              </tr>
-    
+              <btn class="btn btn-info" onclick="shortRestmana();">Short Rest - Use Healing Dice on Mana</btn>
+              <br>
+              <br>
+              <btn class="btn btn-secondary" onclick="longRest();">Long Rest - Restore all health, healing dice, ability
+                uses and mana</btn>
               <br><br>
-    
               <div class="center-me">
-                <h2>Health</h2>
-    
-                <span>HP: </span>
-                <input class="stat" type="number" id="currentHP" /> /
-                <input class="stat" type="number" id="maxHP" />
-    
-                <span>Temp HP: </span>
-                <input class="stat" type="number" id="currenttempHP" value="0" />
-              </div>
-    
-              <br>
-    
-              <div class="center-me">
-                <span class="btn btn-danger" onclick="takeDamage();">Damage</span>
-                <span class="btn btn-success" onclick="healHP();">Heal</span>
-                 <input type="number" class="stat" id="modHP" value="1" />
-                <span class="btn btn-danger" onclick="taketempDamage();">Temp Damage</span>
-               
-    
-              </div>
-    
-              <br>
-    
-              <div class="center-me">
-                <span>Healing Dice: </span><input class="stat" id="hitDice" type="number" /> /
-                <select id="hitDie">
-                  <option value="4">d4</option>
-                  <option value="6">d6</option>
-                  <option value="8">d8</option>
-                  <option value="10">d10</option>
-                  <option value="12">d12</option>
+                <h2>Mana</h2>
+
+                <span> </span>
+                <input class="stat" type="number" id="currentMana" /> /
+                <input class="stat" type="number" id="maxMana" />
+                <br><br>
+                <span class="btn btn-info" onclick="takeMana();">Cast Spell</span>
+
+                <select id="modMana">
+                  <option>2</option>
+                  <option>3</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>13</option>
                 </select>
-                <br><br>
-                <btn class="btn btn-success" onclick="shortRest();">Short Rest - Use Healing Dice on HP</btn>
-                <br><br>
-                <btn class="btn btn-info" onclick="shortRestmana();">Short Rest - Use Healing Dice on Mana</btn>
-                <br>
-                <br>
-                <btn class="btn btn-secondary" onclick="longRest();">Long Rest - Restore all health, healing dice, ability uses and mana</btn>
-                <br><br>
-                <div class="center-me">
-                  <h2>Mana</h2>
-    
-                  <span> </span>
-                  <input class="stat" type="number" id="currentMana" /> /
-                  <input class="stat" type="number" id="maxMana" />
-                  <br><br>
-                  <span class="btn btn-info" onclick="takeMana();">Cast Spell</span>
-    
-                  <select id="modMana">
-                    <option>2</option>
-                    <option>3</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>9</option>
-                    <option>10</option>
-                    <option>11</option>
-                    <option>13</option>
-                  </select>
-                </div>
               </div>
             </div>
-            <div class="col-4">
-    
+          </div>
+          <div class="col-4">
+
             <h2>Skills</h2>
-    
+
             <table class="table">
-    
+
               <tr>
                 <td><input type="checkbox" id="acroProf" onchange="setSkills();"></td>
                 <td>Athletics:</td>
@@ -259,13 +267,13 @@
                 <td>Presense:</td>
                 <td><input type="number" id="hisScore"></td>
               </tr>
-    
+
             </table>
-    
+
             <h2>Saving throws</h2>
-    
+
             <table class="table">
-    
+
               <tr>
                 <td><input type="checkbox" id="insProf" onchange="setSkills();"></td>
                 <td>Strength:</td>
@@ -296,23 +304,24 @@
                 <td>Charisma:</td>
                 <td><input type="number" id="sleiScore"></td>
               </tr>
-    
-            </table>
-    
-          </div>
-          </div>
-    <br>
-        
-         <textarea id="info" size="148" style="min-height: 288px; height: 351px;"></textarea>
-    
-          </div>
-        </font>
-      </div>
-    
-    </div>
 
-<script>
-</script>
+            </table>
+
+          </div>
+        </div>
+        <br>
+
+        <textarea id="info" size="148" style="min-height: 288px; height: 351px;"></textarea>
+
+    </div>
+    </font>
+  </div>
+
+  </div>
+
+  <script>
+  </script>
 
 </body>
+
 </html>
