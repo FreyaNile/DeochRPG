@@ -1,5 +1,7 @@
 function getStoredValues() {
     // Set player level
+    document.getElementById("characterName").value = localStorage.getItem("characterName");
+    updateProfBonus();
     document.getElementById("playerLevel").value = localStorage.getItem("playerLevel");
     updateProfBonus();
     
@@ -13,9 +15,7 @@ function getStoredValues() {
     updateModifiers();
     
     // Set armor + shield
-    document.getElementById("equippedArmor").value = localStorage.getItem("equippedArmor");
     document.getElementById("equippedShield").value = localStorage.getItem("equippedShield");
-    equipArmor(equippedArmor);
     
     // Set HP/hit dice
     document.getElementById("currentHP").value = localStorage.getItem("currentHP");
@@ -26,7 +26,7 @@ function getStoredValues() {
     document.getElementById("dmgRed").value = localStorage.getItem("dmgRed");
     document.getElementById("currentMana").value = localStorage.getItem("currentMana");
     document.getElementById("maxMana").value = localStorage.getItem("maxMana");
-     document.getElementById("statPoints").value = localStorage.getItem("statPoints");
+    document.getElementById("statPoints").value = localStorage.getItem("statPoints");
     // Set skills 
     document.getElementById("acroProf").checked = JSON.parse(localStorage.getItem('acroProf'));
     document.getElementById("animProf").checked = JSON.parse(localStorage.getItem('animProf'));
@@ -40,23 +40,43 @@ function getStoredValues() {
     document.getElementById("medProf").checked = JSON.parse(localStorage.getItem('medProf'));
     document.getElementById("natProf").checked = JSON.parse(localStorage.getItem('natProf'));
     document.getElementById("sleiProf").checked = JSON.parse(localStorage.getItem('sleiProf')); 
-      document.getElementById("arcLang").checked = JSON.parse(localStorage.getItem('arcLang'));
-     document.getElementById("draLang").checked = JSON.parse(localStorage.getItem('draLang'));
-     document.getElementById("dweLang").checked = JSON.parse(localStorage.getItem('dweLang'));
-     document.getElementById("gishLang").checked = JSON.parse(localStorage.getItem('gishLang'));
-     document.getElementById("neweLang").checked = JSON.parse(localStorage.getItem('neweLang'));
-     document.getElementById("oldeLang").checked = JSON.parse(localStorage.getItem('oldeLang'));
-     document.getElementById("orenLang").checked = JSON.parse(localStorage.getItem('orenLang'));
-     document.getElementById("runicLang").checked = JSON.parse(localStorage.getItem('runicLang'));
-     document.getElementById("cantLang").checked = JSON.parse(localStorage.getItem('cantLang'));
+    document.getElementById("arcLang").checked = JSON.parse(localStorage.getItem('arcLang'));
+    document.getElementById("arcLang2").checked = JSON.parse(localStorage.getItem('arcLang2'));
+    document.getElementById("draLang").checked = JSON.parse(localStorage.getItem('draLang'));
+    document.getElementById("draLang2").checked = JSON.parse(localStorage.getItem('draLang2'));
+    document.getElementById("dweLang").checked = JSON.parse(localStorage.getItem('dweLang'));
+    document.getElementById("dweLang2").checked = JSON.parse(localStorage.getItem('dweLang2'));
+    document.getElementById("gishLang").checked = JSON.parse(localStorage.getItem('gishLang'));
+    document.getElementById("gishLang2").checked = JSON.parse(localStorage.getItem('gishLang2'));
+    document.getElementById("neweLang").checked = JSON.parse(localStorage.getItem('neweLang'));
+    document.getElementById("neweLang2").checked = JSON.parse(localStorage.getItem('neweLang2'));
+    document.getElementById("oldeLang").checked = JSON.parse(localStorage.getItem('oldeLang'));
+    document.getElementById("oldeLang2").checked = JSON.parse(localStorage.getItem('oldeLang2'));
+    document.getElementById("orenLang").checked = JSON.parse(localStorage.getItem('orenLang'));
+    document.getElementById("orenLang2").checked = JSON.parse(localStorage.getItem('orenLang2'));
+    document.getElementById("runicLang").checked = JSON.parse(localStorage.getItem('runicLang'));
+    document.getElementById("runicLang2").checked = JSON.parse(localStorage.getItem('runicLang2'));
+    document.getElementById("cantLang").checked = JSON.parse(localStorage.getItem('cantLang'));
+    document.getElementById("cantLang2").checked = JSON.parse(localStorage.getItem('cantLang2'));
+    document.getElementById("alchemisttools").checked = JSON.parse(localStorage.getItem('alchemisttools'));
+    document.getElementById("alchemisttools2").checked = JSON.parse(localStorage.getItem('alchemisttools2'));
+    document.getElementById("artisantools").checked = JSON.parse(localStorage.getItem('artisantools'));
+    document.getElementById("artisantools2").checked = JSON.parse(localStorage.getItem('artisantools2'));
+    document.getElementById("cheftools").checked = JSON.parse(localStorage.getItem('cheftools'));
+    document.getElementById("cheftools2").checked = JSON.parse(localStorage.getItem('cheftools2'));
+    document.getElementById("herbalisttools").checked = JSON.parse(localStorage.getItem('herbalisttools'));
+    document.getElementById("herbalisttools2").checked = JSON.parse(localStorage.getItem('herbalisttools2'));
+    document.getElementById("thieftools").checked = JSON.parse(localStorage.getItem('thieftools'));
+    document.getElementById("thieftools2").checked = JSON.parse(localStorage.getItem('thieftools2'));
+    document.getElementById("armorClass").value = localStorage.getItem("armorClass");
+    document.getElementById("info").value = (localStorage.getItem('info'));
     setSkills();
     enableStats();
-        // Set skills 
-     document.getElementById("info").value = (localStorage.getItem('info'));
   }
   
   function setLocalStorage() {
     // Save player level
+    localStorage.setItem("characterName", document.getElementById("characterName").value);
     localStorage.setItem("playerLevel", document.getElementById("playerLevel").value);
     
     // Save ability scores
@@ -67,11 +87,9 @@ function getStoredValues() {
     localStorage.setItem("wisScore", document.getElementById("wisScore").value);
     localStorage.setItem("chaScore", document.getElementById("chaScore").value);
     
-    
     // Save armor + shield
-    localStorage.setItem("equippedArmor", document.getElementById("equippedArmor").value);
     localStorage.setItem("equippedShield", document.getElementById("equippedShield").value);
-    
+  
     // Save HP/hit dice
     localStorage.setItem("currentHP", document.getElementById("currentHP").value);
     localStorage.setItem("currenttempHP", document.getElementById("currenttempHP").value);
@@ -96,15 +114,35 @@ function getStoredValues() {
     localStorage.setItem('natProf', document.getElementById('natProf').checked);
     var checkbox = document.getElementById('sleiProf');
     localStorage.setItem('sleiProf', checkbox.checked);
-   localStorage.setItem('arcLang', document.getElementById('arcLang').checked);
-   localStorage.setItem('draLang', document.getElementById('draLang').checked);
-   localStorage.setItem('dweLang', document.getElementById('dweLang').checked);
+    localStorage.setItem('arcLang', document.getElementById('arcLang').checked);
+    localStorage.setItem('arcLang2', document.getElementById('arcLang2').checked);
+    localStorage.setItem('draLang', document.getElementById('draLang').checked);
+    localStorage.setItem('draLang2', document.getElementById('draLang2').checked);
+    localStorage.setItem('dweLang', document.getElementById('dweLang').checked);
+    localStorage.setItem('dweLang2', document.getElementById('dweLang2').checked);
     localStorage.setItem('gishLang', document.getElementById('gishLang').checked);
+    localStorage.setItem('gishLang2', document.getElementById('gishLang2').checked);
     localStorage.setItem('neweLang', document.getElementById('neweLang').checked);
+    localStorage.setItem('neweLang2', document.getElementById('neweLang2').checked);
     localStorage.setItem('oldeLang', document.getElementById('oldeLang').checked);
+    localStorage.setItem('oldeLang2', document.getElementById('oldeLang2').checked);
     localStorage.setItem('orenLang', document.getElementById('orenLang').checked);
+    localStorage.setItem('orenLang2', document.getElementById('orenLang2').checked);
     localStorage.setItem('runicLang', document.getElementById('runicLang').checked);
+    localStorage.setItem('runicLang2', document.getElementById('runicLang2').checked);
     localStorage.setItem('cantLang', document.getElementById('cantLang').checked);
+    localStorage.setItem('cantLang2', document.getElementById('cantLang2').checked);
+    localStorage.setItem('alchemisttools', document.getElementById('alchemisttools').checked);
+    localStorage.setItem('alchemisttools2', document.getElementById('alchemisttools2').checked);
+    localStorage.setItem('artisantools', document.getElementById('artisantools').checked);
+    localStorage.setItem('artisantools2', document.getElementById('artisantools2').checked);
+    localStorage.setItem('cheftools', document.getElementById('cheftools').checked);
+    localStorage.setItem('cheftools2', document.getElementById('cheftools2').checked);
+    localStorage.setItem('herbalisttools', document.getElementById('herbalisttools').checked);
+    localStorage.setItem('herbalisttools2', document.getElementById('herbalisttools2').checked);
+    localStorage.setItem('thieftools', document.getElementById('thieftools').checked);
+    localStorage.setItem('thieftools2', document.getElementById('thieftools2').checked);
+    localStorage.setItem("armorClass", document.getElementById("armorClass").value);
  // Save text box
  localStorage.setItem('info', document.getElementById('info').value);
 
@@ -328,11 +366,8 @@ function getStoredValues() {
     statGain();
     enableStats();
   }
-  
-  
-  
     
-    function takeDamage() {
+  function takeDamage() {
         var amount = parseInt(document.getElementById("modHP").value) || 0;
         var currenttempHP = parseInt(document.getElementById("currenttempHP").value) || 0;
         var currentHP = parseInt(document.getElementById("currentHP").value) || 0;
@@ -343,22 +378,18 @@ function getStoredValues() {
             damage = 0;
         }
         
-        // First apply damage to temporary HP
         if (currenttempHP > 0) {
             if (currenttempHP >= damage) {
                 document.getElementById("currenttempHP").value = currenttempHP - damage;
             } else {
-                // If temp HP is less than damage, subtract temp HP and carry over the remainder to current HP
                 damage -= currenttempHP;
                 document.getElementById("currenttempHP").value = 0;
-                // Now apply the remaining damage to current HP
                 document.getElementById("currentHP").value = currentHP - damage;
             }
         } else {
-            // If no temp HP, apply damage directly to current HP
             document.getElementById("currentHP").value = currentHP - damage;
         }
-    }
+  }
 
   function takeMana() {
     var amount = document.getElementById("modMana").value;
@@ -462,7 +493,6 @@ function getStoredValues() {
     }
     
   }
-  
   
   function enableStats() {
     var statPoints = document.getElementById("statPoints").value;

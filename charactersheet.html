@@ -10,6 +10,12 @@
   <link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/favicon32.png" type="image/png">
+  <td><input type="hidden" value="-1" id="strMod" disabled></td>
+  <td><input type="hidden" value="-1" id="dexMod" disabled></td>
+  <td><input type="hidden" value="-1" id="conMod" disabled></td> 
+  <td><input type="hidden" value="-1" id="intMod" disabled></td>
+  <td><input type="hidden" value="-1" id="wisMod" disabled></td>
+  <td><input type="hidden" value="-1" id="chaMod" disabled></td>
   <script src="default.js"></script>
   <style>
     body {
@@ -24,29 +30,33 @@
 
 
 
-  <div class="big-imag" <br>
+  <div class="big-image"> 
 
     <div class="container">
       <font color="white" <form id="charSheet">
 
         <div class="row">
 
-          <div class="col-6">
-
-            <h2>Level</h2>
-
-            <input class="stat" type="number" id="playerLevel" min="0" max="10" value="0"
-              onchange="playerLevelChange();">
-            <br>Proficency Bonus
-            <br>
+          <div class="col-4">
+            
+            
+              <label for="characterName">Name:</label>
+              <input type="text" id="characterName" placeholder="Who are you?">
+          
+           <br><br>
+          Level:
+            <input class="stat" type="number" id="playerLevel" min="0" max="10" value="0" onchange="playerLevelChange();">
+            &nbsp;&nbsp;
+            PB:
             <input class="stat" type="number" id="profBonus" value="1" disabled>
             <br><br>
 
-            <h2>Stats & Mods</h2>
+            <h4>Stats & Mods</h4>
             Stat Points
 
             <input class="stat" type="number" id="statPoints" value="3" onchange="enableStats" disabled>
-            <button type="button" onclick="addStat();" class="btn btn-dark">+</button>
+            &nbsp;
+            <button type="button" onclick="addStat();" class="btn btn-dark buttonmargin">+</button>
             <br>
             <style>
               th {
@@ -59,10 +69,10 @@
             </style>
             <table class="table">
               <tr>
-                <th>Checks/Saves</th>
+                <th>Proficiency: Checks/Saves </th>
                
                
-                <th>Score</th>
+                <th>Stat Score</th>
                 <th>Check Mod</th>
                 <th>Save Mod</th>
               </tr>
@@ -72,8 +82,8 @@
                 &nbsp;STR</td>
                <td><input type="number" value="9" id="strScore" oninput="loseStats()" onchange="updateModifiers()">
                <td><input class="number" value="-1" type="number" id="acroScore" disabled></td>
-               <td><input type="number" value="-1" id="insScore" disabled></td>
-               <td><input type="hidden" value="-1" id="strMod" disabled></td>
+               <td><input class="number" type="number" value="-1" id="insScore" disabled></td>
+              
               </tr>
 
               <tr>
@@ -83,7 +93,6 @@
                 <td><input type="number" value="9" id="dexScore" oninput="loseStats()" onchange="updateModifiers()">
                   <td><input type="number" value="-1" id="animScore" disabled></td>
                   <td><input type="number" value="-1" id="intiScore" disabled></td>
-                  <td><input type="hidden" value="-1" id="dexMod" disabled></td>
               </tr>
 
               <tr>     
@@ -93,7 +102,6 @@
                 <td><input type="number" value="9" id="conScore" oninput="loseStats()" onchange="updateModifiers()">
                 <td><input type="number" value="-1" id="arcaScore" disabled></td>
                 <td><input type="number" value="-1" id="invScore" disabled></td>
-                <td><input type="hidden" value="-1" id="conMod" disabled></td> 
               </tr>
 
               <tr>
@@ -103,7 +111,6 @@
                 <td><input type="number" value="9" id="intScore" oninput="loseStats()" onchange="updateModifiers()">
                 <td><input type="number" value="-1" id="athlScore" disabled></td>
                 <td><input type="number" value="-1" id="medScore" disabled></td>
-                <td><input type="hidden" value="-1" id="intMod" disabled></td>
               </tr>
 
               <tr>
@@ -113,7 +120,7 @@
                 <td><input type="number" value="9" id="wisScore" oninput="loseStats()" onchange="updateModifiers()">
                 <td><input type="number" value="-1" id="decScore" disabled></td>
                 <td><input type="number" value="-1" id="natScore" disabled></td>
-                <td><input type="hidden" value="-1" id="wisMod" disabled></td>
+
               </tr>
 
         
@@ -125,11 +132,10 @@
                 <td><input type="number" value="9" id="chaScore" oninput="loseStats()" onchange="updateModifiers()">
                    <td><input type="number" value="-1" id="hisScore" disabled></td>
              <td><input type="number" value="-1" id="sleiScore" disabled></td>
-             <td><input type="hidden" value="-1" id="chaMod" disabled></td>
               </tr>
               
               <table class="table">
-                  <h2>Languages & Toolkits</h2>
+                  <h4>Languages & Toolkits</h4>
                 <tr>
                   <th>Verbal/Literate</th>
 
@@ -209,14 +215,11 @@
         
             <br><br>
             
-            <div class="text-center">
-              <btn class="btn btn-secondary" onclick="setLocalStorage();">Save Data</btn>
-              <btn class="btn btn-secondary" onclick="getStoredValues();">Load Data</btn>
-            </div>
+            
           </div>
 
-          <div class="col-4">
-            <h6>Equipped Shield:</h6>
+          <div class="center-me">
+           Equipped Shield:
             <select id="equippedShield" onchange="shieldEquip(this);">
               <option value="none">None</option>
               <option value="buck">Buckler</option>
@@ -224,14 +227,13 @@
               <option value="ishield">Iron Heater</option>
             </select>
             <br><br>
-
-            <h6>AC:</h6><input class="stat" type="number" id="armorClass" placeholder="9">
-
-            <br><br>
             <tr>
-              <h6>Damage Reduction:</h6>
+             Damage Reduction:
               <td><input class="stat" type="number" id="dmgRed" value="0"></td>
             </tr>
+
+            <br><br>
+           AC: <input class="stat" type="number" id="armorClass" value="9">
 
             <br><br>
 
@@ -239,11 +241,11 @@
               <h2></h2>
 
               <span>Health: </span>
-              <input class="stat" type="number" value="0" id="currentHP" /> /
-              <input class="stat" type="number" value="0" id="maxHP" />
+              <input class="stat" type="number" min="0" value="0" id="currentHP" /> /
+              <input class="stat" type="number" min="0" value="0" id="maxHP" />
 
               <span>Temp Health: </span>
-              <input class="stat" type="number" id="currenttempHP" min="0" max="255" value="0" />
+              <input class="stat" type="number" id="currenttempHP" min="0" value="0" />
             </div>
 
             <br>
@@ -273,14 +275,14 @@
               <btn class="btn btn-info" onclick="shortRestmana();">Short Rest - Use HD on Mana</btn>
               <br>
               <br>
-              <btn class="btn btn-secondary" onclick="longRest();">Long Rest - Restore health, HD, abilities and mana</btn>
+              <btn class="btn btn-secondary" onclick="longRest();">Long Rest - Restore all</btn>
               <br><br>
               <div class="center-me">
                 <h2>Mana</h2>
 
                 <span> </span>
-                <input class="stat" type="number" value="0" id="currentMana" /> /
-                <input class="stat" type="number" value="0" id="maxMana" />
+                <input class="stat" type="number" min="0" value="0" id="currentMana" /> /
+                <input class="stat" type="number" min="0" value="0" id="maxMana" />
                 <br><br>
                 <span class="btn btn-info" onclick="takeMana();">Cast Spell</span>
 
@@ -295,32 +297,23 @@
                   <option>11</option>
                   <option>13</option>
                 </select>
+                <br><br>
+                <div class="text-center">
+                  <btn class="btn btn-secondary" onclick="setLocalStorage();">Save Data</btn>
+                  <btn class="btn btn-secondary" onclick="getStoredValues();">Load Data</btn>
+                </div>
               </div>
             </div>
           </div>
-          <div class="col-4">
-
-            
-
-         
-
-            </table>
-
-          </div>
-        </div>
-        <br>
-
-        <textarea id="info" size="148" style="min-height: 288px; height: 351px;"></textarea>
-
-    </div>
-    </font>
-  </div>
-
-  </div>
-
-  <script>
-  </script>
-
+        </table>
+       </div>
+     </div>
+   </div>
+ </font>
+ </div>
+</div>
+<script>
+</script>
 </body>
 
 </html>

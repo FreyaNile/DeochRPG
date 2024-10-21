@@ -9,7 +9,7 @@ body {
 }
 
 .table input[type=number] {
-  width: 50%;
+  width: 100%;
 }
 
 .stat {
@@ -34,4 +34,18 @@ select {
 textarea {
   width: 100%;
   vertical-align: middle;
+}
+
+.big-image {
+  height: 160vh;
+  width: 100vw;
+  position: relative;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image:
+url(images/ttyy6.png);
+}
+
+.buttonmargin {
+  margin-bottom: 10px;
 }
