@@ -14,6 +14,7 @@
   <style>
     body {
       background-color: black;
+      background-image: none;
       color: white;
     }
   </style>
@@ -30,7 +31,7 @@
 
         <div class="row">
 
-          <div class="col-4">
+          <div class="col-6">
 
             <h2>Level</h2>
 
@@ -58,88 +59,156 @@
             </style>
             <table class="table">
               <tr>
-                <th>Stat</th>
+                <th>Checks/Saves</th>
+               
+               
                 <th>Score</th>
-                <th>Mod</th>
+                <th>Check Mod</th>
+                <th>Save Mod</th>
               </tr>
-              <tr>
-                <td>Strength</td>
-                <td><input type="number" value="9" id="strScore" oninput="loseStats()" onchange="updateModifiers()">
-                </td>
-                <td><input type="number" value="-1" id="strMod" disabled></td>
+              <tr> 
+               <td><input type="checkbox" id="acroProf" onchange="setSkills();" 
+               <td>&nbsp;&nbsp;<input type="checkbox" id="insProf" onchange="setSkills();">
+                &nbsp;STR</td>
+               <td><input type="number" value="9" id="strScore" oninput="loseStats()" onchange="updateModifiers()">
+               <td><input class="number" value="-1" type="number" id="acroScore" disabled></td>
+               <td><input type="number" value="-1" id="insScore" disabled></td>
+               <td><input type="hidden" value="-1" id="strMod" disabled></td>
               </tr>
+
               <tr>
-                <td>Dexterity</td>
+                <td><input type="checkbox" id="animProf" onchange="setSkills();">
+                  &nbsp;<input type="checkbox" id="intiProf" onchange="setSkills();">
+                &nbsp;DEX</td>
                 <td><input type="number" value="9" id="dexScore" oninput="loseStats()" onchange="updateModifiers()">
-                </td>
-                <td><input type="number" value="-1" id="dexMod" disabled></td>
+                  <td><input type="number" value="-1" id="animScore" disabled></td>
+                  <td><input type="number" value="-1" id="intiScore" disabled></td>
+                  <td><input type="hidden" value="-1" id="dexMod" disabled></td>
               </tr>
-              <tr>
-                <td>Constitution</td>
+
+              <tr>     
+                <td><input type="checkbox" id="arcaProf" onchange="setSkills();">
+                  &nbsp;<input type="checkbox" id="invProf" onchange="setSkills();">
+                  &nbsp;CON</td>
                 <td><input type="number" value="9" id="conScore" oninput="loseStats()" onchange="updateModifiers()">
-                </td>
-                <td><input type="number" value="-1" id="conMod" disabled></td>
+                <td><input type="number" value="-1" id="arcaScore" disabled></td>
+                <td><input type="number" value="-1" id="invScore" disabled></td>
+                <td><input type="hidden" value="-1" id="conMod" disabled></td> 
               </tr>
+
               <tr>
-                <td>Intelligence</td>
+                <td><input type="checkbox" id="athlProf" onchange="setSkills();">
+                &nbsp;<input type="checkbox" id="medProf" onchange="setSkills();">
+                  &nbsp;INT</td>
                 <td><input type="number" value="9" id="intScore" oninput="loseStats()" onchange="updateModifiers()">
-                </td>
-                <td><input type="number" value="-1" id="intMod" disabled></td>
+                <td><input type="number" value="-1" id="athlScore" disabled></td>
+                <td><input type="number" value="-1" id="medScore" disabled></td>
+                <td><input type="hidden" value="-1" id="intMod" disabled></td>
               </tr>
+
               <tr>
-                <td>Wisdom</td>
+                <td><input type="checkbox" id="decProf" onchange="setSkills();">
+                  &nbsp;<input type="checkbox" id="natProf" onchange="setSkills();">
+                &nbsp;WIS</td>
                 <td><input type="number" value="9" id="wisScore" oninput="loseStats()" onchange="updateModifiers()">
-                </td>
-                <td><input type="number" value="-1" id="wisMod" disabled></td>
+                <td><input type="number" value="-1" id="decScore" disabled></td>
+                <td><input type="number" value="-1" id="natScore" disabled></td>
+                <td><input type="hidden" value="-1" id="wisMod" disabled></td>
               </tr>
+
+        
+
               <tr>
-                <td>Charisma</td>
+                <td><input type="checkbox" id="hisProf" onchange="setSkills();">
+                  &nbsp;<input type="checkbox" id="sleiProf" onchange="setSkills();">
+                  &nbsp;CHA</td>
                 <td><input type="number" value="9" id="chaScore" oninput="loseStats()" onchange="updateModifiers()">
-                </td>
-                <td><input type="number" value="-1" id="chaMod" disabled></td>
+                   <td><input type="number" value="-1" id="hisScore" disabled></td>
+             <td><input type="number" value="-1" id="sleiScore" disabled></td>
+             <td><input type="hidden" value="-1" id="chaMod" disabled></td>
               </tr>
+              
+              <table class="table">
+                  <h2>Languages & Toolkits</h2>
+                <tr>
+                  <th>Verbal/Literate</th>
 
+                  <th>Proficient/Expertise</th>
+                </tr>
+
+                <tr> 
+                 <td><input type="checkbox" id="arcLang"> 
+                 &nbsp;<input type="checkbox" id="arcLang2">
+                  &nbsp;Arcana</td>
+                  <td><input type="checkbox" id="alchemisttools">
+                    &nbsp;<input type="checkbox" id="alchemisttools2">
+                    &nbsp;Alchemist Tools</td>
+                </tr>
+
+                <tr> 
+                  <td><input type="checkbox" id="draLang"> 
+                  &nbsp;<input type="checkbox" id="draLang2">
+                   &nbsp;Draconic</td>
+                   <td><input type="checkbox" id="artisantools">
+                     &nbsp;<input type="checkbox" id="artisantools2">
+                     &nbsp;Artisan Tools</td>
+                 </tr>
+
+                 <tr> 
+                  <td><input type="checkbox" id="dweLang"> 
+                  &nbsp;<input type="checkbox" id="dweLang2">
+                   &nbsp;Dweller</td>
+                   <td><input type="checkbox" id="cheftools">
+                     &nbsp;<input type="checkbox" id="cheftools2">
+                     &nbsp;Chef Tools</td>
+                 </tr>
+
+                 <tr> 
+                  <td><input type="checkbox" id="gishLang"> 
+                  &nbsp;<input type="checkbox" id="gishLang2">
+                   &nbsp;Gish</td>
+                   <td><input type="checkbox" id="herbalisttools">
+                     &nbsp;<input type="checkbox" id="herbalisttools2">
+                     &nbsp;Herbalist Tools</td>
+                 </tr>
+
+                 <tr> 
+                  <td><input type="checkbox" id="neweLang"> 
+                  &nbsp;<input type="checkbox" id="neweLang2">
+                   &nbsp;Newelvish</td>
+                   <td><input type="checkbox" id="thieftools">
+                     &nbsp;<input type="checkbox" id="thieftools2">
+                     &nbsp;Thief Tools</td>
+                 </tr>
+
+                 <tr> 
+                  <td><input type="checkbox" id="oldeLang"> 
+                  &nbsp;<input type="checkbox" id="oldeLang2">
+                   &nbsp;Oldelvish</td>
+
+                 </tr>
+
+                 <tr> 
+                  <td><input type="checkbox" id="orenLang"> 
+                  &nbsp;<input type="checkbox" id="orenLang2">
+                   &nbsp;Oren</td>
+                 </tr>
+
+                 <tr> 
+                  <td><input type="checkbox" id="runicLang"> 
+                  &nbsp;<input type="checkbox" id="runicLang2">
+                   &nbsp;Runic</td>
+                 </tr>
+
+                 <tr> 
+                  <td><input type="checkbox" id="cantLang"> 
+                  &nbsp;<input type="checkbox" id="cantLang2">
+                   &nbsp;Savvy</td>
+                 </tr>
             </table>
-
-            <h2>Languages</h2>
-
-            <tr>
-              <td><input type="checkbox" id="arcLang" <td>Arcana</td>
-            </tr>
-            <br>
-            <tr>
-              <td><input type="checkbox" id="draLang" <td>Draconic</td>
-            </tr>
-            <br>
-            <tr>
-              <td><input type="checkbox" id="dweLang" <td>Dwelsh</td>
-            </tr>
-            <br>
-            <tr>
-              <td><input type="checkbox" id="gishLang" <td>Gish</td>
-            </tr>
-            <br>
-            <tr>
-              <td><input type="checkbox" id="neweLang" <td>Newelvish</td>
-            </tr>
-            <br>
-            <tr>
-              <td><input type="checkbox" id="oldeLang" <td>Oldelvish</td>
-            </tr>
-            <br>
-            <tr>
-              <td><input type="checkbox" id="orenLang" <td>Oren</td>
-            </tr>
-            <br>
-            <tr>
-              <td><input type="checkbox" id="runicLang" <td>Runic</td>
-            </tr>
-            <br>
-            <tr>
-              <td><input type="checkbox" id="cantLang" <td>Savvy</td>
-            </tr>
-
+        
             <br><br>
+            
             <div class="text-center">
               <btn class="btn btn-secondary" onclick="setLocalStorage();">Save Data</btn>
               <btn class="btn btn-secondary" onclick="getStoredValues();">Load Data</btn>
@@ -167,14 +236,14 @@
             <br><br>
 
             <div class="center-me">
-              <h2>Health</h2>
+              <h2></h2>
 
-              <span>HP: </span>
-              <input class="stat" type="number" id="currentHP" /> /
-              <input class="stat" type="number" id="maxHP" />
+              <span>Health: </span>
+              <input class="stat" type="number" value="0" id="currentHP" /> /
+              <input class="stat" type="number" value="0" id="maxHP" />
 
-              <span>Temp HP: </span>
-              <input class="stat" type="number" id="currenttempHP" value="0" />
+              <span>Temp Health: </span>
+              <input class="stat" type="number" id="currenttempHP" min="0" max="255" value="0" />
             </div>
 
             <br>
@@ -183,7 +252,6 @@
               <span class="btn btn-danger" onclick="takeDamage();">Damage</span>
               <span class="btn btn-success" onclick="healHP();">Heal</span>
               <input type="number" class="stat" id="modHP" value="1" />
-              <span class="btn btn-danger" onclick="taketempDamage();">Temp Damage</span>
 
 
             </div>
@@ -191,7 +259,7 @@
             <br>
 
             <div class="center-me">
-              <span>Healing Dice: </span><input class="stat" id="hitDice" type="number" /> /
+              <span>Healing Dice: </span><input class="stat" value="0" id="hitDice" type="number" /> /
               <select id="hitDie">
                 <option value="4">d4</option>
                 <option value="6">d6</option>
@@ -200,20 +268,19 @@
                 <option value="12">d12</option>
               </select>
               <br><br>
-              <btn class="btn btn-success" onclick="shortRest();">Short Rest - Use Healing Dice on HP</btn>
+              <btn class="btn btn-success" onclick="shortRest();">Short Rest - Use HD on health</btn>
               <br><br>
-              <btn class="btn btn-info" onclick="shortRestmana();">Short Rest - Use Healing Dice on Mana</btn>
+              <btn class="btn btn-info" onclick="shortRestmana();">Short Rest - Use HD on Mana</btn>
               <br>
               <br>
-              <btn class="btn btn-secondary" onclick="longRest();">Long Rest - Restore all health, healing dice, ability
-                uses and mana</btn>
+              <btn class="btn btn-secondary" onclick="longRest();">Long Rest - Restore health, HD, abilities and mana</btn>
               <br><br>
               <div class="center-me">
                 <h2>Mana</h2>
 
                 <span> </span>
-                <input class="stat" type="number" id="currentMana" /> /
-                <input class="stat" type="number" id="maxMana" />
+                <input class="stat" type="number" value="0" id="currentMana" /> /
+                <input class="stat" type="number" value="0" id="maxMana" />
                 <br><br>
                 <span class="btn btn-info" onclick="takeMana();">Cast Spell</span>
 
@@ -233,77 +300,9 @@
           </div>
           <div class="col-4">
 
-            <h2>Skills</h2>
+            
 
-            <table class="table">
-
-              <tr>
-                <td><input type="checkbox" id="acroProf" onchange="setSkills();"></td>
-                <td>Athletics:</td>
-                <td><input type="number" id="acroScore"></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" id="animProf" onchange="setSkills();"></td>
-                <td>Poise:</td>
-                <td><input type="number" id="animScore"></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" id="arcaProf" onchange="setSkills();"></td>
-                <td>Resilience:</td>
-                <td><input type="number" id="arcaScore"></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" id="athlProf" onchange="setSkills();"></td>
-                <td>Recall:</td>
-                <td><input type="number" id="athlScore"></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" id="decProf" onchange="setSkills();"></td>
-                <td>Deduction:</td>
-                <td><input type="number" id="decScore"></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" id="hisProf" onchange="setSkills();"></td>
-                <td>Presense:</td>
-                <td><input type="number" id="hisScore"></td>
-              </tr>
-
-            </table>
-
-            <h2>Saving throws</h2>
-
-            <table class="table">
-
-              <tr>
-                <td><input type="checkbox" id="insProf" onchange="setSkills();"></td>
-                <td>Strength:</td>
-                <td><input type="number" id="insScore"></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" id="intiProf" onchange="setSkills();"></td>
-                <td>Dexterity:</td>
-                <td><input type="number" id="intiScore"></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" id="invProf" onchange="setSkills();"></td>
-                <td>Constitution:</td>
-                <td><input type="number" id="invScore"></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" id="medProf" onchange="setSkills();"></td>
-                <td>Intelligence:</td>
-                <td><input type="number" id="medScore"></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" id="natProf" onchange="setSkills();"></td>
-                <td>Wisdom:</td>
-                <td><input type="number" id="natScore"></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" id="sleiProf" onchange="setSkills();"></td>
-                <td>Charisma:</td>
-                <td><input type="number" id="sleiScore"></td>
-              </tr>
+         
 
             </table>
 

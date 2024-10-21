@@ -135,7 +135,6 @@ function getStoredValues() {
     
     setSkills();
     enableStats();
-    equipArmor(equippedArmor);
     shieldEquip(shieldEquip);
   }
   
@@ -330,28 +329,37 @@ function getStoredValues() {
     enableStats();
   }
   
-  function takeDamage() {
-    var amount = document.getElementById("modHP").value;
-    var currentHP = document.getElementById("currentHP").value;
-    var dmgredu = document.getElementById("dmgRed").value;
-    var damage = amount - dmgredu;
-    if (damage < 0){
-        damage = 0
-    }
-      document.getElementById("currentHP").value = currentHP - damage;
-  }
   
-  function taketempDamage() {
-    var amount = document.getElementById("modHP").value;
-    var currenttempHP = document.getElementById("currenttempHP").value;
-    var dmgredu = document.getElementById("dmgRed").value;
-    if ((currenttempHP - (amount - dmgredu)) >= 0) {
-      document.getElementById("currenttempHP").value = currenttempHP - (amount - dmgredu);
-    } else {
-      document.getElementById("currenttempHP").value = 0;
-    }
-  }
   
+    
+    function takeDamage() {
+        var amount = parseInt(document.getElementById("modHP").value) || 0;
+        var currenttempHP = parseInt(document.getElementById("currenttempHP").value) || 0;
+        var currentHP = parseInt(document.getElementById("currentHP").value) || 0;
+        var dmgredu = parseInt(document.getElementById("dmgRed").value) || 0;
+        
+        var damage = amount - dmgredu;
+        if (damage < 0) {
+            damage = 0;
+        }
+        
+        // First apply damage to temporary HP
+        if (currenttempHP > 0) {
+            if (currenttempHP >= damage) {
+                document.getElementById("currenttempHP").value = currenttempHP - damage;
+            } else {
+                // If temp HP is less than damage, subtract temp HP and carry over the remainder to current HP
+                damage -= currenttempHP;
+                document.getElementById("currenttempHP").value = 0;
+                // Now apply the remaining damage to current HP
+                document.getElementById("currentHP").value = currentHP - damage;
+            }
+        } else {
+            // If no temp HP, apply damage directly to current HP
+            document.getElementById("currentHP").value = currentHP - damage;
+        }
+    }
+
   function takeMana() {
     var amount = document.getElementById("modMana").value;
     var currentMana = document.getElementById("currentMana").value;
