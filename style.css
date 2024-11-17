@@ -8,6 +8,13 @@ body {
   color: white;
 }
 
+@media screen and (max-width: 768px) {
+  body {
+    background-size: contain; 
+    background-attachment: scroll; 
+  }
+}
+
 .table input[type=number] {
   width: 100%;
 }
