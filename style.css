@@ -11,8 +11,7 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-  body {
-    background-attachment: scroll; 
+  body { 
     background-size: 190% auto;
     background-position: center 75px;
   }
