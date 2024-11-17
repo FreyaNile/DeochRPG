@@ -3,8 +3,6 @@ body {
   background-image: url(images/websitebackground1.png);
   background-repeat: no-repeat;
   background-position: center;
-
-
   height: 150vh;
   width: 100%;
   color: white;
@@ -12,7 +10,7 @@ body {
 
 @media screen and (max-width: 768px) {
   body { 
-    background-size: 190% auto;
+    background-size: 99% auto;
     background-position: center 75px;
   }
 }
