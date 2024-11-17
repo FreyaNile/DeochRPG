@@ -14,7 +14,7 @@ body {
   body {
     background-attachment: scroll; 
     background-size: 1000px;
-    background-position-y:75px;
+    background-position: center 75px;
   }
 }
 
