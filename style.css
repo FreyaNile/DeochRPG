@@ -10,8 +10,8 @@ body {
 
 @media screen and (max-width: 768px) {
   body { 
-    background-size: 99% auto;
-    background-position: center 75px;
+    background-size: 99% auto !important;
+    background-position: center 75px !important;
   }
 }
 
