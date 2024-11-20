@@ -23,7 +23,8 @@ body {
   animation: fadeIn 3s ease-in-out forwards; 
 }
 
-
+.btn.btn-outline-dark {
+  color: white; }
 
 
 @media screen and (max-width: 768px) {
