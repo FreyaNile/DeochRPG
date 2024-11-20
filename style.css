@@ -19,8 +19,8 @@ body {
   background-size:cover;
   width: 100%;
   height: 100%;
-  opacity: 0; /* Start transparent */
-  animation: fadeIn 3s ease-in-out forwards; /* Fade in over 3 seconds */
+  opacity: 0; 
+  animation: fadeIn 3s ease-in-out forwards; 
 }
 
 @media screen and (max-width: 768px) {
