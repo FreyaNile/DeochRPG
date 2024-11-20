@@ -14,6 +14,7 @@
 </head>
 
 <body>
+
   <br>
   <div class="container">
     <div class="row">
@@ -28,6 +29,16 @@
       </div>
     </div>
   </div>
+  <div class="background"></div>
+  <script>
+    const backgroundImage = new Image();
+    backgroundImage.src = 'images/websitebackground1.png';
+
+    backgroundImage.onload = () => {
+      document.querySelector('.background').style.backgroundImage = `url(${backgroundImage.src})`;
+    
+    };
+  </script>
 </body>
 
 </html>
