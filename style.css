@@ -23,21 +23,20 @@ body {
   animation: fadeIn 3s ease-in-out forwards; 
 }
 
-.btn.btn-outline-dark {
-  color: white; /* White text */}
+
 
 
 @media screen and (max-width: 768px) {
   body { 
-    background-size: auto 40% !important;
-    background-position: center !important;
+    background-size: auto 40%;
+    background-position: center;
   }
 }
 
 @media screen and (max-width: 768px) {
   .background { 
-    background-size: auto 40% !important;
-    background-position: center 10px !important;
+    background-size: auto 40%;
+    background-position: center 10px;
   }
 }
 
