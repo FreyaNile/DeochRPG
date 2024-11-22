@@ -25,7 +25,7 @@
     1 - Header
 ------------------------------------*/
 header {
-  background-color: rgba(26, 10, 56, 0.53);
+  background-color: rgba(0, 0, 0, 0.53);
   color: #fff;
   z-index: 1000;
 }
@@ -58,7 +58,7 @@ header::after {
 }
 
 .contact i {
-  color: #ee1515;
+  color: #000000;
   margin-right: 10px;
 }
 
@@ -76,13 +76,19 @@ header::after {
 }
 
 .login i {
-  color: #ee1515;
+  color: #4BB543;
   margin-right: 8px;
 }
 
 .navbar-brand h1 {
   margin: 0;
 }
+
+@media (min-width: 1199px) {
+  .navbar-brand img {
+    width: auto;
+    height: 30px;
+  }}
 
 .social {
   padding-left: 0;
@@ -99,7 +105,7 @@ header::after {
   display: inline-block;
   width: 40px;
   height: 40px;
-  border: 1px solid #ee1515;
+  border: 1px solid #ffffff;
   border-radius: 4px;
   line-height: 40px;
   text-align: center;
@@ -109,7 +115,7 @@ header::after {
 
 .social a:hover {
   color: #fff;
-  background-color: #ee1515;
+  background-color: #000000;
 }
 
 .navbar-brand img {
@@ -134,7 +140,7 @@ header::after {
 }
 
 .navbar-collapse .nav-link:hover {
-  color: #ee1515;
+  color: #000000;
 }
 
 .cart,
@@ -147,7 +153,7 @@ header::after {
 .cart:hover,
 .login-icon:hover,
 .search-icon:hover {
-  color: #ee1515;
+  color: #4BB543;
 }
 
 .cart {
@@ -157,7 +163,7 @@ header::after {
 form input.btn-primary:hover,
 form button.btn-primary:hover {
   background-color: #fff;
-  color: #ee1515;
+  color: #4BB543;
 }
 
 /*-----------------------------------
@@ -169,6 +175,7 @@ form button.btn-primary:hover {
   overflow: hidden;
   position: relative;
   z-index: 0;
+  opacity: 1;
 }
 
 .hero .container {
@@ -182,7 +189,7 @@ form button.btn-primary:hover {
 }
 
 .hero .slide-content span {
-  color: #ee1515;
+  color: #4BB543;
 }
 
 .hero .slide-content h1 {
@@ -285,7 +292,7 @@ form button.btn-primary:hover {
 .cta-content {
   padding: 30px 0 90px;
   color: #fff;
-  background-color: #ee1515;
+  background-color: #4BB543;
   position: relative;
   z-index: 1;
 }
@@ -329,7 +336,7 @@ form button.btn-primary:hover {
 }
 
 .title .title-primary {
-  color: #ee1515;
+  color: #4BB543;
 }
 
 .services {
@@ -365,7 +372,7 @@ form button.btn-primary:hover {
 
 .featured .media i {
   font-size: 24px;
-  color: #ee1515;
+  color: #4BB543;
 }
 
 .featured .media h5 {
@@ -387,6 +394,8 @@ form button.btn-primary:hover {
   position: absolute;
   bottom: 0;
   right: 0;
+  height: px;
+  width: 500px;
 }
 
 .featured-small {
@@ -469,7 +478,7 @@ form button.btn-primary:hover {
 
 .post-content .post-btn:hover {
   color: #fff;
-  background-color: #ee1515;
+  background-color: #4BB543;
 }
 
 /*-----------------------------------
@@ -572,7 +581,7 @@ form button.btn-primary:hover {
   padding: 65px 0 40px;
   margin-top: 23px;
   color: #fff;
-  background: #26264b;
+  background: #000000d3;
   border: 0px solid #fff;
   position: relative;
   overflow: hidden;
@@ -655,7 +664,7 @@ form button.btn-primary:hover {
     1 - Testimonials
 ------------------------------------*/
 .testimonial-and-clients {
-  background: url(../images/test-clients-bg.png) center center/cover no-repeat #ee1515;
+  background: url(../images/test-clients-bg.png) center center/cover no-repeat #000000cb;
 }
 
 .testimonials {
@@ -745,7 +754,7 @@ form button.btn-primary:hover {
     1 - Footer
 ------------------------------------*/
 footer {
-  background: url(../images/footer-bg.png) center center/cover no-repeat #26264b;
+  background: url(../images/footer-bg.png) center center/cover no-repeat #000000cb;
 }
 
 /*-----------------------------------
@@ -771,7 +780,7 @@ footer {
 }
 
 .single-widget i {
-  color: #ee1515;
+  color: #4BB543;
 }
 
 .single-widget h6 {
@@ -848,7 +857,7 @@ span {
 .tags-widget a:hover {
   text-decoration: none;
   color: #26264b;
-  background-color: #ee1515;
+  background-color: #4BB543;
 }
 
 .subscribe-widget form {
@@ -871,7 +880,7 @@ span {
 }
 
 .subscribe-widget button {
-  background: #ee1515;
+  background: #4BB543;
   border: none;
   padding: 9px 14px;
   border-top-right-radius: 10px;
@@ -882,7 +891,7 @@ span {
 }
 
 .subscribe-widget button i {
-  color: #fff;
+  color: #ffffff;
 }
 
 .subscribe-widget .social-nav {
@@ -896,7 +905,7 @@ span {
   height: 36px;
   line-height: 36px;
   background-color: #fff;
-  color: #ddd;
+  color: #dddddd;
   background-color: #444;
   border-top-right-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -908,7 +917,7 @@ span {
 }
 
 .subscribe-widget .social-nav a:hover {
-  background-color: #ee1515;
+  background-color: #4BB543;
 }
 
 /*-----------------------------------
@@ -916,12 +925,12 @@ span {
 ------------------------------------*/
 .foot-note {
   padding: 35px 0;
-  background-color: #ee1515;
-  color: #26264b;
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .foot-note a {
-  color: #26264b;
+  color: #ffffff;
 }
 
 .foot-note a:last-child {
