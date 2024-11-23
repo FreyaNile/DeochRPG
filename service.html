@@ -63,9 +63,9 @@
                         aria-expanded="false" aria-label="Toggle navigation"><span
                             class="navbar-toggler-icon"></span></button>
                    
-                    <a class="cart" href="file:/C:/Users/jacka/Documents/DeochRPG/shop.html"><i class="fa fa-shopping-cart"></i></a>
+                    <a class="cart" href="#"><i class="fa fa-shopping-cart"></i></a>
                 </div>
-                <a class="search-icon d-none d-md-block" href="#"><i class=""></i></a>
+             
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="bootstraptest.html">Home</a></li>
@@ -165,6 +165,17 @@
             </div>
         </div>
         <!-- Widgets End -->
+             <!-- Cart Popup -->
+<div id="cart-popup" class="card position-fixed" style="top: 80px; right: 20px; width: 300px; display: none; z-index: 999;">
+    <div class="top-header" style="background-color: #4BB543; color: white; text-align: center; padding: 10px 0;">
+        <h4>Your Cart</h4>
+    </div>
+    <div class="card-body">
+        <div id="cart-items"></div>
+        <p class="mt-3"><strong>Total:</strong> $<span id="total-price">0</span></p>
+        <button class="btn btn-success w-100" onclick="checkout()">Checkout</button>
+    </div>
+</div>
         <!-- Foot Note Start -->
         <div class="foot-note">
             <div class="container">
@@ -188,6 +199,57 @@
     <script src="assets/js/lightgallery-all.min.js"></script>
     <!--Template Script-->
     <script src="assets/js/main.js"></script>
+    <script>
+        let cart = [];
+        let total = 0;
+    
+        function addToCart(productName, price) {
+            cart.push({ name: productName, price: price });
+            total += price;
+            updateCartDisplay();
+        }
+    
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            const totalPrice = document.getElementById('total-price');
+            const cartCount = document.getElementById('cart-count');
+            
+            cartItems.innerHTML = '';
+            cart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'd-flex justify-content-between align-items-center mb-2';
+                itemDiv.innerHTML = `
+                    <span>${item.name} - $${item.price}</span>
+                    <button class="btn btn-sm btn-danger" onclick="removeFromCart(${index})">Remove</button>
+                `;
+                cartItems.appendChild(itemDiv);
+            });
+            totalPrice.textContent = total.toFixed(2);
+            cartCount.textContent = cart.length;
+        }
+    
+        function removeFromCart(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+    
+        function toggleCartPopup() {
+            const popup = document.getElementById('cart-popup');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        }
+    
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+            } else {
+                alert('Proceeding to checkout...');
+            }
+        }
+    
+        document.getElementById('cart-icon').addEventListener('click', toggleCartPopup);
+    </script>
+    <!--Template Script-->
 </body>
 
 </html>

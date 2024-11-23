@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart Example with FA Icon</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .product {
+            margin: 10px 0;
+        }
+        .product button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .cart-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        .cart-container:hover {
+            background-color: #218838;
+        }
+        .cart-popup {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 250px;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .cart-item {
+            margin: 10px 0;
+        }
+        .cart-popup button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .cart-popup button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Products</h1>
+    <div class="product">
+        <p>Product 1 - $25</p>
+        <button onclick="addToCart('Product 1', 25)">Add to Cart</button>
+    </div>
+    <div class="product">
+        <p>Product 2 - $50</p>
+        <button onclick="addToCart('Product 2', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+        <p>Product 3 - $75</p>
+        <button onclick="addToCart('Product 3', 75)">Add to Cart</button>
+    </div>
+
+    <!-- Cart Icon -->
+    <div id="cart-icon" class="cart-container" onclick="toggleCartPopup()">
+        <i class="fas fa-shopping-cart"></i>
+    </div>
+
+    <!-- Cart Popup -->
+    <div id="cart-popup" class="cart-popup">
+        <h3>Your Cart</h3>
+        <div id="cart-items"></div>
+        <p>Total: $<span id="total-price">0</span></p>
+        <button onclick="checkout()">Checkout</button>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        // Function to add products to cart
+        function addToCart(productName, price) {
+            cart.push({ name: productName, price: price });
+            total += price;
+            updateCartDisplay();
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            const totalPrice = document.getElementById('total-price');
+            cartItems.innerHTML = '';
+            cart.forEach((item, index) => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `${item.name} - $${item.price} <button onclick="removeFromCart(${index})">Remove</button>`;
+                cartItems.appendChild(cartItem);
+            });
+            totalPrice.textContent = total;
+        }
+
+        // Function to remove item from cart
+        function removeFromCart(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        // Toggle the visibility of the cart popup
+        function toggleCartPopup() {
+            const popup = document.getElementById('cart-popup');
+            popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // Function for checkout (Just a placeholder)
+        function checkout() {
+            if (cart.length > 0) {
+                alert('Proceeding to checkout!');
+                // Here you would integrate with a payment gateway or another system
+            } else {
+                alert('Your cart is empty!');
+            }
+        }
+    </script>
+
+</body>
+</html>
