@@ -689,7 +689,7 @@ form button.btn-primary:hover {
 }
 
 .testimonials h5 {
-  color: #26264b;
+  color: #e0e0e0;
   margin-top: 15px;
 }
 
@@ -775,7 +775,7 @@ footer {
 .single-widget .widget-tiltle {
   font-size: 17px;
   text-transform: uppercase;
-  color: #fff;
+  color: #000000;
   margin-bottom: 45px;
 }
 
@@ -784,7 +784,7 @@ footer {
 }
 
 .single-widget h6 {
-  color: #fff;
+  color: #000000;
 }
 
 .single-widget .media {
@@ -805,7 +805,7 @@ footer {
 }
 
 span {
-  color: #fff;
+  color: #000000;
 }
 
 .recent-post-widget .rcnt-img {
