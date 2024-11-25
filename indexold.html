@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="description" content="Home of Deoch" />
+  <meta charset="utf-8">
+  <title>Deoch RPG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="">
+  <link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/favicon32.png" type="image/png">
+  <script src="default.js"></script>
+</head>
+
+<body>
+
+  <br>
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <a class="btn btn-outline-dark"
+          href="https://www.kickstarter.com/projects/freyanile/deochtm-roleplaying-game">Kickstarter</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-outline-dark" onclick="window.location.href='charactersheet.html';">Character
+          Sheet</button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <button class="btn btn-outline-dark" onclick="window.location.href='qa.html';">Q&A</button>
+        <div class="container">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="background"></div>
+  <script>
+    const backgroundImage = new Image();
+    backgroundImage.src = 'images/websitebackground1.png';
+
+    backgroundImage.onload = () => {
+      document.querySelector('.background').style.backgroundImage = `url(${backgroundImage.src})`;
+    
+    };
+  </script>
+  
+</body>
+
+</html>
