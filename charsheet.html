@@ -65,7 +65,7 @@
             
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="bootstraptest.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
                         <li class="nav-item"><a class="nav-link" href="service.html">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
@@ -90,7 +90,7 @@
                            
                             <br>
                             <label for="characterName"><h4>Name:</h4></label>
-                            <input type="text" id="characterName" placeholder="Who are you?">
+                            <input type="text"  id="characterName" placeholder="Who are you?">
                             
                          <br>
                          <label for="characterName"><h4>Level:</h4></label>
@@ -100,7 +100,7 @@
                           <label for="characterName"><h4>PB:</h4></label></h4>
                           <input class="stat" type="number" id="profBonus" value="1" disabled>&nbsp;&nbsp;
                          
-                          <label for="characterName"><h4>Stat Points</h4></label>
+                          <label for="characterName"><h4>Stat Points:</h4></label>
                           
                           
                           <input class="stat" type="number" id="statPoints" value="3" onchange="enableStats" disabled>
@@ -124,11 +124,17 @@
                             </tr>
                             <br><br>
                             <tr> 
-                             <td><input type="checkbox" id="acroProf" onchange="setSkills();">
-                             <td>&nbsp;&nbsp;<input type="checkbox" id="insProf" onchange="setSkills();">
-                              &nbsp;STR</td>
-                             <td><input class="number" value="9" id="strScore" oninput="loseStats()" onchange="updateModifiers()">
-                             <td><input class="number" value="-1" type="number" id="acroScore" disabled></td>
+                                
+                             <td><input type="checkbox" id="acroProf" onchange="setSkills();">&nbsp;
+                             <td><input type="checkbox" id="insProf" onchange="setSkills();">
+                            &nbsp;STR</td>
+                             <td><input class="number" type="number" value="9" id="strScore">
+                                
+                            &nbsp;<span class="single-widget subscribe-widget">
+                                <button type="submit" onclick=" increasestr(); updateModifiers(); setSkills();" name="increasestat">+</button>
+                            </span>
+
+                             <td><input class="number" type="number" value="-1" id="acroScore" disabled></td>
                              <td><input class="number" type="number" value="-1" id="insScore" disabled></td>
                             
                             </tr>
@@ -137,36 +143,48 @@
                               <td><input type="checkbox" id="animProf" onchange="setSkills();">
                                 &nbsp;<input type="checkbox" id="intiProf" onchange="setSkills();">
                               &nbsp;DEX</td>
-                              <td><input class="number" value="9" id="dexScore" oninput="loseStats()" onchange="updateModifiers()">
-                                <td><input class="number" value="-1" id="animScore" disabled></td>
-                                <td><input class="number" value="-1" id="intiScore" disabled></td>
+                              <td><input class="number" type="number" value="9" id="dexScore">
+                                &nbsp;<span class="single-widget subscribe-widget">
+                                    <button type="submit" onclick=" increasedex(); updateModifiers(); setSkills();" name="increasestat">+</button>
+                                </span>
+                                <td><input class="number" type="number" value="-1" id="animScore" disabled></td>
+                                <td><input class="number" type="number" value="-1" id="intiScore" disabled></td>
                             </tr>
                             <br>
                             <tr>     
                               <td><input type="checkbox" id="arcaProf" onchange="setSkills();">
                                 &nbsp;<input type="checkbox" id="invProf" onchange="setSkills();">
                                 &nbsp;CON</td>
-                              <td><input class="number" value="9" id="conScore" oninput="loseStats()" onchange="updateModifiers()">
-                              <td><input class="number" value="-1" id="arcaScore" disabled></td>
-                              <td><input class="number" value="-1" id="invScore" disabled></td>
+                              <td><input class="number" type="number" value="9" id="conScore">
+                                &nbsp;<span class="single-widget subscribe-widget">
+                                    <button type="submit" onclick=" increasecon(); updateModifiers(); setSkills();" name="increasestat">+</button>
+                                </span>
+                              <td><input class="number" type="number" value="-1" id="arcaScore" disabled></td>
+                              <td><input class="number" type="number" value="-1" id="invScore" disabled></td>
                             </tr>
                             <br>
                             <tr>
                               <td><input type="checkbox" id="athlProf" onchange="setSkills();">
                               &nbsp;<input type="checkbox" id="medProf" onchange="setSkills();">
                                 &nbsp;INT</td>
-                              <td><input class="number" value="9" id="intScore" oninput="loseStats()" onchange="updateModifiers()">
-                              <td><input class="number" value="-1" id="athlScore" disabled></td>
-                              <td><input class="number" value="-1" id="medScore" disabled></td>
+                              <td><input class="number" type="number" value="9" id="intScore">
+                                &nbsp; <span class="single-widget subscribe-widget">
+                                    <button type="submit" onclick=" increaseint(); updateModifiers(); setSkills();" name="increasestat">+</button>
+                                </span>
+                              <td><input class="number" type="number" value="-1" id="athlScore" disabled></td>
+                              <td><input class="number" type="number" value="-1" id="medScore" disabled></td>
                             </tr>
                             <br>
                             <tr>
                               <td><input type="checkbox" id="decProf" onchange="setSkills();">
                                 &nbsp;<input type="checkbox" id="natProf" onchange="setSkills();">
                               &nbsp;WIS</td>
-                              <td><input class="number" value="9" id="wisScore" oninput="loseStats()" onchange="updateModifiers()">
-                              <td><input class="number" value="-1" id="decScore" disabled></td>
-                              <td><input class="number" value="-1" id="natScore" disabled></td>
+                              <td><input class="number" type="number" value="9" id="wisScore">
+                                &nbsp; <span class="single-widget subscribe-widget">
+                                    <button type="submit" onclick=" increasewis(); updateModifiers(); setSkills();" name="increasestat">+</button>
+                                </span>
+                              <td><input class="number" type="number" value="-1" id="decScore" disabled></td>
+                              <td><input class="number" type="number" value="-1" id="natScore" disabled></td>
               
                             </tr>
               
@@ -176,9 +194,12 @@
                               <td><input type="checkbox" id="hisProf" onchange="setSkills();">
                                 &nbsp;<input type="checkbox" id="sleiProf" onchange="setSkills();">
                                 &nbsp;CHA</td>
-                              <td><input class="number" value="9" id="chaScore" oninput="loseStats()" onchange="updateModifiers()">
-                                 <td><input class="number" value="-1" id="hisScore" disabled></td>
-                           <td><input class="number" value="-1" id="sleiScore" disabled></td>
+                              <td><input class="number" type="number" value="9" id="chaScore">
+                                &nbsp; <span class="single-widget subscribe-widget">
+                                    <button type="submit" onclick="increasecha(); updateModifiers(); setSkills();" name="increasestat">+</button>
+                                </span>
+                                 <td><input class="number"type="number"  value="-1" id="hisScore" disabled></td>
+                           <td><input class="number" type="number" value="-1" id="sleiScore" disabled></td>
                             </tr>
                             
                                 </div>
@@ -189,13 +210,13 @@
                                     <br><br><br>
                                 <a data-aos="fade-right" data-aos-delay="900"></a> 
                                     <br> Equipped Shield:
-                                    <select id="equippedShield" onchange="shieldEquip(this);">
+                                    <select id="equippedShield" type="number" onchange="shieldEquip(this);">
                                       <option value="none">None</option>
                                       <option value="buck">Buckler</option>
                                       <option value="kshield">Kite Shield</option>
                                       <option value="ishield">Iron Heater</option>
                                     </select>
-                                    <br><br>
+                                    
                                     <tr>
                                      Damage Reduction:
                                       <td><input class="stat" type="number" id="dmgRed" value="0"></td>
@@ -221,13 +242,14 @@
                         
                                   
                                       <span class="btn btn-danger" onclick="takeDamage();">Damage</span>
+                                      &nbsp; <input type="number" class="stat" id="modHP" value="1" />&nbsp;
                                       <span class="btn btn-success" onclick="healHP();">Heal</span>
-                                      <input type="number" class="stat" id="modHP" value="1" />
+                                  
                         
                         
                                  
                         
-                                    <br>
+                                    <br><br><br>
                                 
                                       <span>Healing Dice: </span><input class="stat" value="0" id="hitDice" type="number" /> /
                                       <select id="hitDie">
@@ -288,9 +310,7 @@
                                     <div class="input-group">
                                         <input class="field form-control" name="subscribe" type="email"
                                             placeholder="Email Address">
-                                        <span class="input-group-btn">
-                                            <button type="submit" name="submit-mail"><i class="fa fa-check"></i></button>
-                                        </span>
+                                        <span class="input-group-btn"><button type="submit" name="submit-mail"><i class="fa fa-check"></i></button></span>
                                     </div>
                                     <input type="hidden" name="access_key" value="627bb8f0-0bae-483b-be2b-4c45064b2397">
                                 </form>

@@ -194,7 +194,7 @@ form button.btn-primary:hover {
 }
 
 .hero .slide-content span {
-  color: #4BB543;
+  color: #ffffff;
 }
 
 .hero .slide-content h1 {
@@ -759,7 +759,7 @@ form button.btn-primary:hover {
     1 - Footer
 ------------------------------------*/
 footer {
-  background: url(../images/footer-bg.png) center center/cover no-repeat #000000cb;
+  background: url(../images/footer-bg3.png) center center/cover no-repeat #000000cb;
 }
 
 /*-----------------------------------
@@ -974,11 +974,100 @@ span {
 
 .stat {
   width: 50px;
-  vertical-align: left;}
+  border: none;
+  outline: none;
+ 
+  border-radius: 50px;
+  color: white;
+
+  text-align: right;
+}
 
   .number {
     width: 50px;
+    border: none;
+    outline: none;
+   
+    border-radius: 50px;
+    color: white;
+   
+    text-align: right;
   }
 
 
+  input[type="number"] {
  
+    padding: 5px; /* Optional: Adjust padding for a better look */
+    line-height: normal; /* Ensures proper vertical alignment */
+}
+
+input[type="number"]:enabled {
+  background-color: #ffffff1a !important; /* Make the background color change */
+  outline: none !important; /* Remove the focus outline */}
+
+  input[type="text"] {
+  
+    padding: 5px; /* Optional: Adjust padding for a better look */
+    line-height: normal; /* Ensures proper vertical alignment */
+    background:#000000;
+    color: white;
+   
+    border: none;
+    outline: none;
+   
+    border-radius: 50px;
+    color: white;
+    background-color: #ffffff1a !important; /* Make the background color change */
+    outline: none !important; /* Remove the focus outline */
+    text-align: center;
+
+}
+
+.text {
+  width: 50px;
+  border: none;
+  outline: none;
+  padding-left: 25px;
+  border-radius: 50px;
+
+}
+
+input[type="number"],
+select {
+  
+  border: none;
+  outline: none;
+  padding: 5px; /* Optional: Adjust padding for a better look */
+    line-height: normal; /* Ensures proper vertical alignment */
+  border-radius: 50px;
+  color: white;
+  background-color: #ffffff1a !important; /* Make the background color change */
+  outline: none !important; /* Remove the focus outline */
+  text-align: center;
+}
+
+
+
+
+select:after {
+  color: white
+
+}
+
+
+
+/* Style the text of the options */
+select option {
+    background-color: #333333; /* Set background color of the dropdown options */
+   
+}
+
+/* Change the color of the selected option to white */
+select option:checked {
+    color: white !important; /* White text for the selected option */
+}
+
+#modHP {
+  position: relative;
+  top: 25px;
+}
