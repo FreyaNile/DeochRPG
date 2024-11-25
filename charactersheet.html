@@ -10,35 +10,16 @@
   <link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/favicon32.png" type="image/png">
-  <td><input type="hidden" value="-1" id="strMod" disabled></td>
-  <td><input type="hidden" value="-1" id="dexMod" disabled></td>
-  <td><input type="hidden" value="-1" id="conMod" disabled></td> 
-  <td><input type="hidden" value="-1" id="intMod" disabled></td>
-  <td><input type="hidden" value="-1" id="wisMod" disabled></td>
-  <td><input type="hidden" value="-1" id="chaMod" disabled></td>
   <script src="default.js"></script>
-  <style>
-    body {
-      background-color: black;
-      background-image: none;
-      color: white;
-    }
-  </style>
 </head>
 
+
 <body>
-
-
-
+  <!-- STATS & MODS START -->
   <div class="big-image"> 
-
     <div class="container">
-      <font color="white" <form id="charSheet">
-
         <div class="row">
-
           <div class="col-4">
-            
             <br>
               <label for="characterName">Name:</label>
               <input type="text" id="characterName" placeholder="Who are you?">
@@ -133,7 +114,8 @@
                    <td><input type="number" value="-1" id="hisScore" disabled></td>
              <td><input type="number" value="-1" id="sleiScore" disabled></td>
               </tr>
-              
+              <!-- STATS & MODS END -->
+               <!-- LANG & TOOLS START -->
               <table class="table">
                   <h4>Languages & Toolkits</h4>
                 <tr>
@@ -217,7 +199,8 @@
             
             
           </div>
-          
+           <!-- LANG & TOOLS END -->
+             <!-- EQUIPS/HP START -->
           <div class="">
           <br> Equipped Shield:
             <select id="equippedShield" onchange="shieldEquip(this);">
@@ -277,6 +260,10 @@
               <br>
               <btn class="btn btn-secondary" onclick="longRest();">Long Rest - Restore all</btn>
               <br><br>
+
+              </div>
+              <!-- EQUIPS/HP END -->
+               <!-- MANA START -->
               <div class="center-me">
                 <h2>Mana</h2>
 
@@ -309,11 +296,16 @@
        </div>
      </div>
    </div>
- </font>
  </div>
 </div>
-<script>
-</script>
+<!-- MANA END -->
+<!-- HIDDEN VALUES START -->
+<td><input type="hidden" value="-1" id="strMod" disabled></td>
+<td><input type="hidden" value="-1" id="dexMod" disabled></td>
+<td><input type="hidden" value="-1" id="conMod" disabled></td> 
+<td><input type="hidden" value="-1" id="intMod" disabled></td>
+<td><input type="hidden" value="-1" id="wisMod" disabled></td>
+<td><input type="hidden" value="-1" id="chaMod" disabled></td>
+<!-- HIDDEN VALUES END -->
 </body>
-
 </html>
