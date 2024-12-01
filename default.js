@@ -71,7 +71,7 @@ function getStoredValues() {
     document.getElementById("thieftools2").checked = JSON.parse(localStorage.getItem('thieftools2'));
     document.getElementById("armorClass").value = localStorage.getItem("armorClass");
     setSkills();
-    enableStats();
+  
   }
   
   function setLocalStorage() {
@@ -170,7 +170,7 @@ function getStoredValues() {
     document.getElementById("chaMod").value = Math.floor((chaScore - 10)/2);
     
     setSkills();
-    enableStats();
+  
     shieldEquip(shieldEquip);
   }
   
@@ -361,8 +361,7 @@ function getStoredValues() {
     setSkills();
     resetHP();
     resetHitDice();
-    statGain();
-    enableStats();
+   
   }
     
   function takeDamage() {
@@ -486,7 +485,7 @@ function getStoredValues() {
     var statPoints = parseInt(document.getElementById("statPoints").value);
     { 
       document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+ 1;}
-    enableStats();
+  
   }
 
   function addLevel() {
@@ -500,8 +499,8 @@ function getStoredValues() {
     setSkills();
     resetHP();
     resetHitDice();
-    statGain();
-    enableStats();
+ 
+   
   }
 
   function increasestr() {
