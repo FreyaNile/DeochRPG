@@ -38,21 +38,12 @@
     <!-- Header Start -->
     <header class="position-absolute w-100">
         <div class="container">
-            <div class="top-header d-none d-sm-flex justify-content-between align-items-center">
+            <div class="top-header d-none justify-content-between align-items-center">
                 <div class="contact">
                 </div>
-                <nav class="d-flex aic">
-                    <ul class="nav social d-none d-md-flex" style="margin-right: 40px;">
-                        <li><a href="https://www.kickstarter.com/projects/freyanile/deochtm-roleplaying-game" target="_blank"><i class="fa-brands fa-kickstarter"></i></i></a></li>
-                        <li><a href="https://www.facebook.com/nilefreya" target="_blank"><i class="fa-brands fa-facebook"></i></a></li>
-                        <li><a href="https://bsky.app/profile/freyanile.bsky.social" target="_blank"><i class="fa-brands fa-bluesky"></i></i></a></li>
-                        <li><a href="https://www.patreon.com/freyanile" target="_blank"><i class="fa-brands fa-patreon"></i></i></a></li>
-                        <li><a href="https://discord.com/invite/N6SnrNNGBV" target="_blank"><i class="fa-brands fa-discord"></i></i></a></li>
-                        <li><a href="https://www.reddit.com/r/Deoch/" target="_blank"><i class="fa-brands fa-reddit"></i></i></a></li>
-                    </ul>
-                </nav>
+               
             </div>
-            <nav class="navbar navbar-expand-md navbar-light">
+            <nav class="navbar navbar-light">
                 <a class="navbar-brand" href="index.html"><img src="images/deoch.png" alt="Deoch"></a>
                 <div class="group d-flex align-items-center">
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -85,127 +76,6 @@
                     <div class="swiper-container hero-slider">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide slide-content d-flex justify-content-center align-items-center">
-                            <div class="single-slide">
-                            <a data-aos="fade-right" data-aos-delay="900"></a>
-                           
-                            <br>
-                            <label for="characterName"><h4>Name:</h4></label>
-                            <input type="text"  id="characterName" placeholder="Who are you?">
-                            
-                         <br>
-                         <label for="characterName"><h4>Level:</h4></label>
-                       
-                          <input class="stat" type="number" id="playerLevel" min="0" max="10" value="0" onchange="playerLevelChange();">
-                          &nbsp;&nbsp;
-                          <label for="characterName"><h4>PB:</h4></label></h4>
-                          <input class="stat" type="number" id="profBonus" value="1" disabled>&nbsp;&nbsp;
-                         
-                          <label for="characterName"><h4>Stat Points:</h4></label>
-                          
-                          
-                          <input class="stat" type="number" id="statPoints" value="3" onchange="enableStats" disabled>
-                          &nbsp;
-                          <button type="button" onclick="addStat();" class="btn btn-dark buttonmargin">+</button>
-                          
-                       
-                         
-                          <h4 style="text-align: center;">Stats & Mods</h4>
-                   
-                          <br>
-                        
-                         
-                            <tr>
-                              <th>Proficiency: Checks/Saves </th>
-                             
-                             
-                              <th>Stat Score</th>
-                              <th>Check Mod</th>
-                              <th>Save Mod</th>
-                            </tr>
-                            <br><br>
-                            <tr> 
-                                
-                             <td><input type="checkbox" id="acroProf" onchange="setSkills();">&nbsp;
-                             <td><input type="checkbox" id="insProf" onchange="setSkills();">
-                            &nbsp;STR</td>
-                             <td><input class="number" type="number" value="9" id="strScore">
-                                
-                            &nbsp;<span class="single-widget subscribe-widget">
-                                <button type="submit" onclick=" increasestr(); updateModifiers(); setSkills();" name="increasestat">+</button>
-                            </span>
-
-                             <td><input class="number" type="number" value="-1" id="acroScore" disabled></td>
-                             <td><input class="number" type="number" value="-1" id="insScore" disabled></td>
-                            
-                            </tr>
-                            <br>
-                            <tr>
-                              <td><input type="checkbox" id="animProf" onchange="setSkills();">
-                                &nbsp;<input type="checkbox" id="intiProf" onchange="setSkills();">
-                              &nbsp;DEX</td>
-                              <td><input class="number" type="number" value="9" id="dexScore">
-                                &nbsp;<span class="single-widget subscribe-widget">
-                                    <button type="submit" onclick=" increasedex(); updateModifiers(); setSkills();" name="increasestat">+</button>
-                                </span>
-                                <td><input class="number" type="number" value="-1" id="animScore" disabled></td>
-                                <td><input class="number" type="number" value="-1" id="intiScore" disabled></td>
-                            </tr>
-                            <br>
-                            <tr>     
-                              <td><input type="checkbox" id="arcaProf" onchange="setSkills();">
-                                &nbsp;<input type="checkbox" id="invProf" onchange="setSkills();">
-                                &nbsp;CON</td>
-                              <td><input class="number" type="number" value="9" id="conScore">
-                                &nbsp;<span class="single-widget subscribe-widget">
-                                    <button type="submit" onclick=" increasecon(); updateModifiers(); setSkills();" name="increasestat">+</button>
-                                </span>
-                              <td><input class="number" type="number" value="-1" id="arcaScore" disabled></td>
-                              <td><input class="number" type="number" value="-1" id="invScore" disabled></td>
-                            </tr>
-                            <br>
-                            <tr>
-                              <td><input type="checkbox" id="athlProf" onchange="setSkills();">
-                              &nbsp;<input type="checkbox" id="medProf" onchange="setSkills();">
-                                &nbsp;INT</td>
-                              <td><input class="number" type="number" value="9" id="intScore">
-                                &nbsp; <span class="single-widget subscribe-widget">
-                                    <button type="submit" onclick=" increaseint(); updateModifiers(); setSkills();" name="increasestat">+</button>
-                                </span>
-                              <td><input class="number" type="number" value="-1" id="athlScore" disabled></td>
-                              <td><input class="number" type="number" value="-1" id="medScore" disabled></td>
-                            </tr>
-                            <br>
-                            <tr>
-                              <td><input type="checkbox" id="decProf" onchange="setSkills();">
-                                &nbsp;<input type="checkbox" id="natProf" onchange="setSkills();">
-                              &nbsp;WIS</td>
-                              <td><input class="number" type="number" value="9" id="wisScore">
-                                &nbsp; <span class="single-widget subscribe-widget">
-                                    <button type="submit" onclick=" increasewis(); updateModifiers(); setSkills();" name="increasestat">+</button>
-                                </span>
-                              <td><input class="number" type="number" value="-1" id="decScore" disabled></td>
-                              <td><input class="number" type="number" value="-1" id="natScore" disabled></td>
-              
-                            </tr>
-              
-                            <br>
-              
-                            <tr>
-                              <td><input type="checkbox" id="hisProf" onchange="setSkills();">
-                                &nbsp;<input type="checkbox" id="sleiProf" onchange="setSkills();">
-                                &nbsp;CHA</td>
-                              <td><input class="number" type="number" value="9" id="chaScore">
-                                &nbsp; <span class="single-widget subscribe-widget">
-                                    <button type="submit" onclick="increasecha(); updateModifiers(); setSkills();" name="increasestat">+</button>
-                                </span>
-                                 <td><input class="number"type="number"  value="-1" id="hisScore" disabled></td>
-                           <td><input class="number" type="number" value="-1" id="sleiScore" disabled></td>
-                            </tr>
-                            
-                                </div>
-                                </div>
-                            
-                                <div class="swiper-slide slide-content d-flex justify-content-center align-items-center">
                                 <div class="single-slide">
                                     <br><br><br>
                                 <a data-aos="fade-right" data-aos-delay="900"></a> 
@@ -216,7 +86,7 @@
                                       <option value="kshield">Kite Shield</option>
                                       <option value="ishield">Iron Heater</option>
                                     </select>
-                                    
+                                    <br>
                                     <tr>
                                      Damage Reduction:
                                       <td><input class="stat" type="number" id="dmgRed" value="0"></td>
@@ -241,14 +111,10 @@
                                     <br>
                         
                                   
-                                      <span class="btn btn-danger" onclick="takeDamage();">Damage</span>
+                                      <span class="btn btn-danger" id="dmg" onclick="takeDamage(); ">Damage</span>
                                       &nbsp; <input type="number" class="stat" id="modHP" value="1" />&nbsp;
-                                      <span class="btn btn-success" onclick="healHP();">Heal</span>
-                                  
-                        
-                        
-                                 
-                        
+                                      <span class="btn btn-success" id="dmg" onclick="healHP();">Heal</span>
+                                      
                                     <br><br><br>
                                 
                                       <span>Healing Dice: </span><input class="stat" value="0" id="hitDice" type="number" /> /
@@ -261,15 +127,142 @@
                                       </select>
 
                                       <br>
-                                      <btn class="btn btn-success" onclick="shortRest();">Short Rest - Use HD on health</btn>
+                                      <btn class="btn btn-success" id="rests" onclick="shortRest();">Use HD on health</btn>
                                       <br>
-                                      <btn class="btn btn-info" onclick="shortRestmana();">Short Rest - Use HD on Mana</btn>
+                                      <btn class="btn btn-info" id="rests" onclick="shortRestmana();">Use HD on Mana</btn>
                                       <br>
-                                      <btn class="btn btn-secondary" onclick="longRest();">Long Rest - Restore all</btn>
+                                      <btn class="btn btn-secondary" id="rests" onclick="longRest();">Long Rest</btn>
                                       <br>
                         
                           </div>
                           </div>
+                            <div class="swiper-slide slide-content d-flex justify-content-center align-items-center">
+                            <div class="single-slide">
+                            <a data-aos="fade-right" data-aos-delay="900"></a>
+                           
+                            <br>
+                            <br>
+                            <br>
+                            <label for="characterName"><h4>Name:</h4></label>
+                            <input type="text"  id="characterName" placeholder="Who are you?">
+                            
+                         <br>
+                         <label for="characterName"><h4>Level:</h4></label>
+                       
+                          <input class="stat" type="number" id="playerLevel" min="0" max="10" value="0" onchange="playerLevelChange();" disabled>
+                          &nbsp;&nbsp; <span class="single-widget">
+                            <button type="submit" onclick="addLevel(); updateModifiers(); setSkills();" id="increaselevel">+</button>
+                        </span><br>
+                          <label for="characterName"><h4>PB:</h4></label></h4>
+                          <input class="stat" type="number" id="profBonus" value="1" disabled>
+                         <br>
+                          <label for="characterName"><h4>Stat Points:</h4></label>
+                          
+                          
+                          <input class="stat" type="number" id="statPoints" value="3" onchange="enableStats" disabled></input>
+                          &nbsp;<span class="single-widget">
+                            <button type="submit" onclick="addStat(); updateModifiers(); setSkills();" id="increasestatraw">+</button>
+                        </span>
+                         <br><br>
+                        
+                         
+                          <h4 style="text-align: center;">Stats & Mods</h4>
+                   
+                          <br>
+                        
+                         
+                            <tr>
+                              <th>Proficiency: Checks/Saves </th>
+                             
+                             
+                              <th>Stat Score</th>
+                              <th>Check Mod</th>
+                              <th>Save Mod</th>
+                            </tr>
+                            <br><br>
+                            <tr> 
+                                
+                             <td><input type="checkbox" id="acroProf" onchange="setSkills();">&nbsp;
+                             <td><input type="checkbox" id="insProf" onchange="setSkills();">
+                            &nbsp;STR</td>
+                             <td><input class="number" type="number" value="9" id="strScore">
+                                
+                            &nbsp;<span class="single-widget">
+                                <button type="submit" onclick=" increasestr(); updateModifiers(); setSkills();" id="increasestat">+</button>
+                            </span>
+
+                             <td><input class="number" type="number" value="-1" id="acroScore" disabled></td>
+                             <td><input class="number" type="number" value="-1" id="insScore" disabled></td>
+                            
+                            </tr>
+                            <br>
+                            <tr>
+                              <td><input type="checkbox" id="animProf" onchange="setSkills();">
+                                &nbsp;<input type="checkbox" id="intiProf" onchange="setSkills();">
+                              &nbsp;DEX</td>
+                              <td><input class="number" type="number" value="9" id="dexScore">
+                                &nbsp;<span class="single-widget">
+                                    <button type="submit" onclick=" increasedex(); updateModifiers(); setSkills();" id="increasestat">+</button>
+                                </span>
+                                <td><input class="number" type="number" value="-1" id="animScore" disabled></td>
+                                <td><input class="number" type="number" value="-1" id="intiScore" disabled></td>
+                            </tr>
+                            <br>
+                            <tr>     
+                              <td><input type="checkbox" id="arcaProf" onchange="setSkills();">
+                                &nbsp;<input type="checkbox" id="invProf" onchange="setSkills();">
+                                &nbsp;CON</td>
+                              <td><input class="number" type="number" value="9" id="conScore">
+                                &nbsp;<span class="single-widget">
+                                    <button type="submit" onclick=" increasecon(); updateModifiers(); setSkills();" id="increasestat">+</button>
+                                </span>
+                              <td><input class="number" type="number" value="-1" id="arcaScore" disabled></td>
+                              <td><input class="number" type="number" value="-1" id="invScore" disabled></td>
+                            </tr>
+                            <br>
+                            <tr>
+                              <td><input type="checkbox" id="athlProf" onchange="setSkills();">
+                              &nbsp;<input type="checkbox" id="medProf" onchange="setSkills();">
+                                &nbsp;INT</td>
+                              <td><input class="number" type="number" value="9" id="intScore">
+                                &nbsp; <span class="single-widget">
+                                    <button type="submit" onclick=" increaseint(); updateModifiers(); setSkills();" id="increasestat">+</button>
+                                </span>
+                              <td><input class="number" type="number" value="-1" id="athlScore" disabled></td>
+                              <td><input class="number" type="number" value="-1" id="medScore" disabled></td>
+                            </tr>
+                            <br>
+                            <tr>
+                              <td><input type="checkbox" id="decProf" onchange="setSkills();">
+                                &nbsp;<input type="checkbox" id="natProf" onchange="setSkills();">
+                              &nbsp;WIS</td>
+                              <td><input class="number" type="number" value="9" id="wisScore">
+                                &nbsp; <span class="single-widget">
+                                    <button type="submit" onclick=" increasewis(); updateModifiers(); setSkills();" id="increasestat">+</button>
+                                </span>
+                              <td><input class="number" type="number" value="-1" id="decScore" disabled></td>
+                              <td><input class="number" type="number" value="-1" id="natScore" disabled></td>
+              
+                            </tr>
+              
+                            <br>
+              
+                            <tr>
+                              <td><input type="checkbox" id="hisProf" onchange="setSkills();">
+                                &nbsp;<input type="checkbox" id="sleiProf" onchange="setSkills();">
+                                &nbsp;CHA</td>
+                              <td><input class="number" type="number" value="9" id="chaScore">
+                                &nbsp; <span class="single-widget">
+                                    <button type="submit" onclick="increasecha(); updateModifiers(); setSkills();" id="increasestat">+</button>
+                                </span>
+                                 <td><input class="number"type="number"  value="-1" id="hisScore" disabled></td>
+                           <td><input class="number" type="number" value="-1" id="sleiScore" disabled></td>
+                            </tr>
+                            
+                                </div>
+                                </div>
+                            
+                            
                         
                             
                             <div class="swiper-slide slide-content d-flex justify-content-center align-items-center">
@@ -351,7 +344,7 @@
     <script src="assets/js/bootstrap.bundle.js"></script>
     <script src="assets/js/loaders.css.js"></script>
     <script src="assets/js/aos.js"></script>
-    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/swiper1.min.js"></script>
     <script src="assets/js/lightgallery-all.min.js"></script>
     <!--Template Script-->
     <script src="assets/js/main.js"></script>

@@ -478,20 +478,7 @@ function getStoredValues() {
       document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)- 1;}
       
   }
-  
-  function statGain() {
-  var playerLevel = parseInt(document.getElementById("playerLevel").value);
-    if (playerLevel >= 10) {
-      document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+2;
-    } else if (playerLevel >= 7) {
-      document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+2;
-    } else if (playerLevel >= 4) {
-      document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+2;
-    } else if (playerLevel >= 1) {
-      document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+2;
-    }
-    
-  }
+
   
   function enableStats() {
     var statPoints = document.getElementById("statPoints").value;
@@ -516,6 +503,20 @@ function getStoredValues() {
     { 
       document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+ 1;}
     enableStats()
+  }
+
+  function addLevel() {
+    var playerLevel = parseInt(document.getElementById("playerLevel").value);
+    if (playerLevel >= 0 && playerLevel <= 9) {{ 
+      document.getElementById("playerLevel").value = parseInt(document.getElementById("playerLevel").value)+ 1;
+      document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+2;}}
+    updateProfBonus();
+    updateModifiers();
+    setSkills();
+    resetHP();
+    resetHitDice();
+    statGain();
+    enableStats();
   }
 
   function increasestr() {
