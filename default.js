@@ -502,14 +502,15 @@ function getStoredValues() {
     var statPoints = parseInt(document.getElementById("statPoints").value);
     { 
       document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+ 1;}
-    enableStats()
+    enableStats();
   }
 
   function addLevel() {
     var playerLevel = parseInt(document.getElementById("playerLevel").value);
-    if (playerLevel >= 0 && playerLevel <= 9) {{ 
+    if (playerLevel >= 0 && playerLevel <= 9) {
       document.getElementById("playerLevel").value = parseInt(document.getElementById("playerLevel").value)+ 1;
-      document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+2;}}
+      document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+2;
+    }
     updateProfBonus();
     updateModifiers();
     setSkills();
