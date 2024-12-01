@@ -77,7 +77,7 @@
                     O(!0)
                 }), window.addEventListener("resize", (0, s["default"])(O, 50, !0)), window.addEventListener("orientationchange", (0, s["default"])(O, 50, !0)), window.addEventListener("scroll", (0, c["default"])(function () {
                     (0, b["default"])(h, j.once)
-                }, 99)), document.addEventListener("", function (e) {
+                }, 99)), document.addEventListener("DOMNodeRemoved", function (e) {
                     var t = e.target;
                     t && 1 === t.nodeType && t.hasAttribute && t.hasAttribute("data-aos") && (0, s["default"])(_, 50, !0)
                 }), (0, f["default"])("[data-aos]", _), h)
