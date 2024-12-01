@@ -480,23 +480,7 @@ function getStoredValues() {
   }
 
   
-  function enableStats() {
-    var statPoints = document.getElementById("statPoints").value;
-    if (statPoints <=0) {
-      document.getElementById("strScore").disabled = true;
-   document.getElementById("dexScore").disabled = true;
-  document.getElementById("conScore").disabled = true;
-      document.getElementById("intScore").disabled = true;
-      document.getElementById("wisScore").disabled = true;
-      document.getElementById("chaScore").disabled = true;
-    } else if (statPoints =>2) {
-      document.getElementById("strScore").disabled = false;
-   document.getElementById("dexScore").disabled = false;
-  document.getElementById("conScore").disabled = false;
-      document.getElementById("intScore").disabled = false;
-      document.getElementById("wisScore").disabled = false;
-      document.getElementById("chaScore").disabled = false;}
-  }
+ 
   
   function addStat() {
     var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -576,3 +560,60 @@ function getStoredValues() {
         document.getElementById("statPoints").value = statPoints - 1;
     }
   }
+//decrease//
+function decreasestr() {
+  var strScore = parseInt(document.getElementById("strScore").value);
+  var statPoints = parseInt(document.getElementById("statPoints").value);
+  if (statPoints > 0) {
+      console.log("Stat points have been lowered or changed!");
+      document.getElementById("strScore").value = strScore - 1;
+  
+  }
+
+}
+
+function decreasedex() {
+  var dexScore = parseInt(document.getElementById("dexScore").value);
+  var statPoints = parseInt(document.getElementById("statPoints").value);
+  if (statPoints > 0) {
+      console.log("Stat points have been lowered or changed!");
+      document.getElementById("dexScore").value = dexScore - 1;
+   
+  }
+}
+function decreasecon() {
+  var conScore = parseInt(document.getElementById("conScore").value);
+  var statPoints = parseInt(document.getElementById("statPoints").value);
+  if (statPoints > 0) {
+      console.log("Stat points have been lowered or changed!");
+      document.getElementById("conScore").value = conScore - 1;
+     
+  }
+}
+function decreaseint() {
+  var intScore = parseInt(document.getElementById("intScore").value);
+  var statPoints = parseInt(document.getElementById("statPoints").value);
+  if (statPoints > 0) {
+      console.log("Stat points have been lowered or changed!");
+      document.getElementById("intScore").value = intScore - 1;
+     
+  }
+}
+function decreasewis() {
+  var wisScore = parseInt(document.getElementById("wisScore").value);
+  var statPoints = parseInt(document.getElementById("statPoints").value);
+  if (statPoints > 0) {
+      console.log("Stat points have been lowered or changed!");
+      document.getElementById("wisScore").value = wisScore - 1;
+      
+  }
+}
+function decreasecha() {
+  var chaScore = parseInt(document.getElementById("chaScore").value);
+  var statPoints = parseInt(document.getElementById("statPoints").value);
+  if (statPoints > 0) {
+      console.log("Stat points have been lowered or changed!");
+      document.getElementById("chaScore").value = chaScore - 1;
+      
+  }
+}
