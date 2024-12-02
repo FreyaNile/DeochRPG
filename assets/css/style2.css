@@ -1187,8 +1187,7 @@ background-color: #ffffff1a;
 height: 500px; /* Or specify a height if needed */
 display: none; 
 width: min(800px, 98%);
-
-
+margin-left: 5px;
 }
 
 #spells:hover {
