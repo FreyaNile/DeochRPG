@@ -616,3 +616,14 @@ function decreasecha() {
       
   }
 }
+
+function hide() {
+  var div = document.getElementById('spells'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}

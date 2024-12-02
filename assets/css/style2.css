@@ -936,6 +936,7 @@ span {
   border-top-right-radius: 10px;
   border-bottom-left-radius: 10px;
   margin-right: 10px;
+  
 }
 
 .subscribe-widget .social-nav a i {
@@ -1050,7 +1051,13 @@ input[type="number"]:enabled {
   outline: none;
   padding-left: 25px;
   border-radius: 50px;
+  
 
+}
+
+#characterName:hover {
+  border-color: white;
+  box-shadow: 0 0 8px 0 white;
 }
 
 input[type="number"],
@@ -1091,6 +1098,7 @@ select option:checked {
 #modHP {
   position: relative;
   top: 25px;
+  right: -15%;
 }
 
 #rests {
@@ -1098,15 +1106,25 @@ select option:checked {
   left: 50%;
   transform: translateX(-50%);
   padding: 9px 14px;
+}
 
+
+
+#modMana {
+  left: 35%;
+  position: relative;
 }
 
 #dmg {
-  
-  
-  padding: 9px 14px;
- 
+padding: 9px 14px;
+right: -15%;
 }
+
+#dmg3 {
+  padding: 9px 14px;
+  position: relative;
+  left: 15%;
+  }
 
 #increasestat {
   color: white;
@@ -1145,4 +1163,44 @@ select option:checked {
   position: relative;
   z-index: 5;
   
+}
+
+.center-me {
+  position: relative;
+  left: 20%;
+}
+
+.center-me2 {
+  position: relative;
+  left: 10%;
+}
+
+#spells {
+  padding-top:10px; 
+  padding-right: 21px;
+  border: none;
+  outline: none;
+  padding-left: 21px;
+  border-radius: 50px;
+color: #ffffff;
+background-color: #ffffff1a;
+height: 500px; /* Or specify a height if needed */
+display: none; 
+width: min(800px, 98%);
+
+
+}
+
+#spells:hover {
+  border-color: white;
+  box-shadow: 0 0 8px 0 white;
+  
+}
+
+#filler {
+  color: transparent;
+}
+
+.table {
+  color: white;
 }

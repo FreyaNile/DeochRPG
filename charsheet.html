@@ -77,65 +77,107 @@
                         <div class="swiper-wrapper">
                             <div class="swiper-slide slide-content d-flex justify-content-center align-items-center">
                                 <div class="single-slide">
-                                    <br><br><br>
-                                <a data-aos="fade-right" data-aos-delay="900"></a> 
-                                    <br> Equipped Shield:
-                                    <select id="equippedShield" type="number" onchange="shieldEquip(this);">
-                                      <option value="none">None</option>
-                                      <option value="buck">Buckler</option>
-                                      <option value="kshield">Kite Shield</option>
-                                      <option value="ishield">Iron Heater</option>
-                                    </select>
-                                    <br>
-                                    <tr>
-                                     Damage Reduction:
-                                      <td><input class="stat" type="number" id="dmgRed" value="0"></td>
-                                    </tr>
-                        
-                                    <br><br>
-                                   AC: <input class="stat" type="number" id="armorClass" value="9">
-                        
-                                    <br><br>
-                        
-                                 
-                                      <h2></h2>
-                        
-                                      <span>Health: </span>
-                                      <input class="stat" type="number" min="0" value="0" id="currentHP" /> /
-                                      <input class="stat" type="number" min="0" value="0" id="maxHP" />
-                        
-                                      <span>Temp Health: </span>
-                                      <input class="stat" type="number" id="currenttempHP" min="0" value="0" />
-                             
-                        
-                                    <br>
-                        
-                                  
-                                      <span class="btn btn-danger" id="dmg" onclick="takeDamage(); ">Damage</span>
-                                      &nbsp; <input type="number" class="stat" id="modHP" value="1" />&nbsp;
-                                      <span class="btn btn-success" id="dmg" onclick="healHP();">Heal</span>
-                                      
-                                    <br><br><br>
-                                
-                                      <span>Healing Dice: </span><input class="stat" value="0" id="hitDice" type="number" /> /
-                                      <select id="hitDie">
-                                        <option value="4">d4</option>
-                                        <option value="6">d6</option>
-                                        <option value="8">d8</option>
-                                        <option value="10">d10</option>
-                                        <option value="12">d12</option>
-                                      </select>
+                                <a data-aos="fade-right" data-aos-delay="900"></a><br><br>
+                            <span id="filler">Proficiency: Checks/Saves
+                                Stat Score
+                                Check Mod
+                                Save Mod</span>
 
-                                      <br>
-                                      <btn class="btn btn-success" id="rests" onclick="shortRest();">Use HD on health</btn>
-                                      <br>
-                                      <btn class="btn btn-info" id="rests" onclick="shortRestmana();">Use HD on Mana</btn>
-                                      <br>
-                                      <btn class="btn btn-secondary" id="rests" onclick="longRest();">Long Rest</btn>
-                                      <br>
+                                <br> Equipped Shield:
+                                <select id="equippedShield" type="number" onchange="shieldEquip(this);">
+                                  <option value="none">None</option>
+                                  <option value="buck">Buckler</option>
+                                  <option value="kshield">Kite Shield</option>
+                                  <option value="ishield">Iron Heater</option>
+                                </select>
+                                <br>
+                                <tr>
+                                 Damage Reduction:
+                                  <td><input class="stat" type="number" id="dmgRed" value="0"></td>
+                                </tr>
+                                <br>
+                                Equipped Armour:
+                                <input type="text"  id="characterName" placeholder="Armour">
+                                <br>
+                               AC: <input class="stat" type="number" id="armorClass" value="10">
+                    
+                                <br><br>
+                    
+                             
+                                  <h2></h2>
+                    
+                                  <span>Health: </span>
+                                  <input class="stat" type="number" min="0" value="0" id="currentHP" /> /
+                                  <input class="stat" type="number" min="0" value="0" id="maxHP" />
+                    
+                                  <span>Temp Health: </span>
+                                  <input class="stat" type="number" id="currenttempHP" min="0" value="0" />
+                         
+                    
+                                <br>
+                    
+                              
+                                  <span class="btn btn-danger" id="dmg" onclick="takeDamage(); ">Damage</span>
+                                  &nbsp; <input type="number" class="stat" id="modHP" value="1" />&nbsp;
+                                  <span class="btn btn-success" id="dmg3" onclick="healHP();">Heal</span>
+                                  
+                                <br><br>
+                            
+                                <div class="center-me2">   Healing Dice:
+                                   <input class="stat" value="0" id="hitDice" type="number" /> /
+                                  <select id="hitDie">
+                                    <option value="4">d4</option>
+                                    <option value="6">d6</option>
+                                    <option value="8">d8</option>
+                                    <option value="10">d10</option>
+                                    <option value="12">d12</option>
+                                  </select>
+                                </div>
+                                  
+                                  <btn class="btn btn-success" id="rests" onclick="shortRest();">Use HD on health</btn>
+                                  <br>
+                                  <btn class="btn btn-info" id="rests" onclick="shortRestmana();">Use HD on Mana</btn>
+                                  <br>
+                                  <btn class="btn btn-secondary" id="rests" onclick="longRest();">Long Rest</btn>
+                                  <br> <br>
+
+                                  <div class="center-me">    Mana: 
+                                  <input class="stat" type="number" min="0" value="0" id="currentMana"></input>/
+                                  <input class="stat" type="number" min="0" value="0" id="maxMana" ></input>
+                                  <br></div>
+                                  <span class="btn btn-info" id="rests" onclick="takeMana();">Use Mana</span>
+                                  
+                  
+                                  <select id="modMana">
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>9</option>
+                                    <option>10</option>
+                                    <option>11</option>
+                                    <option>13</option>
+                                  </select>
+                                  <br>
+                                  <span class="btn btn-outline-dark" id="rests" onclick="hide();" >Spells</span> <br><br>
+                                  <textarea id="spells"></textarea> 
+                                  <br>
+                                  <div>
+                                    <div>
+                                       
+                                    </div>
+                                  </div><br>
+                                
+                     
+                           
+                            
                         
-                          </div>
-                          </div>
+                            
+                                </div>
+                                </div>
+                        
+
                             <div class="swiper-slide slide-content d-flex justify-content-center align-items-center">
                             <div class="single-slide">
                             <a data-aos="fade-right" data-aos-delay="900"></a>
@@ -196,9 +238,9 @@
                             &nbsp;
                             
   <td><input type="checkbox" id="acroProf" onchange="setSkills();">
-                             <td><input class="number" type="number" value="-1" id="acroScore" disabled></td>
-                             &nbsp;&nbsp;   <td><input type="checkbox" id="insProf" onchange="setSkills();">
-                             <td><input class="number" type="number" value="-1" id="insScore" disabled></td>
+                             <td><input class="number" type="number" value="-1" id="acroScore" disabled></input></td>
+                             &nbsp;&nbsp;   <td><input type="checkbox" id="insProf" onchange="setSkills();"></input>
+                             <td><input class="number" type="number" value="-1" id="insScore" disabled></input></td>
                             
                             </tr>
                             <br><br>
@@ -285,7 +327,85 @@
                                 &nbsp; <input type="checkbox" id="sleiProf" onchange="setSkills();">
                                 <td><input class="number" type="number" value="-1" id="sleiScore" disabled></td>
                             </tr>
-                            
+                            <br><br>
+                            <table class="table">
+                                <h4>Languages & Toolkits</h4>
+                              <tr>
+                                <th>Verbal/Literate</th>
+              
+                                <th>Proficient/Expertise</th>
+                              </tr>
+              
+                              <tr> 
+                               <td><input type="checkbox" id="arcLang"> 
+                               &nbsp;<input type="checkbox" id="arcLang2">
+                                &nbsp;Arcana</td>
+                                <td><input type="checkbox" id="alchemisttools">
+                                  &nbsp;<input type="checkbox" id="alchemisttools2">
+                                  &nbsp;Alchemist Tools</td>
+                              </tr>
+              
+                              <tr> 
+                                <td><input type="checkbox" id="draLang"> 
+                                &nbsp;<input type="checkbox" id="draLang2">
+                                 &nbsp;Draconic</td>
+                                 <td><input type="checkbox" id="artisantools">
+                                   &nbsp;<input type="checkbox" id="artisantools2">
+                                   &nbsp;Artisan Tools</td>
+                               </tr>
+              
+                               <tr> 
+                                <td><input type="checkbox" id="dweLang"> 
+                                &nbsp;<input type="checkbox" id="dweLang2">
+                                 &nbsp;Dweller</td>
+                                 <td><input type="checkbox" id="cheftools">
+                                   &nbsp;<input type="checkbox" id="cheftools2">
+                                   &nbsp;Chef Tools</td>
+                               </tr>
+              
+                               <tr> 
+                                <td><input type="checkbox" id="gishLang"> 
+                                &nbsp;<input type="checkbox" id="gishLang2">
+                                 &nbsp;Gish</td>
+                                 <td><input type="checkbox" id="herbalisttools">
+                                   &nbsp;<input type="checkbox" id="herbalisttools2">
+                                   &nbsp;Herbalist Tools</td>
+                               </tr>
+              
+                               <tr> 
+                                <td><input type="checkbox" id="neweLang"> 
+                                &nbsp;<input type="checkbox" id="neweLang2">
+                                 &nbsp;Newelvish</td>
+                                 <td><input type="checkbox" id="thieftools">
+                                   &nbsp;<input type="checkbox" id="thieftools2">
+                                   &nbsp;Thief Tools</td>
+                               </tr>
+              
+                               <tr> 
+                                <td><input type="checkbox" id="oldeLang"> 
+                                &nbsp;<input type="checkbox" id="oldeLang2">
+                                 &nbsp;Oldelvish</td>
+              
+                               </tr>
+              
+                               <tr> 
+                                <td><input type="checkbox" id="orenLang"> 
+                                &nbsp;<input type="checkbox" id="orenLang2">
+                                 &nbsp;Oren</td>
+                               </tr>
+              
+                               <tr> 
+                                <td><input type="checkbox" id="runicLang"> 
+                                &nbsp;<input type="checkbox" id="runicLang2">
+                                 &nbsp;Runic</td>
+                               </tr>
+              
+                               <tr> 
+                                <td><input type="checkbox" id="cantLang"> 
+                                &nbsp;<input type="checkbox" id="cantLang2">
+                                 &nbsp;Savvy</td>
+                               </tr>
+                          </table>
                                 </div>
                                 </div>
                             
