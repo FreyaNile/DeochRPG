@@ -1097,7 +1097,7 @@ select option:checked {
 
 #modHP {
   position: relative;
-  top: 25px;
+  top: 15px;
   right: -15%;
 }
 
@@ -1203,3 +1203,18 @@ margin-left: 5px;
 .table {
   color: white;
 }
+
+#recipes {
+  padding-top:10px; 
+  padding-right: 21px;
+  padding-left: 21px;
+  border: none;
+  outline: none;
+  border-radius: 50px;
+  color: #ffffff;
+  background-color: #ffffff1a;
+  height: 500px; 
+  display: none; 
+  width: 98%;
+  margin-left: 5px;
+  }

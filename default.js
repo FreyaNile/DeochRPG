@@ -563,7 +563,7 @@ function getStoredValues() {
 function decreasestr() {
   var strScore = parseInt(document.getElementById("strScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
-  if (statPoints > 0) {
+   {
       console.log("Stat points have been lowered or changed!");
       document.getElementById("strScore").value = strScore - 1;
   
@@ -574,7 +574,7 @@ function decreasestr() {
 function decreasedex() {
   var dexScore = parseInt(document.getElementById("dexScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
-  if (statPoints > 0) {
+   {
       console.log("Stat points have been lowered or changed!");
       document.getElementById("dexScore").value = dexScore - 1;
    
@@ -583,7 +583,7 @@ function decreasedex() {
 function decreasecon() {
   var conScore = parseInt(document.getElementById("conScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
-  if (statPoints > 0) {
+   {
       console.log("Stat points have been lowered or changed!");
       document.getElementById("conScore").value = conScore - 1;
      
@@ -592,7 +592,7 @@ function decreasecon() {
 function decreaseint() {
   var intScore = parseInt(document.getElementById("intScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
-  if (statPoints > 0) {
+  {
       console.log("Stat points have been lowered or changed!");
       document.getElementById("intScore").value = intScore - 1;
      
@@ -601,7 +601,7 @@ function decreaseint() {
 function decreasewis() {
   var wisScore = parseInt(document.getElementById("wisScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
-  if (statPoints > 0) {
+   {
       console.log("Stat points have been lowered or changed!");
       document.getElementById("wisScore").value = wisScore - 1;
       
@@ -610,7 +610,7 @@ function decreasewis() {
 function decreasecha() {
   var chaScore = parseInt(document.getElementById("chaScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
-  if (statPoints > 0) {
+   {
       console.log("Stat points have been lowered or changed!");
       document.getElementById("chaScore").value = chaScore - 1;
       
@@ -619,6 +619,17 @@ function decreasecha() {
 
 function hide() {
   var div = document.getElementById('spells'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hide1() {
+  var div = document.getElementById('recipes'); // Get the element
 
   // Check the current display state and toggle it
   if (div.style.display === 'none' || div.style.display === '') {
