@@ -1176,18 +1176,18 @@ right: -15%;
 }
 
 #spells {
-  padding-top:10px; 
-  padding-right: 21px;
-  border: none;
-  outline: none;
-  padding-left: 21px;
-  border-radius: 50px;
+padding-top:10px; 
+padding-right: 21px;
+padding-left: 21px;
+border: none;
+outline: none;
+border-radius: 50px;
 color: #ffffff;
 background-color: #ffffff1a;
-height: 500px; /* Or specify a height if needed */
+height: 500px; 
 display: none; 
-width: min(800px, 98%);
-margin-left: 8px;
+width: 98%;
+margin-left: 5px;
 }
 
 #spells:hover {
