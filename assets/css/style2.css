@@ -971,7 +971,6 @@ span {
 .frin img{
   height: 125px;
   width: 125px;
- 
 }
 
 #cart-popup {
@@ -998,10 +997,8 @@ span {
   width: 50px;
   border: none;
   outline: none;
- 
   border-radius: 50px;
   color: white;
-
   text-align: right;
 }
 
@@ -1009,10 +1006,8 @@ span {
     width: 50px;
     border: none;
     outline: none;
-   
     border-radius: 50px;
     color: white;
-   
     text-align: right;
   }
 
@@ -1028,21 +1023,17 @@ input[type="number"]:enabled {
   outline: none !important; /* Remove the focus outline */}
 
   input[type="text"] {
-  
     padding: 5px; /* Optional: Adjust padding for a better look */
     line-height: normal; /* Ensures proper vertical alignment */
     background:#000000;
     color: white;
-   
     border: none;
     outline: none;
-   
     border-radius: 50px;
     color: white;
     background-color: #ffffff1a !important; /* Make the background color change */
     outline: none !important; /* Remove the focus outline */
     text-align: center;
-
 }
 
 .text {
@@ -1051,8 +1042,6 @@ input[type="number"]:enabled {
   outline: none;
   padding-left: 25px;
   border-radius: 50px;
-  
-
 }
 
 #characterName:hover {
@@ -1061,8 +1050,8 @@ input[type="number"]:enabled {
 }
 
 input[type="number"],
+
 select {
-  
   border: none;
   outline: none;
   padding: 5px; /* Optional: Adjust padding for a better look */
@@ -1074,25 +1063,16 @@ select {
   text-align: center;
 }
 
-
-
-
 select:after {
   color: white
-
 }
 
-
-
-/* Style the text of the options */
 select option {
-    background-color: #333333; /* Set background color of the dropdown options */
-   
+    background-color: #333333;  
 }
 
-/* Change the color of the selected option to white */
 select option:checked {
-    color: white !important; /* White text for the selected option */
+    color: white !important;
 }
 
 #modHP {
@@ -1108,7 +1088,11 @@ select option:checked {
   padding: 9px 14px;
 }
 
-
+#rests1 {
+  position: relative;
+  
+  padding: 9px 14px;
+}
 
 #modMana {
   left: 35%;
@@ -1156,13 +1140,11 @@ right: -15%;
   color: white;
   background: #4BB543;
   border: none;
- 
   border-top-right-radius: 10px;
   border-bottom-left-radius: 10px;
   margin-left: -10px;
   position: relative;
   z-index: 5;
-  
 }
 
 .center-me {
@@ -1177,23 +1159,50 @@ right: -15%;
 
 #spells {
 padding-top:10px; 
-padding-right: 21px;
+padding-bottom: 10px;
+padding-right: 19px;
 padding-left: 21px;
 border: none;
 outline: none;
-border-radius: 50px;
 color: #ffffff;
 background-color: #ffffff1a;
 height: 500px; 
 display: none; 
 width: 98%;
-margin-left: 5px;
+margin-left: 3px;
+scrollbar-gutter: stable;
+resize: none;
+backdrop-filter: blur(10px);
+overflow: hidden;
 }
 
 #spells:hover {
   border-color: white;
   box-shadow: 0 0 8px 0 white;
-  
+  overflow: auto;
+}
+
+#spells::-webkit-scrollbar {
+  width: 10px;
+}
+
+
+#spells:hover::-webkit-scrollbar {
+  width: 10px;
+}
+
+#spells::-webkit-scrollbar-track {
+  background: #ffffff1a;
+  border-radius: 10px; 
+}
+
+#spells::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px; 
+}
+
+#spells::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 #filler {
@@ -1206,15 +1215,67 @@ margin-left: 5px;
 
 #recipes {
   padding-top:10px; 
-  padding-right: 21px;
+  padding-bottom: 10px;
+  padding-right: 19px;
   padding-left: 21px;
   border: none;
   outline: none;
-  border-radius: 50px;
+  
   color: #ffffff;
   background-color: #ffffff1a;
   height: 500px; 
   display: none; 
   width: 98%;
-  margin-left: 5px;
+  margin-left: 3px;
+  scrollbar-gutter: stable;
+  resize: none;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
   }
+  
+  #recipes:hover {
+    border-color: white;
+    box-shadow: 0 0 8px 0 white;
+    scrollbar-color: transparent;
+    overflow: auto;
+  }
+  
+  #recipes:hover::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  
+  #recipes::-webkit-scrollbar-track {
+    background: #ffffff1a;
+    border-radius: 10px; 
+  }
+  
+  
+  #recipes::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px; 
+  }
+  
+  
+  #recipes::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  input[type="checkbox"] {
+   cursor: pointer; 
+    width: 15px;
+    height: 15px;
+    color-scheme: dark;
+  }
+  
+.container #csmod {
+
+  border-color: white;
+padding-top: 10px;
+padding-bottom: 2px;
+padding-left: 9px;
+padding-right: 5px;
+  border-width: 4px;
+  align-items:flex-end;
+
+}

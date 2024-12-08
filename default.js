@@ -1,8 +1,13 @@
+ // Load
 function getStoredValues() {
     // Set player level
     document.getElementById("characterName").value = localStorage.getItem("characterName");
-    updateProfBonus();
     document.getElementById("playerLevel").value = localStorage.getItem("playerLevel");
+    document.getElementById("heritage").value = localStorage.getItem("heritage");
+    document.getElementById("charclass").value = localStorage.getItem("charclass");
+    document.getElementById("charrank").value = localStorage.getItem("charrank");
+    document.getElementById("armour").value = localStorage.getItem("armour");
+    document.getElementById("spells").value = localStorage.getItem("spells");
     updateProfBonus();
     
     // Set ability scores
@@ -73,11 +78,16 @@ function getStoredValues() {
     setSkills();
   
   }
-  
+   // Save
   function setLocalStorage() {
     // Save player level
     localStorage.setItem("characterName", document.getElementById("characterName").value);
     localStorage.setItem("playerLevel", document.getElementById("playerLevel").value);
+    localStorage.setItem("heritage", document.getElementById("heritage").value);
+    localStorage.setItem("charclass", document.getElementById("charclass").value);
+    localStorage.setItem("charrank", document.getElementById("charrank").value);
+    localStorage.setItem("armour", document.getElementById("armour").value);
+    localStorage.setItem("spells", document.getElementById("spells").value);
     
     // Save ability scores
     localStorage.setItem("strScore", document.getElementById("strScore").value);
@@ -638,3 +648,13 @@ function hide1() {
     div.style.display = 'none'; // Hide the element
   }
 }
+
+document.getElementById("experience").addEventListener("input", function(e) {
+  // Remove any non-numeric characters except commas
+  let rawValue = e.target.value.replace(/,/g, '');
+  
+  // If the value is numeric, format it with commas
+  if (!isNaN(rawValue) && rawValue !== "") {
+    e.target.value = Number(rawValue).toLocaleString();
+  }
+});

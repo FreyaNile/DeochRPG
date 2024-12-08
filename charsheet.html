@@ -78,12 +78,9 @@
                             <div class="swiper-slide slide-content d-flex justify-content-center align-items-center">
                                 <div class="single-slide">
                                 <a data-aos="fade-right" data-aos-delay="900"></a><br><br>
-                            <span id="filler">Proficiency: Checks/Saves
-                                Stat Score
-                                Check Mod
-                                Save Mod</span>
+                            <span id="filler">------------------------------------------------------------------------</span>
 
-                                <br> Equipped Shield:
+                                <br> <label><h4>Shield:</h4></label>
                                 <select id="equippedShield" type="number" onchange="shieldEquip(this);">
                                   <option value="none">None</option>
                                   <option value="buck">Buckler</option>
@@ -92,25 +89,27 @@
                                 </select>
                                 <br>
                                 <tr>
-                                 Damage Reduction:
+                                 <label><h4>Damage Reduction:</h4></label>
                                   <td><input class="stat" type="number" id="dmgRed" value="0"></td>
                                 </tr>
                                 <br>
-                                Equipped Armour:
-                                <input type="text"  id="characterName" placeholder="Armour">
+                                <label><h4>Armour:</h4></label>
+                                <input type="text"  id="armour" placeholder="None">
                                 <br>
-                               AC: <input class="stat" type="number" id="armorClass" value="9">
+                                <label><h4>AC:</h4></label>
+                               <input class="stat" type="number" id="armorClass" value="9">
                     
                                 <br><br>
                     
                              
-                                  <h2></h2>
+                                <label><h4>Health:</h4></label>
                     
-                                  <span>Health: </span>
+                                
                                   <input class="stat" type="number" min="0" value="0" id="currentHP" /> /
                                   <input class="stat" type="number" min="0" value="0" id="maxHP" />
                     
-                                  <span>Temp Health: </span>
+                                  <label><h4>Temp Health: </h4></label>
+                                  
                                   <input class="stat" type="number" id="currenttempHP" min="0" value="0" />
                          
                     
@@ -123,7 +122,7 @@
                                   
                                 <br><br>
                             
-                                <div class="center-me2">   Healing Dice:
+                                <div class="center-me2"> <label><h4>Healing Dice:</h4></label>  
                                    <input class="stat" value="0" id="hitDice" type="number" /> /
                                   <select id="hitDie">
                                     <option value="4">d4</option>
@@ -141,7 +140,7 @@
                                   <btn class="btn btn-secondary" id="rests" onclick="longRest();">Long Rest</btn>
                                   <br> <br>
 
-                                  <div class="center-me">    Mana: 
+                                  <div class="center-me">   <label><h4>Mana:</h4></label>
                                   <input class="stat" type="number" min="0" value="0" id="currentMana"></input>/
                                   <input class="stat" type="number" min="0" value="0" id="maxMana" ></input>
                                   <br></div>
@@ -160,11 +159,11 @@
                                     <option>13</option>
                                   </select>
                                   <br>
-                                  <span class="btn btn-outline-dark" id="rests" onclick="hide();" >Spells</span> <br><br>
-                                  <textarea id="spells"></textarea> 
-                                  <br>
-                                  <span class="btn btn-outline-dark" id="rests" onclick="hide1();" >recipes</span> 
-                                  <textarea id="recipes"></textarea>
+                                  <span class="btn btn-outline-dark" id="rests" onclick="hide();" >Spells</span> 
+                                 
+                                  <br><br>
+                                  <textarea id="spells"></textarea>
+                                 
                                   <div>
                                     <div>
                                        
@@ -179,7 +178,7 @@
                                 </div>
                                 </div>
                         
-
+<!-- Next slide-->
                             <div class="swiper-slide slide-content d-flex justify-content-center align-items-center">
                             <div class="single-slide">
                             <a data-aos="fade-right" data-aos-delay="900"></a>
@@ -190,56 +189,61 @@
                             <label for="characterName"><h4>Name:</h4></label>
                             <input type="text"  id="characterName" placeholder="Who are you?">
                             
-                         <br>
-                         <label for="characterName"><h4>Race:</h4></label>
-                         <input type="text"  id="characterName" placeholder="Race">
+                        
                          
                       <br>
-                      <label for="characterName"><h4>Class:</h4></label>
-                      <input type="text"  id="characterName" placeholder="Class">
+                      <label><h4>Class:</h4></label>
+                      <input type="text"  id="charclass" placeholder="Class">
                       
                    <br>
-                   <label for="characterName"><h4>Rank:</h4></label>
-                   <input type="text"  id="characterName" placeholder="Rank">
-                   
-                <br>
-                         <label for="characterName"><h4>Level:</h4></label>
-                       
+                   <label><h4>Rank:</h4></label>
+                   <input type="text"  id="charrank" placeholder="Rank">
+                    <br>
+                         <label><h4>Heritage:</h4></label>
+                         <input type="text"  id="heritage" placeholder="Heritage">
+
+                <br><label><h4>Experience:</h4></label>
+                <input type="text"  id="experience" placeholder="0">
+                <br>  <label><h4>Level:</h4></label>
+                      
                           <input class="stat" type="number" id="playerLevel" min="0" max="10" value="0" disabled>
                           &nbsp;&nbsp; <span class="single-widget subscribe-widget">
                             <button type="submit" onclick="addLevel();" id="increaselevel">+</button>
                         </span><br>
-                          <label for="characterName"><h4>PB:</h4></label></h4>
+                          <label><h4>PB:</h4></label></h4>
                           <input class="stat" type="number" id="profBonus" value="1" disabled>
                          <br>
-                          <label for="characterName"><h4>Stat Points:</h4></label>
+                         <h4 style="text-align: center;">Stats & Mods</h4>
+                          <label><h4>Stat Points:</h4></label>
                           
                           
                           <input class="stat" type="number" id="statPoints" value="3" disabled></input>
                           &nbsp;<span class="single-widget subscribe-widget">
                             <button type="submit" onclick="addStat(); updateModifiers(); setSkills();" id="increasestatraw">+</button>
                         </span>
-                         <br><br>
+                     
                         
                          
-                          <h4 style="text-align: center;">Stats & Mods</h4>
-                   
-                          <br>
-                        
-                         
-                            <tr>
-                              <th>Proficiency: Checks/Saves </th>
-                             
-                             
-                              <th>Stat Score</th>
-                              <th>Check Mod</th>
-                              <th>Save Mod</th>
-                            </tr>
-                            <br><br>
-                            <tr> 
-                                
+                          
+                          <span id="filler">------------------------------------------------------------------------</span>
+                            <div class="container">
+                                <div class="row">
+<div class="item item1" id="csmod"></div>
+<div class="item item1"  id="csmod"></div>
+<div class="item item1"  id="csmod"></div>
+<div class="item item1"  id="csmod"></div>
+<div class="item item1"  id="csmod"></div>
+<div class="item item1"  id="csmod"></div>
+<div class="item item1"  id="csmod"></div>
+<div class="item item1"  id="csmod"></div>
+<div class="item item1"  id="csmod"></div>
+<div class="item item1"  id="csmod"></div>
+<div class="item item1"  id="csmod"></div>
+&nbsp;<div class="item item1"  id="csmod">Check Mod</div>
+<div class="item item1"  id="csmod">Save Mod</div>
+</div></div>
                            
-                            
+                            <tr> 
                                 &nbsp;&nbsp; <span class="single-widget redsubscribe-widget">
                                 <button type="submit" onclick=" decreasestr(); updateModifiers(); setSkills();" id="decreasestat">-</button>
                             </span>
@@ -325,7 +329,7 @@
                             </tr>
               
                             <br><br>
-              
+                            
                             <tr>
                                 &nbsp;&nbsp; <span class="single-widget redsubscribe-widget">
                                     <button type="submit" onclick=" decreasecha(); updateModifiers(); setSkills();" id="decreasestat">-</button>
@@ -342,6 +346,13 @@
                                 <td><input class="number" type="number" value="-1" id="sleiScore" disabled></td>
                             </tr>
                             <br><br>
+                            <span class="btn btn-outline-dark" id="rests1" onclick="hide1();" >Language</span> 
+                            <span class="btn btn-outline-dark" id="rests1" onclick="hide1();" >recipes</span> 
+                            <span class="btn btn-outline-dark" id="rests1" onclick="hide1();" >Toolkits</span> 
+                            <br><br>
+                            <textarea id="recipes"></textarea>
+                            <textarea id="recipes"></textarea>
+                            <textarea id="recipes"></textarea>
                             <table class="table">
                                 <h4>Languages & Toolkits</h4>
                               <tr>
@@ -425,7 +436,7 @@
                             
                             
                         
-                            
+                            <!-- next slide -->
                             <div class="swiper-slide slide-content d-flex justify-content-center align-items-center">
                                 <div class="single-slide">
                                     <h1 data-aos="fade-right" data-aos-delay="200">Play Deoch<br>
@@ -436,7 +447,11 @@
                                         More</a>
                                     <a data-aos="fade-right" data-aos-delay="900" href="https://startplaying.games/adventure/clxx5nul00072t0nz81s0ry6h" class="btn btn-success">Get
                                         Now</a>
-                                        
+                                        <br><br>
+                                        <div class="text-center">
+                                            <btn class="btn btn-secondary" onclick="setLocalStorage();">Save</btn>
+                                            <btn class="btn btn-secondary" onclick="getStoredValues();">Load</btn>
+                                          </div>
                                 </div>
                             </div>
                         </div>
@@ -463,6 +478,7 @@
                                     <div class="input-group">
                                         <input class="field form-control" name="subscribe" type="email"
                                             placeholder="Email Address">
+                                            <input type="text" name="phone number" style="display: none;">
                                         <span class="input-group-btn"><button type="submit" name="submit-mail"><i class="fa fa-check"></i></button></span>
                                     </div>
                                     <input type="hidden" name="access_key" value="627bb8f0-0bae-483b-be2b-4c45064b2397">
