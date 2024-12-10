@@ -8,6 +8,7 @@ function getStoredValues() {
     document.getElementById("charrank").value = localStorage.getItem("charrank");
     document.getElementById("armour").value = localStorage.getItem("armour");
     document.getElementById("spells").value = localStorage.getItem("spells");
+    document.getElementById("experience").value = localStorage.getItem("experience");
     updateProfBonus();
     
     // Set ability scores
@@ -76,6 +77,31 @@ function getStoredValues() {
     document.getElementById("thieftools2").checked = JSON.parse(localStorage.getItem('thieftools2'));
     document.getElementById("armorClass").value = localStorage.getItem("armorClass");
     setSkills();
+
+    // Set recipes
+    document.getElementById("acidcheck").checked = JSON.parse(localStorage.getItem('acidcheck'));
+    document.getElementById("alchemistfirecheck").checked = JSON.parse(localStorage.getItem('alchemistfirecheck'));
+    document.getElementById("invispotioncheck").checked = JSON.parse(localStorage.getItem('invispotioncheck'));
+    document.getElementById("polypotioncheck").checked = JSON.parse(localStorage.getItem('polypotioncheck')); 
+    document.getElementById("naturaldcheck").checked = JSON.parse(localStorage.getItem('naturaldcheck'));
+    document.getElementById("talosdcheck").checked = JSON.parse(localStorage.getItem('talosdcheck'));
+    document.getElementById("locketdcheck").checked = JSON.parse(localStorage.getItem('locketdcheck'));
+    document.getElementById("antibrewcheck").checked = JSON.parse(localStorage.getItem('antibrewcheck'));
+    document.getElementById("aphrodisiaccheck").checked = JSON.parse(localStorage.getItem('aphrodisiaccheck'));
+    document.getElementById("bottledrestcheck").checked = JSON.parse(localStorage.getItem('bottledrestcheck'));
+    document.getElementById("ambrosiacheck").checked = JSON.parse(localStorage.getItem('ambrosiacheck'));
+    document.getElementById("brewvitalitycheck").checked = JSON.parse(localStorage.getItem('brewvitalitycheck'));
+    document.getElementById("dwellenbrewcheck").checked = JSON.parse(localStorage.getItem('dwellenbrewcheck'));
+    document.getElementById("lightbottlecheck").checked = JSON.parse(localStorage.getItem('lightbottlecheck'));
+    document.getElementById("antitoxincheck").checked = JSON.parse(localStorage.getItem('antitoxincheck'));
+    document.getElementById("invelixircheck").checked = JSON.parse(localStorage.getItem('invelixircheck'));
+    document.getElementById("healingelixircheck").checked = JSON.parse(localStorage.getItem('healingelixircheck'));
+    document.getElementById("panaceacheck").checked = JSON.parse(localStorage.getItem('panaceacheck'));
+    document.getElementById("truthelixircheck").checked = JSON.parse(localStorage.getItem('truthelixircheck'));
+    document.getElementById("basicpoisoncheck").checked = JSON.parse(localStorage.getItem('basicpoisoncheck'));
+    document.getElementById("dwellerdustcheck").checked = JSON.parse(localStorage.getItem('dwellerdustcheck'));
+    document.getElementById("ichariivenomcheck").checked = JSON.parse(localStorage.getItem('ichariivenomcheck'));
+    document.getElementById("malevolencecheck").checked = JSON.parse(localStorage.getItem('malevolencecheck'));
   
   }
    // Save
@@ -88,6 +114,7 @@ function getStoredValues() {
     localStorage.setItem("charrank", document.getElementById("charrank").value);
     localStorage.setItem("armour", document.getElementById("armour").value);
     localStorage.setItem("spells", document.getElementById("spells").value);
+    localStorage.setItem("experience", document.getElementById("experience").value);
     
     // Save ability scores
     localStorage.setItem("strScore", document.getElementById("strScore").value);
@@ -153,6 +180,35 @@ function getStoredValues() {
     localStorage.setItem('thieftools', document.getElementById('thieftools').checked);
     localStorage.setItem('thieftools2', document.getElementById('thieftools2').checked);
     localStorage.setItem("armorClass", document.getElementById("armorClass").value);
+   
+    // Save recipes
+    localStorage.setItem('acidcheck', document.getElementById('acidcheck').checked);
+    localStorage.setItem('alchemistfirecheck', document.getElementById('alchemistfirecheck').checked);
+    localStorage.setItem('invispotioncheck', document.getElementById('invispotioncheck').checked);
+    localStorage.setItem('polypotioncheck', document.getElementById('polypotioncheck').checked);
+    localStorage.setItem('naturaldcheck', document.getElementById('naturaldcheck').checked);
+    localStorage.setItem('talosdcheck', document.getElementById('talosdcheck').checked);
+    localStorage.setItem('locketdcheck', document.getElementById('locketdcheck').checked);
+    localStorage.setItem('antibrewcheck', document.getElementById('antibrewcheck').checked);
+    localStorage.setItem('ambrosiacheck', document.getElementById('ambrosiacheck').checked);
+    localStorage.setItem('aphrodisiaccheck', document.getElementById('aphrodisiaccheck').checked);
+    localStorage.setItem('bottledrestcheck', document.getElementById('bottledrestcheck').checked);
+    localStorage.setItem('brewvitalitycheck', document.getElementById('brewvitalitycheck').checked);
+    localStorage.setItem('dwellenbrewcheck', document.getElementById('dwellenbrewcheck').checked);
+    localStorage.setItem('lightbottlecheck', document.getElementById('lightbottlecheck').checked);
+    localStorage.setItem('antitoxincheck', document.getElementById('antitoxincheck').checked);
+    localStorage.setItem('healingelixircheck', document.getElementById('healingelixircheck').checked);
+    localStorage.setItem('invelixircheck', document.getElementById('invelixircheck').checked);
+    localStorage.setItem('panaceacheck', document.getElementById('panaceacheck').checked);
+    localStorage.setItem('truthelixircheck', document.getElementById('truthelixircheck').checked);
+    localStorage.setItem('basicpoisoncheck', document.getElementById('basicpoisoncheck').checked);
+    localStorage.setItem('dwellerdustcheck', document.getElementById('dwellerdustcheck').checked);
+    localStorage.setItem('ichariivenomcheck', document.getElementById('ichariivenomcheck').checked);
+    localStorage.setItem('malevolencecheck', document.getElementById('malevolencecheck').checked);
+
+
+
+
 
     // debug log
     var i;
@@ -627,8 +683,92 @@ function decreasecha() {
   }
 }
 
-function hide() {
-  var div = document.getElementById('spells'); // Get the element
+function hidespells() {
+  var div = document.getElementById('spells'); // Get the textarea
+  var label = document.getElementById('spellsLabel'); // Get the label
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the textarea
+    label.style.display = 'block'; // Show the label
+  } else {
+    div.style.display = 'none'; // Hide the textarea
+    label.style.display = 'none'; // Hide the label
+  }
+}
+
+function hiderecipes() {
+  var recipeIds = ['recipes'];
+  recipeIds.forEach(function(id) {
+      var element = document.getElementById(id);
+      
+      // Toggle visibility
+      if (element.style.display === 'none' || element.style.display === '') {
+          element.style.display = 'table-row-group';  // Default display for tbody
+      } else {
+          element.style.display = 'none';  // Hide the element
+      }
+  });
+}
+
+function hiderecipes1() {
+  var recipeIds = ['recipes1'];
+  recipeIds.forEach(function(id) {
+      var element = document.getElementById(id);
+      
+      // Toggle visibility
+      if (element.style.display === 'none' || element.style.display === '') {
+          element.style.display = 'table-row-group';  // Default display for tbody
+      } else {
+          element.style.display = 'none';  // Hide the element
+      }
+  });
+}
+
+function hiderecipes2() {
+  var recipeIds = ['recipes2'];
+  recipeIds.forEach(function(id) {
+      var element = document.getElementById(id);
+      
+      // Toggle visibility
+      if (element.style.display === 'none' || element.style.display === '') {
+          element.style.display = 'table-row-group';  // Default display for tbody
+      } else {
+          element.style.display = 'none';  // Hide the element
+      }
+  });
+}
+
+function hiderecipes3() {
+  var recipeIds = ['recipes3'];
+  recipeIds.forEach(function(id) {
+      var element = document.getElementById(id);
+      
+      // Toggle visibility
+      if (element.style.display === 'none' || element.style.display === '') {
+          element.style.display = 'table-row-group';  // Default display for tbody
+      } else {
+          element.style.display = 'none';  // Hide the element
+      }
+  });
+}
+
+function hiderecipes4() {
+  var recipeIds = ['recipes4'];
+  recipeIds.forEach(function(id) {
+      var element = document.getElementById(id);
+      
+      // Toggle visibility
+      if (element.style.display === 'none' || element.style.display === '') {
+          element.style.display = 'table-row-group';  // Default display for tbody
+      } else {
+          element.style.display = 'none';  // Hide the element
+      }
+  });
+}
+
+function hidelang() {
+  var div = document.getElementById('langs'); // Get the element
 
   // Check the current display state and toggle it
   if (div.style.display === 'none' || div.style.display === '') {
@@ -638,8 +778,262 @@ function hide() {
   }
 }
 
-function hide1() {
-  var div = document.getElementById('recipes'); // Get the element
+function hidetoolkits() {
+  var div = document.getElementById('toolkits'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hideacid() {
+  var div = document.getElementById('acid'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidealchemistfire() {
+  var div = document.getElementById('alchemistfire'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hideinvispotion() {
+  var div = document.getElementById('invispotion'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidepolypotion() {
+  var div = document.getElementById('polypotion'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidenaturald() {
+  var div = document.getElementById('naturald'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidetalosd() {
+  var div = document.getElementById('talosd'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidelocketd() {
+  var div = document.getElementById('locketd'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hideantibrew() {
+  var div = document.getElementById('antibrew'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hideaphrodisiac() {
+  var div = document.getElementById('aphrodisiac'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidebottledrest() {
+  var div = document.getElementById('bottledrest'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hideambrosia() {
+  var div = document.getElementById('ambrosia'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidebrewvitality() {
+  var div = document.getElementById('brewvitality'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidedwellenbrew() {
+  var div = document.getElementById('dwellenbrew'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidelightbottle() {
+  var div = document.getElementById('lightbottle'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hideantitoxin() {
+  var div = document.getElementById('antitoxin'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+
+function hidepanacea() {
+  var div = document.getElementById('panacea'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidehealingelixir() {
+  var div = document.getElementById('healingelixir'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hideinvelixir() {
+  var div = document.getElementById('invelixir'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidetruthelixir() {
+  var div = document.getElementById('truthelixir'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidebasicpoison() {
+  var div = document.getElementById('basicpoison'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidedwellerdust() {
+  var div = document.getElementById('dwellerdust'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hideichariivenom() {
+  var div = document.getElementById('ichariivenom'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+function hidemalevolence() {
+  var div = document.getElementById('malevolence'); // Get the element
 
   // Check the current display state and toggle it
   if (div.style.display === 'none' || div.style.display === '') {
@@ -658,3 +1052,4 @@ document.getElementById("experience").addEventListener("input", function(e) {
     e.target.value = Number(rawValue).toLocaleString();
   }
 });
+

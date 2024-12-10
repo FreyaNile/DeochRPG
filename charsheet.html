@@ -159,7 +159,7 @@
                                     <option>13</option>
                                   </select>
                                   <br>
-                                  <span class="btn btn-outline-dark" id="rests" onclick="hide();" >Spells</span> 
+                                  <span class="btn btn-outline-dark" id="rests" onclick="hidespells();" >Spells</span> 
                                  
                                   <br><br>
                                   <textarea id="spells"></textarea>
@@ -214,6 +214,7 @@
                           <input class="stat" type="number" id="profBonus" value="1" disabled>
                          <br>
                          <h4 style="text-align: center;">Stats & Mods</h4>
+                         <span id="filler">-------------------------------------------------------------------------</span><br>
                           <label><h4>Stat Points:</h4></label>
                           
                           
@@ -225,7 +226,7 @@
                         
                          
                           
-                          <span id="filler">------------------------------------------------------------------------</span>
+                         
                             <div class="container">
                                 <div class="row">
 <div class="item item1" id="csmod"></div>
@@ -346,91 +347,243 @@
                                 <td><input class="number" type="number" value="-1" id="sleiScore" disabled></td>
                             </tr>
                             <br><br>
-                            <span class="btn btn-outline-dark" id="rests1" onclick="hide1();" >Language</span> 
-                            <span class="btn btn-outline-dark" id="rests1" onclick="hide1();" >recipes</span> 
-                            <span class="btn btn-outline-dark" id="rests1" onclick="hide1();" >Toolkits</span> 
+                            <span class="btn btn-outline-dark" id="rests1" onclick="hidelang();">Language</span> 
+                            <span class="btn btn-outline-dark" id="rests1" onclick="hidetoolkits();">Toolkits</span> 
+                           
                             <br><br>
-                            <textarea id="recipes"></textarea>
-                            <textarea id="recipes"></textarea>
-                            <textarea id="recipes"></textarea>
-                            <table class="table">
-                                <h4>Languages & Toolkits</h4>
-                              <tr>
-                                <th>Verbal/Literate</th>
-              
-                                <th>Proficient/Expertise</th>
-                              </tr>
-              
-                              <tr> 
-                               <td><input type="checkbox" id="arcLang"> 
-                               &nbsp;<input type="checkbox" id="arcLang2">
-                                &nbsp;Arcana</td>
-                                <td><input type="checkbox" id="alchemisttools">
-                                  &nbsp;<input type="checkbox" id="alchemisttools2">
-                                  &nbsp;Alchemist Tools</td>
-                              </tr>
-              
-                              <tr> 
-                                <td><input type="checkbox" id="draLang"> 
-                                &nbsp;<input type="checkbox" id="draLang2">
-                                 &nbsp;Draconic</td>
-                                 <td><input type="checkbox" id="artisantools">
-                                   &nbsp;<input type="checkbox" id="artisantools2">
-                                   &nbsp;Artisan Tools</td>
-                               </tr>
-              
-                               <tr> 
-                                <td><input type="checkbox" id="dweLang"> 
-                                &nbsp;<input type="checkbox" id="dweLang2">
-                                 &nbsp;Dweller</td>
-                                 <td><input type="checkbox" id="cheftools">
-                                   &nbsp;<input type="checkbox" id="cheftools2">
-                                   &nbsp;Chef Tools</td>
-                               </tr>
-              
-                               <tr> 
-                                <td><input type="checkbox" id="gishLang"> 
-                                &nbsp;<input type="checkbox" id="gishLang2">
-                                 &nbsp;Gish</td>
-                                 <td><input type="checkbox" id="herbalisttools">
-                                   &nbsp;<input type="checkbox" id="herbalisttools2">
-                                   &nbsp;Herbalist Tools</td>
-                               </tr>
-              
-                               <tr> 
-                                <td><input type="checkbox" id="neweLang"> 
-                                &nbsp;<input type="checkbox" id="neweLang2">
-                                 &nbsp;Newelvish</td>
-                                 <td><input type="checkbox" id="thieftools">
-                                   &nbsp;<input type="checkbox" id="thieftools2">
-                                   &nbsp;Thief Tools</td>
-                               </tr>
-              
-                               <tr> 
-                                <td><input type="checkbox" id="oldeLang"> 
-                                &nbsp;<input type="checkbox" id="oldeLang2">
-                                 &nbsp;Oldelvish</td>
-              
-                               </tr>
-              
-                               <tr> 
-                                <td><input type="checkbox" id="orenLang"> 
-                                &nbsp;<input type="checkbox" id="orenLang2">
-                                 &nbsp;Oren</td>
-                               </tr>
-              
-                               <tr> 
-                                <td><input type="checkbox" id="runicLang"> 
-                                &nbsp;<input type="checkbox" id="runicLang2">
-                                 &nbsp;Runic</td>
-                               </tr>
-              
-                               <tr> 
-                                <td><input type="checkbox" id="cantLang"> 
-                                &nbsp;<input type="checkbox" id="cantLang2">
-                                 &nbsp;Savvy</td>
-                               </tr>
-                          </table>
+                     
+                            <div id="langs"> <table class="table">
+                                  <th>Verbal/Literate</th>
+                                <tr> 
+                                 <td><input type="checkbox" id="arcLang"> 
+                                 &nbsp;<input type="checkbox" id="arcLang2">
+                                  &nbsp;Arcana</td>
+
+                                </tr>
+                
+                                <tr> 
+                                  <td><input type="checkbox" id="draLang"> 
+                                  &nbsp;<input type="checkbox" id="draLang2">
+                                   &nbsp;Draconic</td>
+                                 
+                                 
+                                 </tr>
+                
+                                 <tr> 
+                                  <td><input type="checkbox" id="dweLang"> 
+                                  &nbsp;<input type="checkbox" id="dweLang2">
+                                   &nbsp;Dweller</td>
+                                  
+                                
+                                 </tr>
+                
+                                 <tr> 
+                                  <td><input type="checkbox" id="gishLang"> 
+                                  &nbsp;<input type="checkbox" id="gishLang2">
+                                   &nbsp;Gish</td>
+                                 
+                               
+                                 </tr>
+                
+                                 <tr> 
+                                  <td><input type="checkbox" id="neweLang"> 
+                                  &nbsp;<input type="checkbox" id="neweLang2">
+                                   &nbsp;Newelvish</td>
+                            
+                                 </tr>
+                
+                                 <tr> 
+                                  <td><input type="checkbox" id="oldeLang"> 
+                                  &nbsp;<input type="checkbox" id="oldeLang2">
+                                   &nbsp;Oldelvish</td>
+                
+                                 </tr>
+                
+                                 <tr> 
+                                  <td><input type="checkbox" id="orenLang"> 
+                                  &nbsp;<input type="checkbox" id="orenLang2">
+                                   &nbsp;Oren</td>
+                                 </tr>
+                
+                                 <tr> 
+                                  <td><input type="checkbox" id="runicLang"> 
+                                  &nbsp;<input type="checkbox" id="runicLang2">
+                                   &nbsp;Runic</td>
+                                 </tr>
+                
+                                 <tr> 
+                                  <td><input type="checkbox" id="cantLang"> 
+                                  &nbsp;<input type="checkbox" id="cantLang2">
+                                   &nbsp;Savvy</td>
+                                 </tr>
+                            </table></div>
+
+                            <br>
+                          
+                            <div id="toolkits"> <table class="table">
+                                  <th>Proficient/Expertise</th>
+                                <tr> <td>
+                                 <input type="checkbox" id="alchemisttools">
+                                    &nbsp;<input type="checkbox" id="alchemisttools2">
+                                  <span class="btn btn-outline-dark" id="rests1" onclick="hiderecipes();">Alchemist Tools</span>
+
+                                    </td>
+                                    
+                                 <tbody id="recipes">
+                                    <tr><td><b>Mortar and Pestle:</b> During a short rest you can break down a very rare component into 2 rare components or break down a rare component into 2 common components. </tr></td>
+                                    <tr><td><b>Distill: </b>During a short rest you can create a vial of solvent from an alcoholic beverage. Solvent can be used as a substitute for a common or rare component in a recipe.</tr></td>
+                                        
+                                   <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="acidcheck">
+                                  <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hideacid();">&nbsp;Acid</td></tr>
+                                   <td id="acid"><b>Acid (2C):</b> As an action, you can splash the vial within 5 feet of you or throw the vial up to 20 feet. 
+                                    Splashing the vial on an object requires no check, but if you are throwing it or targeting a creature, then attempt an attack. 
+                                    On a hit, the target takes 2d6 acid damage.</td>
+                                   
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="alchemistfirecheck">
+                                        <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidealchemistfire();">&nbsp;Alchemist's Fire</td></tr>
+                                         <td id="alchemistfire"><b>Alchemist's Fire (2R):</b> This sticky fluid ignites when exposed to air.
+                                             You can use an action to throw this mixture at a point within 30 feet.
+                                              Each creature within 5 feet of the impact point must succeed on a DC 12 DEX save or take 2d6 fire damage at the start of each of its turns.
+                                               A creature can end this damage by using its action to extinguish the flames.</td>
+                                              
+                                               <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="invispotioncheck">
+                                                <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hideinvispotion();">&nbsp;Invisibility Potion</td></tr>
+                                                 <td id="invispotion"><b>Invisibility Potion (2VR):</b> This potion's container looks empty but feels as though it holds liquid.
+                                                     When you drink it, you become invisible for 1 part of the day. Anything you wear or carry is invisible with you.</td>
+                                                    
+                                                     <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="polypotioncheck">
+                                                        <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidepolypotion();">&nbsp;Polymorph Potion</td></tr>
+                                                         <td id="polypotion"><b>Polymorph Potion (5VR): </b>When consumed, this potion randomly transforms the creature and their demeanor for 1 part of the day.
+                                                             If the creature dies or consumes the potion again while in this new form, they do not revert to their original form. </td>
+                                 </tbody>
+                                <tr> 
+                                 
+                                 
+                                   <td><input type="checkbox" id="artisantools">
+                                     &nbsp;<input type="checkbox" id="artisantools2">
+                                     <span class="btn btn-outline-dark" id="rests1" onclick="hiderecipes1();">Artisan Tools</span>
+                                     
+                                 </tr>
+                  
+                                 <tbody id="recipes1">
+                                    <tr><td><b>Craft: </b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</tr></td>
+                                    <tr><td><b>Repair:</b> Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</tr></td>
+                                    <tr><td><b>Modify: </b>Laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in. </tr></td>
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="naturaldcheck">
+                                        <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidenaturald();">&nbsp;Natural Armour</td></tr>
+                                         <td id="naturald"><b>Natural Armour(2C):</b> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+
+                                          <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="talosdcheck">
+                                            <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidetalosd();">&nbsp;Talos Smith</td></tr>
+                                             <td id="talosd">Talos Smith (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                   
+                                              <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="locketdcheck">
+                                                <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidelocketd();">&nbsp;Locket of Inspiration</td></tr>
+                                                 <td id="locketd">Locket of Inspiration (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                  
+                                 
+                                 </tbody>
+                                 <tr> 
+                               
+                                  
+                                   <td><input type="checkbox" id="cheftools">
+                                     &nbsp;<input type="checkbox" id="cheftools2">
+                                     <span class="btn btn-outline-dark" id="rests1" onclick="hiderecipes2();">Chef Tools</span>
+                                 </tr>
+                                 <tbody id="recipes2">
+                                    <tr><td><b>Break Bread: </b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</tr></td>
+                                    <tr><td><b>Pottage: </b>labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+                                         You must have a quart of water.</tr></td>
+                                         <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="antibrewcheck">
+                                            <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hideantibrew();">&nbsp;Antibrew</td></tr>
+                                             <td id="antibrew">Antibrew (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                   
+                                             <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="aphrodisiaccheck">
+                                                <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hideaphrodisiac();">&nbsp;Aphrodisiac</td></tr>
+                                                    <td id="aphrodisiac">Aphrodisiac (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                   
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="bottledrestcheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidebottledrest();">&nbsp;Bottled Rest</td></tr>
+                                    <td id="bottledrest">Bottled Rest (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                  
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="ambrosiacheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hideambrosia();">&nbsp;Brew of Ambrosia</td></tr>
+                                    <td id="ambrosia">Brew of Ambrosia (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                  
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="brewvitalitycheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidebrewvitality();">&nbsp;Brew of Vitality</td></tr>
+                                    <td id="brewvitality">Brew of Vitality (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                   
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="dwellenbrewcheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidedwellenbrew();">&nbsp;Dwellen Brew</td></tr>
+                                    <td id="dwellenbrew">Dwellen Brew (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                   
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="lightbottlecheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidelightbottle();">&nbsp;Light in a Bottle</td></tr>
+                                    <td id="lightbottle">Light in a Bottle (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                   
+                                  </tbody>
+                                 <tr> 
+                               
+                                 
+                                   <td><input type="checkbox" id="herbalisttools">
+                                     &nbsp;<input type="checkbox" id="herbalisttools2">
+                                     <span class="btn btn-outline-dark" id="rests1" onclick="hiderecipes3();">Herbalist Tools</span>
+                                 </tr>
+                                 <tbody id="recipes3">
+                                    <tr><td><b>Medicine:</b> Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</tr></td>
+                                    <tr><td><b>Ointment: </b>Laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in. </tr></td>
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="antitoxincheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hideantitoxin();">&nbsp;Antitoxin</td></tr>
+                                        <td id="antitoxin">Antitoxin (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="healingelixircheck">
+                                   <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidehealingelixir();">&nbsp;Healing Elixir</td></tr>
+                                    <td id="healingelixir">Healing Elixir (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="invelixircheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hideinvelixir();">&nbsp;Invulnerability Elixir</td></tr>
+                                    <td id="invelixir">Invulnerability Elixir (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="panaceacheck">
+                                        <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidepanacea();">&nbsp;Panacea Elixir</td></tr>
+                                        <td id="panacea">Panacea Elixir (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="truthelixircheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidetruthelixir();">&nbsp;Truth Elixir</td></tr>
+                                        <td id="truthelixir">Truth Elixir (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+
+                                  </tbody>
+                                 <tr> 
+                                 
+                                 
+                                   <td><input type="checkbox" id="thieftools">
+                                     &nbsp;<input type="checkbox" id="thieftools2">
+                                     <span class="btn btn-outline-dark" id="rests1" onclick="hiderecipes4();">Thief Tools</span>
+                                 </tr>
+                                 <tbody id="recipes4">
+                                    <tr><td><b>Picklock:</b> Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</tr></td>
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="basicpoisoncheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidebasicpoison();">&nbsp;Basic Poison</td></tr>
+                                        <td id="basicpoison">Basic Poison (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                   
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="dwellerdustcheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidedwellerdust();">&nbsp;Dweller Dust</td></tr>
+                                        <td id="dwellerdust">Dweller Dust (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                   
+                                    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="ichariivenomcheck">
+                                    <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hideichariivenom();">&nbsp;Icharii Venom</td></tr>
+                                        <td id="ichariivenom">Icharii Venom (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                  
+                                        <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="malevolencecheck">
+                                        <btn class="btn btn-outline-dark" id="rests1" style="color: white;" onclick="hidemalevolence();">&nbsp;Malevolence</td></tr>
+                                            <td id="malevolence">Malevolence (2C): Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                                  </tbody>
+                            </table></div>
+                            <br>
+                           
+                            <br>
+                           
                                 </div>
                                 </div>
                             

@@ -1157,6 +1157,7 @@ right: -15%;
   left: 10%;
 }
 
+
 #spells {
 padding-top:10px; 
 padding-bottom: 10px;
@@ -1205,22 +1206,13 @@ overflow: hidden;
   background: #555;
 }
 
-#filler {
-  color: transparent;
-}
-
-.table {
-  color: white;
-}
-
-#recipes {
+#langs {
   padding-top:10px; 
   padding-bottom: 10px;
   padding-right: 19px;
   padding-left: 21px;
   border: none;
   outline: none;
-  
   color: #ffffff;
   background-color: #ffffff1a;
   height: 500px; 
@@ -1233,14 +1225,129 @@ overflow: hidden;
   overflow: hidden;
   }
   
-  #recipes:hover {
+  #langs:hover {
+    border-color: white;
+    box-shadow: 0 0 8px 0 white;
+    overflow: auto;
+  }
+  
+  #langs::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  
+  #langs:hover::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  #langs::-webkit-scrollbar-track {
+    background: #ffffff1a;
+    border-radius: 10px; 
+  }
+  
+  #langs::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px; 
+  }
+  
+  #langs::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+
+  #toolkits {
+    padding-top:10px; 
+    padding-bottom: 10px;
+    padding-right: 19px;
+    padding-left: 21px;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    background-color: #ffffff1a;
+    height: 500px; 
+    display: none; 
+    width: 98%;
+    margin-left: 3px;
+    scrollbar-gutter: stable;
+    resize: none;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    }
+    
+    #toolkits:hover {
+      border-color: white;
+      box-shadow: 0 0 8px 0 white;
+      overflow: auto;
+    }
+    
+    #toolkits::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    
+    #toolkits:hover::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    #toolkits::-webkit-scrollbar-track {
+      background: #ffffff1a;
+      border-radius: 10px; 
+    }
+    
+    #toolkits::-webkit-scrollbar-thumb {
+      background: #888; 
+      border-radius: 10px; 
+    }
+    
+    #toolkits::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  
+
+#filler {
+  color: transparent;
+}
+
+
+
+.table, .table th, .table td, .table tr {
+  color: white;
+  border-width: 0px;
+  border-color: transparent;
+  border-style: none;
+  border-collapse:separate;
+}
+
+#recipes, #recipes1, #recipes2, #recipes3, #recipes4, #acid, #alchemistfire, #invispotion, #polypotion, #naturald,
+ #talosd, #locketd, #antibrew, #aphrodisiac, #bottledrest, #ambrosia, #brewvitality, #dwellenbrew, #lightbottle, #antitoxin, #panacea, #healingelixir, #invelixir, #truthelixir,
+ #basicpoison, #dwellerdust, #ichariivenom, #malevolence {
+  padding-top:10px; 
+  padding-bottom: 10px;
+  padding-right: 19px;
+  padding-left: 21px;
+  border: none;
+  outline: none;
+  display: none; 
+  color: #ffffff;
+  background-color: #ffffff00;
+  
+  display: none; 
+  width: 98%;
+  margin-left: 3px;
+  scrollbar-gutter: stable;
+  resize: none;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  }
+  
+  #recipes:hover, #recipes1:hover, #recipes2:hover, #recipes3:hover, #recipes4:hover {
     border-color: white;
     box-shadow: 0 0 8px 0 white;
     scrollbar-color: transparent;
     overflow: auto;
   }
   
-  #recipes:hover::-webkit-scrollbar {
+  #recipes:hover::-webkit-scrollbar,  #recipes1:hover::-webkit-scrollbar,  #recipes2:hover::-webkit-scrollbar,  #recipes3:hover::-webkit-scrollbar,  #recipes4:hover::-webkit-scrollbar {
     width: 10px;
   }
   
@@ -1260,6 +1367,8 @@ overflow: hidden;
   #recipes::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
+
+
 
   input[type="checkbox"] {
    cursor: pointer; 
