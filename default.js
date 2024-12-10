@@ -534,8 +534,7 @@ function getStoredValues() {
   }
   
   function resetHitDice() {
-    document.getElementById("hitDice").value = document.getElementById("playerLevel").value;
-  }
+    document.getElementById("hitDice").value = parseInt(document.getElementById("hitDice").value)+ 1;}
   
   function loseStats() {
     var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -554,19 +553,24 @@ function getStoredValues() {
   
   }
 
+
   function addLevel() {
-    var playerLevel = parseInt(document.getElementById("playerLevel").value);
-    if (playerLevel >= 0 && playerLevel <= 9) {
-      document.getElementById("playerLevel").value = parseInt(document.getElementById("playerLevel").value)+ 1;
-      document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+2;
+    // Experience thresholds for each level
+    var experienceThresholds = [0, 300, 600, 900, 1500, 2500, 4000, 6500, 10000, 20000, 30000];
+    var playerLevel = parseInt(document.getElementById("playerLevel").value) || 0;
+    var currentExp = parseInt(document.getElementById("experience").value.replace(/,/g, '')) || 0;
+    if (playerLevel < experienceThresholds.length - 1 && currentExp >= experienceThresholds[playerLevel + 1]) {
+      playerLevel += 1;
+      document.getElementById("playerLevel").value = playerLevel;
+      var currentStatPoints = parseInt(document.getElementById("statPoints").value) || 0;
+      document.getElementById("statPoints").value = currentStatPoints + 2;
+      alert(`Congratulations! You've reached Level ${playerLevel}`);
     }
     updateProfBonus();
     updateModifiers();
     setSkills();
     resetHP();
     resetHitDice();
- 
-   
   }
 
   function increasestr() {
@@ -1043,13 +1047,49 @@ function hidemalevolence() {
   }
 }
 
-document.getElementById("experience").addEventListener("input", function(e) {
-  // Remove any non-numeric characters except commas
+function experiencedropdown() {
+  var div = document.getElementById('experiencedropdown1'); // Get the element
+
+  // Check the current display state and toggle it
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block'; // Show the element
+  } else {
+    div.style.display = 'none'; // Hide the element
+  }
+}
+
+
+
+// Add commas function
+document.getElementById("experience").addEventListener("input", function (e) {
   let rawValue = e.target.value.replace(/,/g, '');
-  
-  // If the value is numeric, format it with commas
+  if (!isNaN(rawValue) && rawValue !== "") {
+    e.target.value = Number(rawValue).toLocaleString();
+  }
+});
+// Add commas function
+document.getElementById("addAmount").addEventListener("input", function (e) {
+
+  let rawValue = e.target.value.replace(/,/g, '');
   if (!isNaN(rawValue) && rawValue !== "") {
     e.target.value = Number(rawValue).toLocaleString();
   }
 });
 
+
+function addExperience() {
+  // Get the raw value of experience, removing commas
+  var currentexp = parseInt(document.getElementById("experience").value.replace(/,/g, '')) || 0;
+
+  // Get the raw value of addAmount, removing commas
+  var amount = parseInt(document.getElementById("addAmount").value.replace(/,/g, '')) || 0;
+
+  // Calculate the new total
+  var newExperience = currentexp + amount;
+
+  // Update the experience field, formatting it with commas
+  document.getElementById("experience").value = newExperience.toLocaleString();
+
+  // Clear the addAmount field
+  document.getElementById("addAmount").value = '';
+}
