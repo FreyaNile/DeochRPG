@@ -247,11 +247,11 @@ function getStoredValues() {
     
     if (playerLevel >= 10) {
       document.getElementById("profBonus").value = 5;
-    } else if (playerLevel >= 7) {
+    } else if (playerLevel >= 9) {
       document.getElementById("profBonus").value = 4;
-    } else if (playerLevel >= 4) {
+    } else if (playerLevel >= 6) {
       document.getElementById("profBonus").value = 3;
-    } else if (playerLevel >= 1) {
+    } else if (playerLevel >= 3) {
       document.getElementById("profBonus").value = 2;
     } else if (playerLevel >=0)  {
       document.getElementById("profBonus").value = 1;
@@ -561,7 +561,11 @@ function getStoredValues() {
       document.getElementById("playerLevel").value = playerLevel;
       var currentStatPoints = parseInt(document.getElementById("statPoints").value) || 0;
       document.getElementById("statPoints").value = currentStatPoints + 2;
-      alert(`Congratulations! You've reached Level ${playerLevel}`);
+    alert(`Congratulations! You've reached Level ${playerLevel}`);
+  } else {
+    // Alert the user about not having enough experience
+    alert("You need more experience");
+  
     }
     updateProfBonus();
     updateModifiers();
