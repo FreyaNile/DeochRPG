@@ -104,7 +104,7 @@ function getStoredValues() {
     document.getElementById("malevolencecheck").checked = JSON.parse(localStorage.getItem('malevolencecheck'));
   
   }
-   // Save
+// Save
   function setLocalStorage() {
     // Save player level
     localStorage.setItem("characterName", document.getElementById("characterName").value);
@@ -534,7 +534,8 @@ function getStoredValues() {
   }
   
   function resetHitDice() {
-    document.getElementById("hitDice").value = parseInt(document.getElementById("hitDice").value)+ 1;}
+    document.getElementById("hitDice").value = parseInt(document.getElementById("hitDice").value)+ 1;
+  }
   
   function loseStats() {
     var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -542,9 +543,6 @@ function getStoredValues() {
       document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)- 1;}
       
   }
-
-  
- 
   
   function addStat() {
     var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -552,7 +550,6 @@ function getStoredValues() {
       document.getElementById("statPoints").value = parseInt(document.getElementById("statPoints").value)+ 1;}
   
   }
-
 
   function addLevel() {
     // Experience thresholds for each level
@@ -593,6 +590,7 @@ function getStoredValues() {
         document.getElementById("statPoints").value = statPoints - 1;
     }
   }
+
   function increasecon() {
     var conScore = parseInt(document.getElementById("conScore").value);
     var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -602,6 +600,7 @@ function getStoredValues() {
         document.getElementById("statPoints").value = statPoints - 1;
     }
   }
+
   function increaseint() {
     var intScore = parseInt(document.getElementById("intScore").value);
     var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -611,6 +610,7 @@ function getStoredValues() {
         document.getElementById("statPoints").value = statPoints - 1;
     }
   }
+
   function increasewis() {
     var wisScore = parseInt(document.getElementById("wisScore").value);
     var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -620,6 +620,7 @@ function getStoredValues() {
         document.getElementById("statPoints").value = statPoints - 1;
     }
   }
+
   function increasecha() {
     var chaScore = parseInt(document.getElementById("chaScore").value);
     var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -629,7 +630,7 @@ function getStoredValues() {
         document.getElementById("statPoints").value = statPoints - 1;
     }
   }
-//decrease//
+
 function decreasestr() {
   var strScore = parseInt(document.getElementById("strScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -1075,7 +1076,13 @@ document.getElementById("addAmount").addEventListener("input", function (e) {
     e.target.value = Number(rawValue).toLocaleString();
   }
 });
-
+// Press-Enter function
+document.getElementById("addAmount").addEventListener("keydown", function(event) {
+  // Check if the pressed key is the "Enter" key (key code 13)
+  if (event.key === "Enter") {
+    addExperience();
+  }
+});
 
 function addExperience() {
   // Get the raw value of experience, removing commas
