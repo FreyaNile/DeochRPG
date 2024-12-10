@@ -534,7 +534,9 @@ function getStoredValues() {
   }
   
   function resetHitDice() {
-    document.getElementById("hitDice").value = parseInt(document.getElementById("hitDice").value)+ 1;
+    var playerLevel = parseInt(document.getElementById("playerLevel").value);
+
+    document.getElementById("hitDice").value = parseInt(document.getElementById("playerLevel").value)+ 1;
   }
   
   function loseStats() {
@@ -563,9 +565,7 @@ function getStoredValues() {
       document.getElementById("statPoints").value = currentStatPoints + 2;
     alert(`Congratulations! You've reached Level ${playerLevel}`);
   } else {
-    // Alert the user about not having enough experience
     alert("You need more experience");
-  
     }
     updateProfBonus();
     updateModifiers();
