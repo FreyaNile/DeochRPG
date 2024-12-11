@@ -942,9 +942,7 @@ span {
   background-color: #4BB543;
 }
 
-/*-----------------------------------
-    1 - Foot Note
-------------------------------------*/
+/*Foot Note*/
 .foot-note {
   padding: 35px 0;
   background-color: #000000;
@@ -1006,7 +1004,6 @@ span {
     text-align: right;
   }
 
-
   input[type="number"] {
  
     padding: 5px; /* Optional: Adjust padding for a better look */
@@ -1043,8 +1040,6 @@ input[type="number"]:enabled {
   border-color: white;
   box-shadow: 0 0 8px 0 white;
 }
-
-input[type="number"],
 
 select {
   border: none;
@@ -1134,7 +1129,7 @@ right: -15%;
 
 }
 
- #addexpbtn {
+ #addexpbtn, #addTally, #applyTally{
   color: white;
   background: #4BB543;
   border: none;
@@ -1302,13 +1297,10 @@ overflow: hidden;
     #toolkits::-webkit-scrollbar-thumb:hover {
       background: #555;
     }
-  
 
 #filler {
   color: transparent;
 }
-
-
 
 .table, .table th, .table td, .table tr {
   color: white;
@@ -1350,9 +1342,8 @@ overflow: hidden;
   display: none; 
   color: #ffffff;
   background-color: #ffffff00;
-  
   display: none; 
-  width: 80%;
+  width: 85%;
   margin-left: 3px;
   scrollbar-gutter: stable;
   resize: none;
@@ -1387,8 +1378,6 @@ overflow: hidden;
   #recipes::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
-
-
 
   input[type="checkbox"] {
    cursor: pointer; 

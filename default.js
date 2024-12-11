@@ -9,6 +9,8 @@ function getStoredValues() {
     document.getElementById("armour").value = localStorage.getItem("armour");
     document.getElementById("spells").value = localStorage.getItem("spells");
     document.getElementById("experience").value = localStorage.getItem("experience");
+    document.getElementById("tallyDisplay").value = localStorage.getItem("tallyDisplay");
+    tallyCount = document.getElementById("tallyDisplay").value;
     updateProfBonus();
     
     // Set ability scores
@@ -115,6 +117,8 @@ function getStoredValues() {
     localStorage.setItem("armour", document.getElementById("armour").value);
     localStorage.setItem("spells", document.getElementById("spells").value);
     localStorage.setItem("experience", document.getElementById("experience").value);
+    localStorage.setItem("tallyDisplay", document.getElementById("tallyDisplay").value);
+    
     
     // Save ability scores
     localStorage.setItem("strScore", document.getElementById("strScore").value);
@@ -563,8 +567,19 @@ function getStoredValues() {
       document.getElementById("playerLevel").value = playerLevel;
       var currentStatPoints = parseInt(document.getElementById("statPoints").value) || 0;
       document.getElementById("statPoints").value = currentStatPoints + 2;
-    alert(`Congratulations! You've reached Level ${playerLevel}`);
-  } else {
+      if (playerLevel === 1 || playerLevel === 2 || playerLevel === 4 || playerLevel === 5 || playerLevel === 7 || playerLevel === 8) {
+      alert(`Congratulations! You've reached Level ${playerLevel} 
+      You gain 2 stat points.
+      You gain 1 healing die.`);
+    }
+      if (playerLevel === 3 || playerLevel === 6 || playerLevel === 9 || playerLevel === 10) {
+        alert(`Congratulations! You've reached Level ${playerLevel}.
+      You gain 2 stat points.
+      You gain 1 healing die.
+      Your proficiency bonus has increased.`);
+    }}
+
+   else {
     alert("You need more experience");
     }
     updateProfBonus();
@@ -655,6 +670,7 @@ function decreasedex() {
    
   }
 }
+
 function decreasecon() {
   var conScore = parseInt(document.getElementById("conScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -664,6 +680,7 @@ function decreasecon() {
      
   }
 }
+
 function decreaseint() {
   var intScore = parseInt(document.getElementById("intScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -673,6 +690,7 @@ function decreaseint() {
      
   }
 }
+
 function decreasewis() {
   var wisScore = parseInt(document.getElementById("wisScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -682,6 +700,7 @@ function decreasewis() {
       
   }
 }
+
 function decreasecha() {
   var chaScore = parseInt(document.getElementById("chaScore").value);
   var statPoints = parseInt(document.getElementById("statPoints").value);
@@ -963,7 +982,6 @@ function hideantitoxin() {
   }
 }
 
-
 function hidepanacea() {
   var div = document.getElementById('panacea'); // Get the element
 
@@ -1104,3 +1122,41 @@ function addExperience() {
   // Clear the addAmount field
   document.getElementById("addAmount").value = '';
 }
+
+
+// Initialize the tally counter
+
+
+// Function to increment the tally counter
+let tallyCount = parseInt(localStorage.getItem("tallyDisplay")) || 0;
+tallyCount = 0;
+document.getElementById("tallyDisplay").value = tallyCount; 
+
+
+function addTallyf() {
+  tallyCount++; // Increment the counter
+  document.getElementById("tallyDisplay").value = tallyCount; // Update the input field's value
+}
+
+// Function to multiply tally count by 20 and add it to the addAmount input
+function applyTallyToExp() {
+  const tallyValue = tallyCount * 20; // Multiply the tally count by 20
+  const addAmountInput = document.getElementById("addAmount");
+
+  // Get the current value in addAmount, removing commas
+  const currentAddAmount = parseInt(addAmountInput.value.replace(/,/g, '')) || 0;
+
+  // Calculate the new addAmount value
+  const newAddAmount = currentAddAmount + tallyValue;
+ 
+  // Update the addAmount field, formatting it with commas
+  addAmountInput.value = newAddAmount.toLocaleString();
+
+  // Reset tally count and update the display
+  tallyCount = 0;
+  document.getElementById("tallyDisplay").value = tallyCount; 
+}
+
+
+
+

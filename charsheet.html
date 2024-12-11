@@ -202,13 +202,17 @@
                          <label><h4>Heritage:</h4></label>
                          <input type="text"  id="heritage" placeholder="Heritage">
 
-                <br><label><h4>Experience:</h4></label>
+                <br><label><h4>Exp:</h4></label>
                 <input type="text"  id="experience" placeholder="0" disabled> &nbsp;&nbsp; <span class="single-widget subscribe-widget">
                     <button type="submit" onclick="experiencedropdown();" id="exparrowdown" class="fa-solid fa-arrow-down"></button>
                 <br> 
                
-               <div id="experiencedropdown1"><h4>Add Exp: <input type="text" id="addAmount" placeholder="0"></h4></div>
-               
+               <div id="experiencedropdown1"><h4>Add Exp: <input type="text" id="addAmount" placeholder="0"></h4>
+                
+                <h4>Tallies: <input class="stat" type="text" id="tallyDisplay" value="0" disabled>
+                    &nbsp; &nbsp;  <button id="addTally" onclick="addTallyf();" class="fa-solid fa-plus"></button>
+                &nbsp;&nbsp;&nbsp;<button id="applyTally" onclick="applyTallyToExp();" class="fa-solid fa-arrow-up"></button></h4>
+              </div>
               
 
                 <label><h4>Level:</h4></label>
