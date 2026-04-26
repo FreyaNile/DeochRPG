@@ -105,11 +105,32 @@ html[data-theme="emerald"] {
 }
 
 html[data-theme="abyssal"] {
-    --accent-primary: #93c5fd;
-    --accent-secondary: #2563eb;
-    --accent-glow: rgba(37, 99, 235, 0.4);
+    --accent-primary: #999999;
+    --accent-secondary: #666666;
+    --accent-glow: rgba(255, 255, 255, 0.1);
+    --glass-alpha: 0;
+    --glass-alpha-light: 0;
+    --glass-bg: rgba(0, 0, 0, 0);
+    --glass-border: transparent;
+    --metallic-gradient: linear-gradient(135deg, #cccccc 0%, #999999 20%, #666666 45%, #777777 55%, #555555 80%, #333333 100%);
+}
+
+/* Override blur for Abyssal */
+html[data-theme="abyssal"] .glass-panel,
+html[data-theme="abyssal"] .glass-panel-dark,
+html[data-theme="abyssal"] .class-card,
+html[data-theme="abyssal"] .ethos-card,
+html[data-theme="abyssal"] .announcement-bar {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+html[data-theme="sapphire"] {
+    --accent-primary: #3b82f6;
+    --accent-secondary: #1d4ed8;
+    --accent-glow: rgba(59, 130, 246, 0.4);
     --glass-bg: rgba(5, 10, 30, var(--glass-alpha));
-    --metallic-gradient: linear-gradient(135deg, #dbeafe 0%, #60a5fa 20%, #2563eb 45%, #1e40af 55%, #1e3a8a 80%, #000000 100%);
+    --metallic-gradient: linear-gradient(135deg, #dbeafe 0%, #3b82f6 20%, #1d4ed8 45%, #1e40af 55%, #1e3a8a 80%, #000000 100%);
 }
 
 html[data-theme="inferno"] {
@@ -137,11 +158,11 @@ html[data-theme="royal-gold"] {
 }
 
 html[data-theme="rose-quartz"] {
-    --accent-primary: #f472b6;
-    --accent-secondary: #db2777;
-    --accent-glow: rgba(219, 39, 119, 0.4);
-    --glass-bg: rgba(25, 5, 20, var(--glass-alpha));
-    --metallic-gradient: linear-gradient(135deg, #fce7f3 0%, #f472b6 20%, #db2777 45%, #9d174d 55%, #500724 80%, #000000 100%);
+    --accent-primary: #fbcfe8;
+    --accent-secondary: #f9a8d4;
+    --accent-glow: rgba(251, 207, 232, 0.5);
+    --glass-bg: rgba(25, 10, 15, var(--glass-alpha));
+    --metallic-gradient: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 20%, #f9a8d4 45%, #f472b6 55%, #db2777 80%, #000000 100%);
 }
 
 html[data-theme="necrotic"] {
