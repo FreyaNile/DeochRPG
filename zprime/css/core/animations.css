@@ -1,0 +1,251 @@
+/* --- Global Keyframes --- */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes metallic-shimmer {
+    0% {
+        left: -100%;
+    }
+
+    30% {
+        left: 150%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
+@keyframes statRollIn {
+    0% {
+        transform: scale(0.5) translateY(10px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes statFadeIn {
+    0% {
+        opacity: 0;
+        filter: blur(4px);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes tooltip-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes pulse-green {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+@keyframes gold-flicker {
+    0% {
+        filter: drop-shadow(0 0 5px #f59e0b) drop-shadow(0 0 15px rgba(253, 230, 138, 0.4));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 25px #fbbf24) drop-shadow(0 0 50px rgba(255, 255, 255, 0.8));
+    }
+
+    100% {
+        filter: drop-shadow(0 0 8px #f59e0b) drop-shadow(0 0 20px rgba(253, 230, 138, 0.6));
+    }
+}
+
+
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes toastPop {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* --- Mastery Celebration Animations --- */
+
+@keyframes mastery-reveal {
+    0% {
+        transform: translate(-50%, -40%) scale(0.8);
+        opacity: 0;
+        filter: blur(10px);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes mastery-glow {
+    0% {
+        text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    50% {
+        text-shadow: 0 0 50px var(--accent-glow), 0 0 100px var(--accent-primary);
+    }
+
+    100% {
+        text-shadow: 0 0 20px var(--accent-glow);
+    }
+}
+
+#mastery-celebration-dialog {
+    outline: none;
+    border: none;
+}
+
+#mastery-celebration-dialog::backdrop {
+    background: radial-gradient(circle, rgba(20, 20, 30, 0.95) 0%, rgba(0, 0, 0, 1) 100%);
+    backdrop-filter: blur(8px);
+}
+
+@keyframes spark-drift {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100vh) translateX(50px);
+        opacity: 0;
+    }
+}
+
+.mastery-spark {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px var(--accent-primary);
+    animation: spark-drift 3s linear infinite;
+}
+
+/* --- Animation Utility Classes --- */
+
+.u-fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.u-fade-in-slide {
+    animation: fadeInSlide 0.4s ease forwards;
+}
+
+
+
+.stat-fade-back {
+    animation: statFadeIn 0.4s ease-out;
+}
+
+/* --- Utility Shimmer Streak --- */
+.u-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.u-shimmer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: var(--metallic-shine);
+    transform: skewX(-25deg);
+    transition: none;
+    animation: metallic-shimmer 4s infinite;
+    pointer-events: none;
+}

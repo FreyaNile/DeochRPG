@@ -1,0 +1,510 @@
+/* HUD Header Stat Toggles */
+
+.hud-header-toggles {
+    display: none;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+/* Show only when HUD is expanded AND points are available */
+
+/* Adjust summary-item to column when showing toggles */
+
+.hud-header-toggles .stat-btn.plus {
+    color: #4ade80;
+    /* Slight green tint for increase */
+}
+
+/* --- Floating Vitality HUD --- */
+
+.tooltip--stat-points {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 145px);
+    left: 50%;
+    transform: translate(-50%, -10px);
+    z-index: var(--z-tooltip);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: auto;
+    cursor: pointer;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
+}
+
+body.on-test-page.char-sheet-active:not(.tour-active).has-available-points:not(.stat-tooltip-dismissed):not(.hud-expanded) .tooltip--stat-points {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+/* Hide tooltip when HUD is expanded or dismissed */
+
+.expanded-points-tracker {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(187, 134, 252, 0.1);
+    border: 1px solid rgba(187, 134, 252, 0.3);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 1rem;
+    gap: 8px;
+}
+
+body.has-available-points .expanded-points-tracker {
+    display: flex;
+}
+
+.expanded-points-tracker i {
+    width: 16px;
+    height: 16px;
+    color: var(--accent-primary);
+}
+
+.expanded-points-tracker span:nth-child(2) {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.expanded-points-tracker #available-points {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+}
+
+@media (max-width: 600px) {
+    .stat-points-tooltip {
+        /* SPE: Maintained centering and clear gap below HUD on mobile */
+        left: 50%;
+        bottom: auto;
+        top: calc(env(safe-area-inset-top, 0px) + 145px);
+        transform: translate(-50%, -10px);
+    }
+}
+
+.summary-item,
+.stat-box {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.top-mobile-hud.expanded .summary-item.can-increase::after,
+.stat-box.can-increase::after {
+    content: "+";
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #10b981;
+    color: black;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+    animation: pulse-green 2s infinite;
+    z-index: var(--z-floor);
+}
+
+.summary-item.allocated,
+.stat-box.allocated {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+/* Floating Top HUD Styles */
+
+.top-mobile-hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 126px;
+    /* Further reduced to 126px */
+    padding-top: 0.25rem;
+    padding-bottom: 0.15rem;
+    background: linear-gradient(to bottom, rgba(10, 10, 12, 0.98), rgba(10, 10, 12, 0.9));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1.5px solid transparent;
+    border-image: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%) 1;
+    z-index: var(--z-hud-mobile);
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+    overflow: hidden;
+}
+
+.top-mobile-hud.expanded {
+    max-height: 800px;
+    /* Large enough for all content */
+    padding-top: 1rem;
+    padding-bottom: 0.75rem;
+    overflow-y: auto;
+}
+
+body.on-test-page:not(.tour-active) .top-mobile-hud {
+    display: flex;
+}
+
+body.on-test-page:not(.tour-active) .top-mobile-hud .conditions-panel {
+    padding: 0.3rem 0.5rem;
+    height: auto;
+    margin-top: 0.75rem;
+}
+
+body.on-test-page:not(.tour-active) .top-mobile-hud .inspiration-toggle:has(input:checked) {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: #f59e0b;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+}
+
+body .top-mobile-hud .summary-item i,
+body .top-mobile-hud .summary-item svg {
+    width: 18px;
+    height: 18px;
+    margin-bottom: 2px;
+}
+
+/* Ensure content doesn't get hidden behind the fixed HUD */
+
+:root {
+    --hud-base-offset: 75px;
+    --hud-expanded-offset: 247px;
+}
+
+/* Push content further down when HUD is expanded */
+
+body.on-test-page:not(.tour-active) .top-mobile-hud.expanded+#mobile-sheet-view {
+    padding-top: calc(var(--hud-expanded-offset) + env(safe-area-inset-top, 0px));
+}
+
+.top-hud-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.top-hud-expanded-content {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: relative;
+    z-index: var(--z-docked);
+    pointer-events: none;
+}
+
+.top-mobile-hud.expanded .top-hud-expanded-content {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.top-hud-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.hud-avatar {
+    background: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-primary);
+    position: relative;
+    z-index: var(--z-ground);
+}
+
+.hud-avatar #test-hud-avatar-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--accent-primary);
+    margin-top: 6px;
+}
+
+.hud-name {
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    color: white;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.hud-sub {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+}
+
+.top-hud-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.hud-menu-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.hud-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--accent-primary);
+}
+
+.hud-menu-btn i {
+    width: 18px;
+    height: 18px;
+}
+
+body.combat-mode #hud-chevron {
+    color: var(--color-danger);
+}
+
+.hud-bar.hp {
+    background: linear-gradient(90deg, var(--color-danger), #f87171);
+    z-index: var(--z-ground);
+}
+
+.hud-bar.mp {
+    background: linear-gradient(90deg, var(--color-mental), #60a5fa);
+    z-index: var(--z-ground);
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, var(--glass-alpha-light));
+    padding: 3px 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+.summary-item .val {
+    color: var(--accent-primary);
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.summary-item .mod {
+    color: var(--text-primary);
+    opacity: 0.7;
+    font-size: 0.75rem;
+}
+
+.summary-item span:first-child {
+    font-weight: 700;
+    opacity: 0.6;
+    margin-right: 1px;
+}
+
+@media (max-width: 360px) {
+    .summary-item {
+        flex: 1 1 0px;
+        min-width: 0;
+        padding: 3px 2px;
+        font-size: 0.7rem;
+        text-align: center;
+    }
+
+    .summary-item .val {
+        font-size: 0.95rem;
+        font-weight: 900;
+    }
+
+    .summary-item .mod {
+        display: inline;
+        font-size: 0.7rem;
+    }
+}
+
+/* Consolidated Physical Stat Colors */
+.summary-item[data-stat="str"] :is(i, svg),
+.summary-item[data-stat="dex"] :is(i, svg),
+.summary-item[data-stat="con"] :is(i, svg) {
+    color: var(--color-physical);
+    stroke: var(--color-physical);
+}
+
+/* Reposition mobile nav above HUD on test page */
+
+@media (max-width: 1024px) {
+    body.on-test-page:not(.tour-active) .top-mobile-hud.expanded+#mobile-sheet-view {
+        padding-top: calc(var(--hud-expanded-offset) - 3px + env(safe-area-inset-top, 0px));
+    }
+
+    body.on-test-page:not(.tour-active) .top-mobile-hud {
+        min-height: 68px;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        padding-left: 0.3rem;
+        padding-right: 0.3rem;
+    }
+
+    body.on-test-page:not(.tour-active) .top-mobile-hud.expanded {
+        padding-top: 0.25rem;
+        padding-bottom: 0.5rem;
+        pointer-events: auto;
+    }
+
+    body.on-test-page:not(.tour-active) .top-hud-content {
+        pointer-events: auto;
+    }
+
+    body.on-test-page:not(.tour-active) .top-hud-expanded-content {
+        pointer-events: auto;
+        margin-top: 0.75rem;
+    }
+
+    body.on-test-page:not(.tour-active) .top-hud-left {
+        gap: 0.55rem;
+    }
+
+    body.on-test-page:not(.tour-active) .top-hud-right {
+        gap: 0.5rem;
+    }
+
+    body.on-test-page:not(.tour-active) .hud-avatar {
+        display: flex;
+    }
+
+    body.on-test-page:not(.tour-active) .hud-name {
+        font-size: 0.95rem;
+        line-height: 1.1;
+    }
+
+    body.on-test-page:not(.tour-active) .hud-sub {
+        font-size: 0.6rem;
+        line-height: 1.15;
+    }
+
+    body.on-test-page:not(.tour-active) .top-mobile-hud .restoration-panel,
+    body.on-test-page:not(.tour-active) .top-mobile-hud .conditions-panel {
+        margin-top: 0.45rem;
+        padding: 0.2rem 0.4rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .summary-item {
+        flex: 0 0 auto;
+        justify-content: center;
+        min-width: 0;
+        padding: 3px 6px;
+        align-self: center;
+    }
+
+    .summary-item .val {
+        font-weight: 900;
+        line-height: 1;
+    }
+
+    .summary-item .mod {}
+}
+
+/* Third .summary-item block consolidated above — position/cursor/transition added to base rule */
+.summary-item {
+    position: relative;
+    cursor: default;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Show Plus when points are available AND HUD is expanded */
+
+body.hud-expanded.has-available-points .summary-item .stat-overlay-btn.plus {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+body.hud-expanded.has-session-spent .summary-item.stat-has-spent .stat-overlay-btn.minus {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.top-mobile-hud:not(.expanded) .stat-confirm-bar {
+    display: none;
+}
+
+body.combat-mode .tooltip--stat-points,
+body.stat-tooltip-dismissed .tooltip--stat-points,
+body.tour-active .tooltip--stat-points,
+body.on-test-page:not(.tour-active) .top-mobile-hud.expanded~.tooltip--stat-points,
+body.hud-expanded .tooltip--stat-points {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -10px);
+}
+
+/* Experience HUD Specifics */
+#test-hud-exp-details {
+    font-size: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.2rem;
+}
+
+#test-hud-exp-details summary {
+    list-style: none;
+    cursor: pointer;
+    outline: none;
+}
+
+#test-hud-exp-details summary::-webkit-details-marker {
+    display: none;
+}
+
+#test-hud-exp-details[open] .exp-chevron {
+    transform: rotate(180deg);
+}
+
+#test-hud-exp-details summary:hover .exp-chevron {
+    opacity: 0.8;
+}
+
+#test-hud-exp-details summary .clickable-input {
+    height: 32px;
+    width: 109px;
+    flex-shrink: 0;
+}
+
+#test-hud-exp-details summary>div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
