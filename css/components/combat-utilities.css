@@ -1,0 +1,550 @@
+/* Floating Dice Roller Utilities Wrapper */
+
+.combat-utilities-wrapper {
+    position: fixed;
+    bottom: 180px;
+    /* Hug top of HUD toggle button (150px + 30px) */
+    left: 0;
+    width: auto;
+    max-width: 100vw;
+    display: none;
+    /* Hidden by default */
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1.5rem;
+    z-index: var(--z-max);
+    /* Above HUD (99999) */
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+    transform: none;
+    transition: bottom 0.4s ease;
+}
+
+body.on-test-page.char-sheet-active:not(.tour-active) .combat-utilities-wrapper,
+body.on-test-page:not(.tour-active) .combat-utilities-wrapper {
+    display: flex;
+}
+
+body.on-test-page:not(.tour-active) .combat-utilities-wrapper {
+    top: 50%;
+    bottom: auto;
+    left: 0;
+    right: auto;
+    transform: translateY(-50%);
+    align-items: flex-start;
+    flex-direction: row;
+    width: auto;
+    justify-content: flex-start;
+}
+
+/* Show standard dice roller elements on the test page (identical to character sheet) */
+
+body.on-test-page:not(.tour-active) #dice-tray-widget .dice-result-container,
+body.on-test-page:not(.tour-active) #dice-tray-widget .dice-controls-row {
+    display: grid;
+}
+
+/* Ensure the dice roller widget has a clear glass background on the test page */
+
+body.on-test-page:not(.tour-active) #dice-tray-widget {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    margin-left: 45px;
+    /* Clear the toggle button (40px) with a small gap */
+}
+
+body.on-test-page:not(.tour-active) #dice-tray-widget::before,
+body.on-test-page:not(.tour-active) #dice-tray-widget::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    z-index: var(--z-surface);
+}
+
+body.on-test-page:not(.tour-active) #dice-tray-widget::before {
+    top: 0;
+    border-radius: 12px 12px 0 0;
+}
+
+body.on-test-page:not(.tour-active) #dice-tray-widget::after {
+    bottom: 0;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Hide mobile-specific stats on the main character sheet - used as hidden data fallback */
+
+#dice-tray-widget .dice-widget-mobile-stats {
+    display: none;
+}
+
+body.on-test-page:not(.tour-active) #combat-log-widget {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+body.on-test-page #combat-log-widget.minimized {
+    transform: translateX(calc(-100% - 380px));
+}
+
+#toggle-dice-tray-btn {
+    position: fixed;
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 30px;
+    background: rgba(10, 10, 15, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--accent-primary);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    color: var(--accent-primary);
+    display: none;
+    /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-max);
+    /* Above HUD */
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    /* Ensure interactivity inside transparent wrapper */
+    cursor: pointer;
+}
+
+body.on-test-page.char-sheet-active:not(.tour-active) #toggle-dice-tray-btn,
+body.on-test-page:not(.tour-active) #toggle-dice-tray-btn {
+    display: flex;
+}
+
+/* Icon Switching for Dice Roller */
+
+#toggle-dice-tray-btn i,
+#toggle-dice-tray-btn svg {
+    pointer-events: none;
+}
+
+#toggle-dice-tray-btn .dice-icon {
+    display: block;
+    font-size: 1.25rem;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+body.on-test-page:not(.tour-active) #toggle-dice-tray-btn.active .dice-icon {
+    transform: rotate(360deg);
+}
+
+body.on-test-page:not(.tour-active) #toggle-dice-tray-btn {
+    top: 50%;
+    bottom: auto;
+    left: 0;
+    right: auto;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 80px;
+    border-radius: 0 10px 10px 0;
+    border-right: 1px solid var(--accent-primary);
+    border-bottom: 1px solid var(--accent-primary);
+    border-top: 1px solid var(--accent-primary);
+    border-left: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+body.on-test-page.hud-expanded #toggle-dice-tray-btn {
+    top: 80%; /* Move down to clear expanded HUD */
+}
+
+body.on-test-page:not(.tour-active) #toggle-dice-tray-btn i {
+    transform: rotate(90deg);
+}
+
+body.on-test-page:not(.tour-active) #toggle-dice-tray-btn.active i,
+body.on-test-page:not(.tour-active) #toggle-dice-tray-btn.active svg {
+    transform: rotate(-90deg);
+}
+
+#toggle-dice-tray-btn:hover {
+    background: var(--accent-primary);
+    color: var(--bg-dark);
+}
+
+#toggle-dice-tray-btn.active i,
+#toggle-dice-tray-btn.active svg {
+    transform: rotate(180deg);
+}
+
+#toggle-dice-tray-btn i,
+#toggle-dice-tray-btn svg {
+    transition: transform 0.3s;
+}
+
+.dice-controls-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    align-items: start;
+}
+
+.dice-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.dice-widget-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mod-btn,
+.dice-buttons .dice-btn {
+    height: 32px;
+    padding: 0;
+    width: 100%;
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-body);
+    font-weight: 600;
+    line-height: 32px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.mod-btn:hover,
+.dice-buttons .dice-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--accent-primary);
+    color: var(--text-primary);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.dice-result-container {
+    position: relative;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0.75rem;
+}
+
+.dice-count-badge {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    background: var(--accent-primary);
+    color: black;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 0 10px var(--accent-glow);
+    z-index: var(--z-elevated);
+    display: none;
+}
+
+#combat-log-list {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#combat-log-list::-webkit-scrollbar {
+    display: none;
+}
+
+#combat-log-list {
+    height: 340px;
+    overflow-y: auto;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding-right: 4px;
+}
+
+.log-entry--empty {
+    opacity: 0.5;
+    font-style: italic;
+    text-align: center;
+    padding-top: 2rem;
+}
+
+.dis-btn {
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+#reset-dice-btn {
+    color: var(--accent-secondary);
+}
+
+.modifier-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.mod-btn.active {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    box-shadow: 0 0 12px var(--accent-glow);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+/* Advantage / Disadvantage */
+.adv-btn {
+    transition: all 0.3s ease;
+}
+
+.adv-btn:hover {
+    background: var(--color-success-glow);
+    color: var(--color-success);
+}
+
+.adv-btn.active {
+    background: var(--color-success-muted);
+    border-color: var(--color-success);
+    color: var(--color-success);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+    transform: scale(1.05);
+}
+
+.dis-btn {
+    transition: all 0.3s ease;
+}
+
+.dis-btn:hover {
+    background: var(--color-danger-glow);
+    color: var(--color-danger);
+}
+
+.dis-btn.active {
+    background: var(--color-danger-muted);
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+    transform: scale(1.05);
+}
+.restoration-panel {
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
+    border-radius: 16px;
+    height: auto;
+    margin-top: 1.5rem;
+}
+
+.collapsible-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.3rem 0.5rem;
+    min-height: 0;
+    transition: all 0.3s ease;
+}
+
+.restoration-content-wrapper {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+details[open] .restoration-content-wrapper,
+.restoration-content-wrapper.expanded {
+    max-height: 1000px;
+    opacity: 1;
+}
+
+.damage-calc-content-wrapper.expanded {
+    max-height: 1000px;
+    opacity: 1;
+}
+
+/* ==========================================================================
+   CONSOLIDATED MEDIA QUERIES
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .damage-calc-form-group {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .combat-utilities-wrapper {
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0;
+        left: 0;
+        right: 0;
+        justify-content: center;
+        bottom: 180px;
+    }
+
+    body.on-test-page:not(.tour-active) .combat-utilities-wrapper {
+        bottom: auto;
+        top: 50%;
+        left: 0;
+        right: auto;
+        width: auto;
+        align-items: flex-start;
+    }
+
+    body.on-test-page:not(.tour-active) .floating-widget {
+        width: calc(50vw - 30px);
+    }
+
+    .dice-controls-row {
+        gap: 0.35rem;
+    }
+
+    #toggle-dice-tray-btn {
+        bottom: 150px;
+    }
+
+    body.on-test-page:not(.tour-active) #toggle-dice-tray-btn {
+        bottom: auto;
+        top: 50%;
+    }
+
+    body.on-test-page.hud-expanded #toggle-dice-tray-btn {
+        top: 80%;
+    }
+
+
+}
+
+@media (max-width: 380px) {
+    .combat-utilities-wrapper {
+        gap: 0.3rem;
+        padding: 0 4px;
+        bottom: 180px;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    body.on-test-page:not(.tour-active) .combat-utilities-wrapper {
+        bottom: auto;
+        top: 50%;
+        left: 0;
+        right: auto;
+        width: auto;
+        align-items: flex-start;
+    }
+
+    body.on-test-page:not(.tour-active) .floating-widget {
+        width: calc(50vw - 35px);
+        min-width: 120px;
+    }
+
+    .dice-controls-row {
+        gap: 0.25rem;
+    }
+
+    .mod-btn,
+    .dice-buttons .dice-btn {
+        height: 28px;
+        font-size: 0.7rem;
+        line-height: 28px;
+        border-radius: 6px;
+    }
+
+    .modifier-buttons,
+    .dice-buttons {
+        gap: 0.25rem;
+    }
+
+    #dice-result-value {
+        font-size: 1.4rem;
+    }
+}
+
+/* ===== Sleep Shade Effect ===== */
+.sleep-shade-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+body.sleep-shade-active .sleep-shade-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Raise Vitality Orbs above overlay, but dim SP group */
+body.sleep-shade-active #floating-vitality-orbs {
+    z-index: 1001;
+    position: fixed; /* Keep fixed positioning */
+}
+
+body.sleep-shade-active #floating-vitality-orbs .sp-group {
+    opacity: 0.15;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+/* Raise Mobile Sheet Container above overlay */
+body.sleep-shade-active #mobile-sheet-view {
+    z-index: 1001;
+    position: relative; /* Create stacking context above overlay */
+}
+
+/* Dim non-isolated sheet content */
+body.sleep-shade-active #test-tab-nav,
+body.sleep-shade-active .actions-panel,
+body.sleep-shade-active #test-attributes-grid,
+body.sleep-shade-active .languages-panel {
+    opacity: 0.15;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+/* Elevate Restoration card and add a soft ambient highlight glow */
+body.sleep-shade-active .restoration-panel {
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+}
+
+/* Hide non-isolated conditions content */
+body.sleep-shade-active .conditions-panel .exhaustion-dots,
+body.sleep-shade-active .conditions-panel #exhaustion-badge-container,
+body.sleep-shade-active .conditions-panel .condition-item:not([for="char-hungry"]):not([for="char-thirst"]) {
+    display: none !important;
+}
+
+/* Dim general combat utilities / dice tray */
+body.sleep-shade-active .combat-utilities-wrapper,
+body.sleep-shade-active #toggle-dice-tray-btn {
+    opacity: 0.15 !important;
+    pointer-events: none !important;
+    transition: opacity 0.4s ease;
+}

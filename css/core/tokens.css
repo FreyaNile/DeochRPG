@@ -1,0 +1,169 @@
+/**
+ * @file tokens.css
+ * @description Semantic design tokens and global styles for the DEOCH system.
+ */
+
+/* Local @font-face using the provided font files */
+@font-face {
+    font-family: "Exocet";
+    src: url("../../fonts/ExocetTTF.TTF") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Cinzel Decorative";
+    src: url("../../fonts/CinzelDecorative-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Cinzel Decorative";
+    src: url("../../fonts/CinzelDecorative-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Cinzel Decorative";
+    src: url("../../fonts/CinzelDecorative-Black.ttf") format("truetype");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Raleway";
+    src: url("../../fonts/Raleway-VariableFont_wght.ttf") format("truetype-variations");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Raleway";
+    src: url("../../fonts/Raleway-Italic-VariableFont_wght.ttf") format("truetype-variations");
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+}/* Chrome, and Safari Scrollbars */
+*::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #0f0f14;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #3f3f46;
+    border-radius: 6px;
+    border: 3px solid #0f0f14;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: #52525b;
+}
+
+/* Firefox Scrollbars — scoped to html to avoid polluting every element */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #3f3f46 #0f0f14;
+}
+
+:root {
+    /* Color Palette - Defaulted to Sandstorm to match JS default */
+    --bg-base: #020202;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.55);
+    --accent-primary: #fde68a;
+    --accent-secondary: #b45309;
+    --accent-glow: rgba(255, 245, 184, 0.5);
+    --metallic-gradient: linear-gradient(135deg, #fffbeb 0%, #fde68a 20%, #b45309 45%, #92400e 55%, #451a03 80%, #000000 100%);
+
+    /* Enhanced Glassmorphism */
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --widget-shadow: 0 5px 25px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    --glass-alpha: 0.85;
+    --glass-alpha-light: 0.08;
+    --watermark-opacity: 0.35;
+    --watermark-size: 200px;
+
+    /* Typography */
+    --font-primary: "Exocet", serif;
+    --font-secondary: "Cinzel Decorative", serif;
+    --font-body: "Raleway", sans-serif;
+
+    /* Effects */
+    --transition-fast: 0.2s ease;
+    --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-elastic: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* Semantic Colors */
+    --color-success: #10b981;
+    --color-success-muted: rgba(16, 185, 129, 0.15);
+    --color-success-glow: rgba(16, 185, 129, 0.2);
+    --color-danger: #ef4444;
+    --color-danger-muted: rgba(239, 68, 68, 0.15);
+    --color-danger-glow: rgba(239, 68, 68, 0.2);
+    --color-warning: #f59e0b;
+    --color-warning-glow: rgba(245, 158, 11, 0.2);
+    --color-mental: #3b82f6;
+
+    /* Spacing Tokens */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+
+    /* Radius Tokens */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+
+    /* Surface Tokens */
+    --surface-glass: rgba(255, 255, 255, 0.05);
+    --surface-glass-dark: rgba(0, 0, 0, 0.15);
+    --surface-glass-border: rgba(255, 255, 255, 0.1);
+
+    /* Z-Index Tokens (Semantic 5-Tier Stack) */
+    --z-below: -10;
+    --z-flat: 10;
+    --z-above: 1000;
+    --z-overlay: 10000;
+    --z-alert: 30000;
+
+    /* Legacy Map Compatibility */
+    --z-neg: var(--z-below);
+    --z-ground: 1;
+    --z-base: var(--z-flat);
+    --z-surface: var(--z-flat);
+    --z-floor: var(--z-flat);
+    --z-elevated: var(--z-flat);
+    --z-nav: var(--z-above);
+    --z-sticky: var(--z-above);
+    --z-dropdown: var(--z-above);
+    --z-menu: var(--z-above);
+    --z-tooltip: var(--z-above);
+    --z-docked: var(--z-overlay);
+    --z-hud-mobile: var(--z-overlay);
+    --z-modal: var(--z-overlay);
+    --z-floating: var(--z-overlay);
+    --z-notification: var(--z-alert);
+    --z-toast: var(--z-alert);
+    --z-tour: var(--z-alert);
+    --z-max: 100000;
+
+    /* HUD Offset Tokens */
+    --hud-expanded-offset: 247px;
+}
+
+/* --- Utility classes moved to shared-core.css (M1 Refactor) --- */

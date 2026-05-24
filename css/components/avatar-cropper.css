@@ -1,0 +1,99 @@
+/**
+ * @module AvatarCropper
+ * @description Styles for the premium avatar cropping interface.
+ */
+
+.avatar-cropper-dialog {
+    max-width: 400px;
+    width: 90vw;
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--accent-primary);
+    border-radius: 20px;
+    padding: 1.5rem;
+    overflow: hidden;
+    color: white;
+}
+
+.cropper-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    background: #000;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    overflow: hidden;
+    cursor: move;
+    user-select: none;
+    touch-action: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cropper-container.is-grabbing {
+    cursor: grabbing;
+}
+
+.cropper-viewport {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cropper-image {
+    max-width: none;
+    max-height: none;
+    pointer-events: none;
+    will-change: transform;
+    transform-origin: center;
+}
+
+.cropper-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    height: 85%;
+    border-radius: 50%;
+    border: 2px solid var(--accent-primary);
+    box-shadow: 0 0 20px var(--accent-glow), 0 0 0 1000px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+}
+
+.cropper-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.premium-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    outline: none;
+}
+
+.premium-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: var(--accent-primary);
+    border: 3px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--accent-glow);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.premium-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+}

@@ -1,0 +1,371 @@
+/* --- Global Keyframes --- */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes statRollIn {
+    0% {
+        transform: scale(0.5) translateY(10px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes statFadeIn {
+    0% {
+        opacity: 0;
+        filter: blur(4px);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes tooltip-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes pulse-green {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+@keyframes gold-flicker {
+    0% {
+        filter: drop-shadow(0 0 5px #f59e0b) drop-shadow(0 0 15px rgba(253, 230, 138, 0.4));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 25px #fbbf24) drop-shadow(0 0 50px rgba(255, 255, 255, 0.8));
+    }
+
+    100% {
+        filter: drop-shadow(0 0 8px #f59e0b) drop-shadow(0 0 20px rgba(253, 230, 138, 0.6));
+    }
+}
+
+@keyframes toastPop {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* --- Mastery Celebration Animations --- */
+
+@keyframes mastery-reveal {
+    0% {
+        transform: translate(-50%, -40%) scale(0.8);
+        opacity: 0;
+        filter: blur(10px);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes mastery-glow {
+    0% {
+        text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    50% {
+        text-shadow: 0 0 50px var(--accent-glow), 0 0 100px var(--accent-primary);
+    }
+
+    100% {
+        text-shadow: 0 0 20px var(--accent-glow);
+    }
+}
+
+#mastery-celebration-dialog {
+    outline: none;
+    border: none;
+}
+
+#test-mastery-celebration {
+    background: transparent !important;
+    backdrop-filter: none !important;
+}
+
+#mastery-celebration-dialog::backdrop {
+    background: radial-gradient(circle, rgba(20, 20, 30, 0.95) 0%, rgba(0, 0, 0, 1) 100%) !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+@keyframes spark-drift {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100vh) translateX(50px);
+        opacity: 0;
+    }
+}
+
+.mastery-spark {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px var(--accent-primary);
+    animation: spark-drift 3s linear infinite;
+}
+
+/* --- Mastery Celebration Component Classes (H2 Refactor) --- */
+
+#mastery-celebration-dialog.mastery-dialog {
+    max-width: 96vw;
+    width: 600px;
+    animation: mastery-reveal 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: visible;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+.mastery-spark-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.mastery-crown-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.mastery-crown-icon {
+    width: 60px;
+    height: 60px;
+    color: var(--accent-primary);
+    filter: drop-shadow(0 0 20px var(--accent-glow));
+}
+
+.mastery-title {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    color: var(--accent-primary);
+    animation: mastery-glow 3s ease-in-out infinite;
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+}
+
+.mastery-subtitle {
+    font-family: var(--font-primary);
+    color: white;
+    opacity: 0.9;
+    letter-spacing: 0.2em;
+    font-size: clamp(0.8rem, 4vw, 1.2rem);
+    margin-bottom: 1.5rem;
+}
+
+.mastery-training-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+}
+
+.mastery-training-desc {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.mastery-exp-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.mastery-exp-label-stack {
+    text-align: right;
+}
+
+.mastery-exp-label-line {
+    font-size: 0.65rem;
+    color: var(--accent-primary);
+    letter-spacing: 0.1em;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: block;
+}
+
+.mastery-exp-box {
+    height: 40px;
+    width: 100px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--accent-primary);
+    border-radius: 10px;
+    font-family: var(--font-primary);
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--accent-primary);
+    position: relative;
+}
+
+.mastery-btn-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+.upgrade-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    width: calc(50% - 0.125rem);
+}
+
+.upgrade-btn--hp {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.upgrade-btn--mp {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.upgrade-btn--stat {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.1);
+}
+
+.upgrade-btn-label {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.upgrade-btn-label--hp {
+    color: #ef4444;
+}
+
+.upgrade-btn-label--mp {
+    color: #3b82f6;
+}
+
+.upgrade-btn-label--stat {
+    color: #f59e0b;
+}
+
+.upgrade-btn-cost {
+    font-size: 0.6rem;
+}
+
+.mastery-return-btn {
+    padding: 0.8rem 2.5rem;
+    font-size: 0.9rem;
+    border-radius: 50px;
+    width: auto;
+    min-width: 180px;
+    opacity: 0.7;
+}
+
+/* --- End H2 Refactor --- */
+
+.u-fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+
+
+.stat-fade-back {
+    animation: statFadeIn 0.4s ease-out;
+}
+
+/* --- Utility Shimmer Streak --- */
+.u-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+@media (max-width: 480px) {
+    #mastery-celebration-dialog.mastery-dialog {
+        max-width: 98vw;
+        padding: 0.25rem !important;
+    }
+}
+
+/* Glass button active state in modal dialogues */
+.glass-btn.active {
+    border-color: var(--accent-primary) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: var(--accent-primary) !important;
+    box-shadow: 0 0 10px var(--accent-glow) !important;
+}

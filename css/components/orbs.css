@@ -1,0 +1,285 @@
+/* --- Vitality Orbs HUD Styles --- */
+
+.floating-vitality-orbs {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-hud-mobile);
+    padding: 0 1.25rem;
+    background: transparent;
+    user-select: none;
+    transform: translateY(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Allow clicking through to sheet background */
+    height: 150px;
+    overflow: hidden;
+}
+
+body.on-test-page.char-sheet-active .floating-vitality-orbs {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (max-width: 600px) {
+    .floating-vitality-orbs {
+        padding: 0 0.75rem;
+    }
+}
+
+.orbs-layout {
+    display: grid;
+    grid-template-columns: 110px 70px 110px;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 600px;
+    padding: 0 1rem;
+    pointer-events: none; /* Ensure grid container doesn't block */
+}
+
+.hp-group, .sp-group, .mp-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    gap: 0;
+    pointer-events: auto; /* Re-enable for the actual orb groups */
+    position: relative; /* Anchor for absolute control buttons */
+}
+
+.hp-group { grid-column: 1; }
+.sp-group { grid-column: 2; }
+.mp-group { grid-column: 3; }
+
+/* Dynamic Stamina Positioning */
+.sp-group.hidden-mp { grid-column: 3; }
+
+.orb-container {
+    position: relative;
+    border-radius: 50%;
+    flex-shrink: 0;
+    cursor: pointer;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.orb-container:hover {
+    transform: scale(1.05);
+}
+
+.orb-container:active {
+    transform: scale(0.95);
+}
+
+.health-orb, .mana-orb { width: 110px; height: 110px; }
+.stamina-orb { width: 70px; height: 70px; }
+
+.orb-container canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    pointer-events: none; /* Shader doesn't need clicks */
+}
+
+.orb-frame-overlay {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    pointer-events: none;
+    z-index: var(--z-floor);
+}
+
+.stamina-orb .orb-frame-overlay {
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+}
+
+.orb-value-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: var(--z-surface);
+    text-align: center;
+}
+
+.orb-value-overlay span {
+    font-family: var(--font-primary);
+    color: white;
+    font-weight: 800;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 1);
+}
+
+.health-orb span, .mana-orb span { font-size: 1.4rem; }
+.stamina-orb span { font-size: 1rem; }
+
+.orb-touch-zone {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    z-index: var(--z-elevated);
+    cursor: pointer;
+    background: transparent;
+    pointer-events: auto;
+}
+
+.orb-touch-zone.up {
+    top: 0;
+    border-radius: 50% 50% 0 0;
+}
+
+.orb-touch-zone.down {
+    bottom: 0;
+    border-radius: 0 0 50% 50%;
+}
+
+.orb-container.sloshing {
+    animation: orbSlosh 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes orbSlosh {
+    10%, 90% { transform: translate3d(-1px, 0, 0) rotate(-1deg); }
+    20%, 80% { transform: translate3d(2px, 0, 0) rotate(2deg); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0) rotate(-4deg); }
+    40%, 60% { transform: translate3d(4px, 0, 0) rotate(4deg); }
+}
+
+/* --- Migrated from shared-core.css (F3 Refactor) --- */
+
+/* Bulk Adjustment Popup (Vertical between orbs) */
+.bulk-adjustment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 15, 0.4);
+    z-index: var(--z-modal);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 25px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.bulk-adjustment-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.bulk-adjustment-content {
+    background: rgba(10, 10, 15, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--accent-primary);
+    border-radius: 16px;
+    padding: 0.5rem;
+    width: 75px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px var(--accent-glow);
+    transform: translateY(10px);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.bulk-adjustment-modal.active .bulk-adjustment-content {
+    transform: translateY(0);
+}
+
+.bulk-adjustment-title {
+    display: block;
+    font-family: 'Exocet', serif;
+    font-size: 0.6rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+}
+
+.bulk-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.bulk-btn {
+    padding: 0.4rem 0.5rem;
+    border-radius: 8px;
+    font-family: var(--font-primary);
+    font-size: 0.85rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 100%;
+}
+
+.bulk-btn:active {
+    transform: scale(0.9);
+}
+
+.bulk-btn.plus {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+}
+
+.bulk-btn.minus {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+}
+
+.bulk-btn.shield {
+    background: rgba(22, 163, 74, 0.2);
+    color: #4ade80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bulk-btn.shield i {
+    width: 14px;
+    height: 14px;
+}
+
+.bulk-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    padding: 0.4rem;
+    width: 100%;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    text-align: center;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.bulk-input:focus {
+    border-color: var(--accent-primary);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* --- End F3 Refactor --- */
+
+
+

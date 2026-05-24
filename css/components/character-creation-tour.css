@@ -1,0 +1,302 @@
+#creation-tour.u-tour-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    z-index: var(--z-tour);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    background: radial-gradient(circle at center, rgba(15, 7, 25, 0.98) 0%, #000 100%);
+}
+
+#creation-tour.u-tour-overlay.hidden {
+    display: none;
+}
+
+/* --- Mobile Creation Tour Styles --- */
+
+.tour-option-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tour-option-btn:hover,
+.tour-option-btn.selected {
+    background: var(--accent-glow);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 15px var(--accent-glow);
+    transform: translateY(-2px);
+}
+
+.tour-option-btn i {
+    color: var(--accent-primary);
+    transition: transform 0.3s ease;
+}
+
+.tour-option-btn:hover i {
+    transform: scale(1.1);
+}
+
+.tour-check-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tour-check-label input {
+    margin-top: 0.25rem;
+    accent-color: var(--accent-primary);
+    width: 18px;
+    height: 18px;
+}
+
+.tour-check-label:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tour-check-label.selected {
+    background: var(--accent-glow);
+    border-color: var(--accent-primary);
+}
+
+body.tour-active {
+    overflow: hidden;
+}
+
+/* Tour Animations */
+
+@keyframes tourOverlayFade {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+
+    to {
+        opacity: 1;
+        backdrop-filter: blur(20px);
+    }
+}
+
+@keyframes tourStepEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes tourStepExit {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes tourIconFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+        filter: drop-shadow(0 0 15px var(--accent-glow));
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(2deg);
+        filter: drop-shadow(0 0 30px var(--accent-glow));
+    }
+}
+
+#creation-tour {
+    animation: tourOverlayFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.tour-step {
+    animation: tourStepEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+#creation-tour .ra-player-pyromaniac {
+    animation: tourIconFloat 4s ease-in-out infinite;
+}
+
+
+/* Hide elements during tour handled by components */
+
+/* Hide HUDs during Tour */
+
+body.tour-active:not(.char-sheet-active) .global-header,
+body.tour-active:not(.char-sheet-active) .top-mobile-hud,
+body.tour-active:not(.char-sheet-active) .floating-vitality-orbs,
+body.tour-active:not(.char-sheet-active) .combat-utilities-wrapper,
+body.tour-active:not(.char-sheet-active) #toggle-dice-btn {
+    display: none;
+}
+
+/* --- Shared Tour Components --- */
+.tour-card {
+    width: 100%;
+    max-width: 480px;
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 1), 0 0 30px var(--accent-glow);
+}
+
+.tour-progress-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    width: 100%;
+}
+
+.tour-progress-fill {
+    height: 100%;
+    background: var(--accent-primary);
+    transition: width 0.4s ease;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.tour-content {
+    padding: 2rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tour-step-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.tour-input-wrapper {
+    margin-bottom: 2.5rem;
+    width: 100%;
+    max-width: 320px;
+}
+
+.tour-input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--accent-primary);
+    padding: 1.25rem;
+    border-radius: 16px;
+    color: white;
+    text-align: center;
+    font-family: var(--font-primary);
+    font-size: 1.4rem;
+    outline: none;
+    box-shadow: 0 0 20px var(--accent-glow);
+    transition: all 0.3s ease;
+}
+
+.tour-input:focus {
+    box-shadow: 0 0 30px var(--accent-glow);
+    border-color: white;
+}
+
+.tour-option-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* --- Tour Step Component Classes (H3 Refactor) --- */
+
+.tour-step-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tour-hero-icon {
+    font-size: 4rem;
+    filter: drop-shadow(0 0 15px var(--accent-glow));
+    margin-bottom: 1.5rem;
+}
+
+.tour-step-header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.tour-step-desc {
+    text-align: center;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-bottom: 2rem;
+}
+
+.tour-age-wrapper {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.tour-age-display {
+    font-family: var(--font-primary);
+    font-size: 4rem;
+    color: var(--accent-primary);
+    text-shadow: 0 0 20px var(--accent-glow);
+    margin-bottom: 1rem;
+}
+
+.tour-option-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tour-option-btn--list {
+    text-align: left;
+    padding: 1rem;
+}
+
+.tour-option-btn i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.tour-option-btn span {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.tour-trinket-name {
+    font-size: 0.85rem;
+}
+
+/* --- End H3 Refactor --- */
