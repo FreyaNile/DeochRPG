@@ -11,8 +11,8 @@ body {
     font-family: var(--font-body);
     line-height: 1.6;
     min-height: 100vh;
+    /* Clean desktop default */
     overflow-x: hidden;
-    overscroll-behavior: none;
     width: 100%;
     position: relative;
     display: flex;
@@ -28,16 +28,36 @@ html {
 body::before {
     content: "";
     position: fixed;
-    width: 100%;
-    height: 100vmax;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* Clean desktop default */
     background-image: url("../../images/talos.png");
     background-position: center center;
+    background-size: cover;
     background-repeat: no-repeat;
     z-index: var(--z-neg);
     pointer-events: none;
+    transform: none;
 }
 
+/* ==========================================================================
+   Mobile-Only Performance & Layout Stability Fixes
+   ========================================================================== */
+@media (max-width: 768px) {
+    body {
+        min-height: 100lvh;
+        /* Locks body bounds to large viewport height */
+        overscroll-behavior: none;
+        /* Kills rubber-banding ONLY on mobile touch */
+    }
 
+    body::before {
+        height: 100svh;
+        /* Locks background size to small viewport height; prevents morphing */
+    }
+}
 
 summary {
     color: var(--text-secondary);
