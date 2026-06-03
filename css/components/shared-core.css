@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: transparent;
+    background-color: #0d0d0d;
     /* Allow body::before background to show */
     color: var(--text-primary);
     font-family: var(--font-body);
@@ -23,25 +23,18 @@ html {
     scroll-behavior: smooth;
     overflow-x: hidden;
     width: 100%;
-    background-color: var(--bg-base);
-    color-scheme: dark;
 }
 
-/* More robust fixed background for mobile */
-.fixed-background {
+body::before {
+    content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
     background-image: url("../../images/talos.png");
     background-position: center center;
-    background-size: cover;
     background-repeat: no-repeat;
     z-index: var(--z-neg);
     pointer-events: none;
-    transform: translate3d(0, 0, 0);
-    will-change: transform;
 }
 
 
