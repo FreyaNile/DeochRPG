@@ -6,13 +6,12 @@
 }
 
 body {
-    background-color: #0d0d0d;
+    background-color: transparent;
     color: var(--text-primary);
     font-family: var(--font-body);
     line-height: 1.6;
     min-height: 100vh;
     /* Desktop default */
-    overflow-x: hidden;
     width: 100%;
     position: relative;
     display: flex;
@@ -22,6 +21,7 @@ body {
 html {
     scroll-behavior: smooth;
     width: 100%;
+    overflow-x: hidden;
 }
 
 body::before {
