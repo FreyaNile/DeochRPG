@@ -11,7 +11,7 @@ body {
     font-family: var(--font-body);
     line-height: 1.6;
     min-height: 100vh;
-    /* Clean desktop default */
+    /* Desktop default */
     overflow-x: hidden;
     width: 100%;
     position: relative;
@@ -32,7 +32,7 @@ body::before {
     left: 0;
     width: 100vw;
     height: 100vh;
-    /* Clean desktop default */
+    /* Desktop default */
     background-image: url("../../images/talos.png");
     background-position: center center;
     background-size: cover;
@@ -47,12 +47,13 @@ body::before {
    ========================================================================== */
 @media (max-width: 768px) {
     body {
-        min-height: 100lvh;
+        /* Remove 100lvh/100vh completely to prevent layout engine calculation lockups */
+        min-height: 100%;
     }
 
     body::before {
-        height: 105svh;
-        top: 0;
+        /* Keeps the background image size completely frozen regardless of URL bar state */
+        height: 100svh;
     }
 }
 
