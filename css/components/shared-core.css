@@ -48,14 +48,11 @@ body::before {
 @media (max-width: 768px) {
     body {
         min-height: 100lvh;
-        /* Locks body bounds to large viewport height */
-        overscroll-behavior: none;
-        /* Kills rubber-banding ONLY on mobile touch */
     }
 
     body::before {
-        height: 100svh;
-        /* Locks background size to small viewport height; prevents morphing */
+        height: 105svh;
+        top: 0;
     }
 }
 
