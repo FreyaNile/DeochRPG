@@ -51,6 +51,7 @@
 .mobile-sheet-container {
     width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .stat-roll-result {
@@ -292,6 +293,7 @@ body.on-test-page .tabs-card .tab-nav {
 body.on-test-page:not(.tour-active) .mobile-sheet-container {
     padding-top: 5.5rem;
     min-height: 100vh;
+    min-height: 100dvh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -300,6 +302,7 @@ body.on-test-page:not(.tour-active) .mobile-sheet-container {
 
 #test-tabs-card {
     height: calc(100vh - 15rem);
+    height: calc(100dvh - 15rem);
     display: flex;
     flex-direction: column;
     margin-bottom: 0.5rem;

@@ -7,11 +7,12 @@
 
 body {
     background-color: transparent;
+    /* Allow body::before background to show */
     color: var(--text-primary);
     font-family: var(--font-body);
     line-height: 1.6;
     min-height: 100vh;
-    /* Desktop default */
+    overflow-x: hidden;
     width: 100%;
     position: relative;
     display: flex;
@@ -20,10 +21,12 @@ body {
 
 html {
     scroll-behavior: smooth;
-    width: 100%;
     overflow-x: hidden;
+    width: 100%;
+    background-color: var(--bg-base);
 }
 
+/* More robust fixed background for mobile */
 body::before {
     content: "";
     position: fixed;
@@ -31,30 +34,17 @@ body::before {
     left: 0;
     width: 100vw;
     height: 100vh;
-    /* Desktop default */
     background-image: url("../../images/talos.png");
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
-    z-index: -1;
+    z-index: var(--z-neg);
     pointer-events: none;
-    transform: none;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
 }
 
-/* ==========================================================================
-   Mobile-Only Performance & Layout Stability Fixes
-   ========================================================================== */
-@media (max-width: 768px) {
-    body {
-        /* Use svh to avoid dynamic viewport resizing while preserving scroll container */
-        min-height: 100svh;
-    }
 
-    body::before {
-        /* Keeps the background image size completely frozen regardless of URL bar state */
-        height: 100svh;
-    }
-}
 
 summary {
     color: var(--text-secondary);
