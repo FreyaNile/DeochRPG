@@ -46,8 +46,8 @@ body::before {
    ========================================================================== */
 @media (max-width: 768px) {
     body {
-        /* Remove 100lvh/100vh completely to prevent layout engine calculation lockups */
-        min-height: 100%;
+        /* Use svh to avoid dynamic viewport resizing while preserving scroll container */
+        min-height: 100svh;
     }
 
     body::before {
