@@ -15,9 +15,18 @@
         const stabilizeBg = () => {
             const bg = document.querySelector('.fixed-background');
             if (bg) {
-                // Lock height and width to screen dimensions to prevent address bar resizing jumps
-                bg.style.height = window.screen.height + 'px';
-                bg.style.width = window.screen.width + 'px';
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 1024;
+                if (isMobile) {
+                    // Lock height to innerHeight on mobile to prevent URL bar resizing jumps
+                    bg.style.height = window.innerHeight + 'px';
+                    bg.style.bottom = 'auto';
+                    bg.style.width = '100%';
+                } else {
+                    // On desktop, clear inline styles so CSS top/left/right/bottom handles centering
+                    bg.style.height = '';
+                    bg.style.bottom = '';
+                    bg.style.width = '';
+                }
             }
         };
 
