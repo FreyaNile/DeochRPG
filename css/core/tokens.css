@@ -50,7 +50,9 @@
     font-weight: 100 900;
     font-style: italic;
     font-display: swap;
-}/* Chrome, and Safari Scrollbars */
+}
+
+/* Chrome, and Safari Scrollbars */
 *::-webkit-scrollbar {
     width: 12px;
     height: 12px;
@@ -79,8 +81,8 @@ html {
 :root {
     /* Color Palette - Defaulted to Sandstorm to match JS default */
     --bg-base: #020202;
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.55);
+    --text-primary: #EAE6DF;
+    --text-secondary: #A39E93;
     --accent-primary: #fde68a;
     --accent-secondary: #b45309;
     --accent-glow: rgba(255, 245, 184, 0.5);

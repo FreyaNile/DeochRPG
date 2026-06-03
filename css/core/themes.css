@@ -34,7 +34,7 @@ html[data-theme="abyssal"] {
     --metallic-gradient: linear-gradient(135deg, #cccccc 0%, #999999 20%, #666666 45%, #777777 55%, #555555 80%, #333333 100%);
 }
 
-html[data-theme="abyssal"] .glass-panel-dark,
+html[data-theme="abyssal"] .glass-panel-frosted,
 html[data-theme="abyssal"] .class-card,
 html[data-theme="abyssal"] .ethos-card,
 html[data-theme="abyssal"] .announcement-bar {
@@ -106,12 +106,12 @@ html[data-theme="toxic"] {
     --metallic-gradient: linear-gradient(135deg, #f7fee7 0%, #bef264 20%, #d946ef 45%, #a21caf 55%, #701a75 80%, #000000 100%);
 }
 
-html[data-theme="sandstorm"] {
-    --accent-primary: #fde68a;
-    --accent-secondary: #b45309;
-    --accent-glow: rgba(255, 245, 184, 0.5);
-    --glass-bg: rgba(12, 9, 4, var(--glass-alpha));
-    --metallic-gradient: linear-gradient(135deg, #fffbeb 0%, #fde68a 20%, #b45309 45%, #92400e 55%, #451a03 80%, #000000 100%);
+html[data-theme="hybrasyl"] {
+    --accent-primary: #a28352;
+    --accent-secondary: #bf9f6b;
+    --accent-glow: rgba(162, 131, 82, 0.4);
+    --glass-bg: rgba(12, 11, 14, var(--glass-alpha));
+    --metallic-gradient: linear-gradient(135deg, #f5deb3 0%, #c9a96e 20%, #a28352 45%, #bf9f6b 55%, #4a2e0e 80%, #0c0b0e 100%);
 }
 
 html[data-theme="phantom"] {

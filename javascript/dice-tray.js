@@ -133,12 +133,17 @@ export const DiceTray = {
         this.activeStat = null;
         this.isAdvantage = false;
         this.isDisadvantage = false;
+        this.lastRollIsNat1 = false;
+        this.lastRollIsNat20 = false;
         
         document.querySelectorAll('.mod-btn').forEach(b => b.classList.remove('active'));
         this.updateToggles();
         
         const resultValue = document.getElementById('dice-result-value');
-        if (resultValue) resultValue.textContent = '--';
+        if (resultValue) {
+            resultValue.textContent = '--';
+            resultValue.style.color = '';
+        }
         
         const resultLabel = document.getElementById('dice-result-label');
         if (resultLabel) resultLabel.textContent = 'Dice Tray';
@@ -166,13 +171,26 @@ export const DiceTray = {
 
         // Add modifier if active
         let total = result;
-        if (this.activeStat) {
-            const mod = this.getStatMod(this.activeStat);
-            total += mod;
-            info += ` + ${this.activeStat.toUpperCase()}(${mod >= 0 ? '+' : ''}${mod})`;
+        const isNat1 = (sides === 20 && result === 1);
+        const isNat20 = (sides === 20 && result === 20);
+
+        if (isNat1) {
+            total = 1;
+        } else if (isNat20) {
+            total = 20;
+        } else {
+            if (this.activeStat) {
+                const mod = this.getStatMod(this.activeStat);
+                total += mod;
+                info += ` + ${this.activeStat.toUpperCase()}(${mod >= 0 ? '+' : ''}${mod})`;
+            }
+            if (total < 1) total = 1;
         }
 
-        this.displayResult(total, info);
+        this.lastRollIsNat1 = isNat1;
+        this.lastRollIsNat20 = isNat20;
+
+        this.displayResult(total, info, isNat1, isNat20);
     },
 
     /**
@@ -201,24 +219,30 @@ export const DiceTray = {
      * @description Updates the UI with the roll result.
      * @param {number} total - The final roll total.
      * @param {string} info - Description of the roll (e.g., "d20 + STR(+2)").
+     * @param {boolean} isNat1 - Whether the roll was a natural 1.
+     * @param {boolean} isNat20 - Whether the roll was a natural 20.
      */
-    displayResult(total, info) {
+    displayResult(total, info, isNat1 = false, isNat20 = false) {
         const resultValue = document.getElementById('dice-result-value');
         const resultLabel = document.getElementById('dice-result-label');
 
         if (resultValue) {
             resultValue.textContent = total;
-            // Use a CSS class animation instead of a setTimeout/style race
-            resultValue.classList.remove('stat-roll-result');
-            resultValue.getBoundingClientRect(); // force reflow to restart animation
-            resultValue.classList.add('stat-roll-result');
+            let color = '';
+            if (isNat1) {
+                color = 'var(--color-danger)';
+            } else if (isNat20) {
+                color = 'var(--color-success)';
+            }
+            resultValue.style.color = color;
+            DeochUtils.restartAnimation(resultValue, 'stat-roll-result');
         }
 
         if (resultLabel) {
             resultLabel.textContent = info;
         }
 
-        this.addToHistory(total, info);
+        this.addToHistory(total, info, isNat1, isNat20);
     },
 
     /**
@@ -230,10 +254,22 @@ export const DiceTray = {
      */
     rollCheck(mod, label) {
         const roll = Math.floor(DeochUtils.random() * 20) + 1;
-        const total = roll + mod;
+        const isNat1 = (roll === 1);
+        const isNat20 = (roll === 20);
+        let total;
+        if (isNat1) {
+            total = 1;
+        } else if (isNat20) {
+            total = 20;
+        } else {
+            total = Math.max(1, roll + mod);
+        }
         const info = `${label}: d20(${roll}) + ${mod >= 0 ? '+' : ''}${mod}`;
         
-        this.displayResult(total, info);
+        this.lastRollIsNat1 = isNat1;
+        this.lastRollIsNat20 = isNat20;
+
+        this.displayResult(total, info, isNat1, isNat20);
         return total;
     },
 
@@ -242,8 +278,10 @@ export const DiceTray = {
      * @description Adds a roll result to the history log.
      * @param {number} total - The final roll total.
      * @param {string} info - Description of the roll.
+     * @param {boolean} isNat1 - Whether the roll was a natural 1.
+     * @param {boolean} isNat20 - Whether the roll was a natural 20.
      */
-    addToHistory(total, info) {
+    addToHistory(total, info, isNat1 = false, isNat20 = false) {
         const logList = document.getElementById('combat-log-list');
         if (!logList) return;
 
@@ -252,6 +290,12 @@ export const DiceTray = {
         if (placeholder) placeholder.remove();
 
         const entry = DeochUtils.createLogEntry(total, info);
+        const totalEl = entry.querySelector('.log-total');
+        if (totalEl) {
+            if (isNat1) totalEl.style.color = 'var(--color-danger)';
+            if (isNat20) totalEl.style.color = 'var(--color-success)';
+        }
+        
         logList.prepend(entry);
         
         if (logList.children.length > 20) logList.lastElementChild.remove();
@@ -265,5 +309,7 @@ export const DiceTray = {
         this.activeStat = null;
         this.isAdvantage = false;
         this.isDisadvantage = false;
+        this.lastRollIsNat1 = false;
+        this.lastRollIsNat20 = false;
     }
 };

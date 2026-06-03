@@ -26,9 +26,8 @@ export class HealthOrbShader {
         this.canvas._shaderInstance = this;
 
         const dpr = Math.min(window.devicePixelRatio || 1, 2.0);
-        const rect = this.canvas.getBoundingClientRect();
-        const baseWidth = rect.width || parseInt(this.canvas.getAttribute('width')) || 110;
-        const baseHeight = rect.height || parseInt(this.canvas.getAttribute('height')) || 110;
+        const baseWidth = this.canvas.width || parseInt(this.canvas.getAttribute('width')) || 110;
+        const baseHeight = this.canvas.height || parseInt(this.canvas.getAttribute('height')) || 110;
 
         this.canvas.width = baseWidth * dpr;
         this.canvas.height = baseHeight * dpr;
@@ -46,6 +45,16 @@ export class HealthOrbShader {
         this.time = 0;
         this.isCancelled = false;
         this._raf = null;
+        this.isVisible = true;
+
+        if (typeof window.IntersectionObserver !== 'undefined') {
+            this._observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    this.isVisible = entry.isIntersecting;
+                });
+            }, { threshold: 0 });
+            this._observer.observe(this.canvas);
+        }
 
         this.colors = {
             health: {
@@ -72,7 +81,29 @@ export class HealthOrbShader {
         }[type];
 
         this.init();
+        this.updateThemeColors();
         this.startLoop();
+    }
+
+    hexToRgb(hex) {
+        const cleanHex = hex.replace('#', '').trim();
+        if (cleanHex.length !== 6) return [1.0, 0.75, 0.2];
+        const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
+        const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
+        const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
+        return [r, g, b];
+    }
+
+    updateThemeColors() {
+        if (this.type !== 'stamina') return;
+        const style = getComputedStyle(document.documentElement);
+        const accent = style.getPropertyValue('--accent-primary').trim();
+        if (accent) {
+            const rgb = this.hexToRgb(accent);
+            this.colors.glow = rgb;
+            this.colors.base = [rgb[0] * 0.15, rgb[1] * 0.15, rgb[2] * 0.15];
+            this.colors.deep = [rgb[0] * 0.05, rgb[1] * 0.05, rgb[2] * 0.05];
+        }
     }
 
     /**
@@ -80,7 +111,7 @@ export class HealthOrbShader {
      */
     startLoop() {
         let lastTime = performance.now();
-        const fpsInterval = 1000 / 30; // ~33.33ms
+        const fpsInterval = 1000 / 60; // ~16.67ms
         const loop = (timestamp) => {
             if (this.isCancelled) return;
             this._raf = requestAnimationFrame(loop);
@@ -101,6 +132,10 @@ export class HealthOrbShader {
     cancel() {
         this.isCancelled = true;
         if (this._raf) cancelAnimationFrame(this._raf);
+        if (this._observer) {
+            this._observer.disconnect();
+            this._observer = null;
+        }
         if (this.canvas && this.canvas._shaderInstance === this) {
             this.canvas._shaderInstance = null;
         }
@@ -242,6 +277,18 @@ export class HealthOrbShader {
         this.positionBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.positionBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), this.gl.STATIC_DRAW);
+
+        this.locations = {
+            position: this.gl.getAttribLocation(this.program, 'position'),
+            u_time: this.gl.getUniformLocation(this.program, 'u_time'),
+            u_health: this.gl.getUniformLocation(this.program, 'u_health'),
+            u_tempHealth: this.gl.getUniformLocation(this.program, 'u_tempHealth'),
+            u_colBase: this.gl.getUniformLocation(this.program, 'u_colBase'),
+            u_colDeep: this.gl.getUniformLocation(this.program, 'u_colDeep'),
+            u_colGlow: this.gl.getUniformLocation(this.program, 'u_colGlow'),
+            u_colTemp: this.gl.getUniformLocation(this.program, 'u_colTemp'),
+            u_colTempGlow: this.gl.getUniformLocation(this.program, 'u_colTempGlow')
+        };
     }
 
     /**
@@ -287,10 +334,6 @@ export class HealthOrbShader {
         this.targetTempHealth = temp;
     }
 
-    /**
-     * Draws a single frame of the orb shader, interpolating states.
-     * @param {number} dt - Delta time in seconds since the last frame.
-     */
     animate(dt) {
         if (this.isCancelled) return;
         this.time += dt;
@@ -299,7 +342,7 @@ export class HealthOrbShader {
         this.tempHealth += (this.targetTempHealth - this.tempHealth) * factor;
 
         // Skip WebGL drawing if the tab/document is hidden or the canvas is hidden/unrendered
-        if (document.hidden || !this.canvas || this.canvas.offsetWidth === 0 || this.canvas.offsetHeight === 0) {
+        if (document.hidden || !this.canvas || !this.isVisible) {
             return;
         }
 
@@ -311,20 +354,20 @@ export class HealthOrbShader {
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.useProgram(this.program);
 
-        const posLoc = gl.getAttribLocation(this.program, 'position');
+        const posLoc = this.locations.position;
         gl.enableVertexAttribArray(posLoc);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
         gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
-        gl.uniform1f(gl.getUniformLocation(this.program, 'u_time'), this.time);
-        gl.uniform1f(gl.getUniformLocation(this.program, 'u_health'), this.health);
-        gl.uniform1f(gl.getUniformLocation(this.program, 'u_tempHealth'), this.tempHealth);
+        gl.uniform1f(this.locations.u_time, this.time);
+        gl.uniform1f(this.locations.u_health, this.health);
+        gl.uniform1f(this.locations.u_tempHealth, this.tempHealth);
 
-        gl.uniform3fv(gl.getUniformLocation(this.program, 'u_colBase'), this.colors.base);
-        gl.uniform3fv(gl.getUniformLocation(this.program, 'u_colDeep'), this.colors.deep);
-        gl.uniform3fv(gl.getUniformLocation(this.program, 'u_colGlow'), this.colors.glow);
-        gl.uniform3fv(gl.getUniformLocation(this.program, 'u_colTemp'), this.colors.temp);
-        gl.uniform3fv(gl.getUniformLocation(this.program, 'u_colTempGlow'), this.colors.tempGlow);
+        gl.uniform3fv(this.locations.u_colBase, this.locations.u_colBase ? this.colors.base : new Float32Array(3));
+        gl.uniform3fv(this.locations.u_colDeep, this.locations.u_colDeep ? this.colors.deep : new Float32Array(3));
+        gl.uniform3fv(this.locations.u_colGlow, this.locations.u_colGlow ? this.colors.glow : new Float32Array(3));
+        gl.uniform3fv(this.locations.u_colTemp, this.locations.u_colTemp ? this.colors.temp : new Float32Array(3));
+        gl.uniform3fv(this.locations.u_colTempGlow, this.locations.u_colTempGlow ? this.colors.tempGlow : new Float32Array(3));
 
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
@@ -356,11 +399,7 @@ export const VitalsManager = {
 
         // Only start sync loop once
         if (!this.initialized) {
-            if (window.requestIdleCallback) {
-                this.idleHandle = window.requestIdleCallback(() => this.initVisuals());
-            } else {
-                this.visualsTimeout = setTimeout(() => this.initVisuals(), 100);
-            }
+            this.visualsTimeout = setTimeout(() => this.initVisuals(), 50);
             this.startOrbSync();
             this.refreshOrbVisibility();
             this.initialized = true;
@@ -372,13 +411,33 @@ export const VitalsManager = {
      * Instantiates the HealthOrbShader instances for the various canvas elements.
      */
     initVisuals() {
+        const tasks = [];
         const hudHealthCanvas = document.getElementById('hud-health-orb-canvas');
         const hudManaCanvas = document.getElementById('hud-mana-orb-canvas');
         const hudStaminaCanvas = document.getElementById('hud-stamina-orb-canvas');
 
-        if (hudHealthCanvas) window.hudHealthOrbShader = new HealthOrbShader('hud-health-orb-canvas', 'health');
-        if (hudManaCanvas) window.hudManaOrbShader = new HealthOrbShader('hud-mana-orb-canvas', 'mana');
-        if (hudStaminaCanvas) window.hudStaminaOrbShader = new HealthOrbShader('hud-stamina-orb-canvas', 'stamina');
+        if (hudHealthCanvas && !window.hudHealthOrbShader) {
+            tasks.push(() => { window.hudHealthOrbShader = new HealthOrbShader('hud-health-orb-canvas', 'health'); });
+        }
+        if (hudManaCanvas && !window.hudManaOrbShader) {
+            tasks.push(() => { window.hudManaOrbShader = new HealthOrbShader('hud-mana-orb-canvas', 'mana'); });
+        }
+        if (hudStaminaCanvas && !window.hudStaminaOrbShader) {
+            tasks.push(() => { window.hudStaminaOrbShader = new HealthOrbShader('hud-stamina-orb-canvas', 'stamina'); });
+        }
+
+        if (tasks.length === 0) return;
+
+        const runNextTask = () => {
+            if (tasks.length === 0) return;
+            const task = tasks.shift();
+            task();
+            if (tasks.length > 0) {
+                this.visualsTimeout = setTimeout(runNextTask, 16);
+            }
+        };
+
+        runNextTask();
     },
 
     /**
@@ -407,7 +466,7 @@ export const VitalsManager = {
                 const stat = el.getAttribute('data-stat');
                 const delta = parseInt(el.getAttribute('data-delta')) || 0;
                 if (stat && delta !== 0) {
-                    this.adjust(stat, delta);
+                    this.adjust(stat, delta, 'orb');
                 }
             }, { signal: this.signal });
         });
@@ -435,12 +494,15 @@ export const VitalsManager = {
         if (type === 'hp' || type === 'health') {
             activeChar.maxHp = DeochUtils.getInt('hud-max-hp-input', 28);
             if (activeChar.currentHp > activeChar.maxHp) activeChar.currentHp = activeChar.maxHp;
+            this.triggerSlosh('.health-orb');
         } else if (type === 'mana' || type === 'mp') {
             activeChar.maxMp = DeochUtils.getInt('hud-max-mp-input', 12);
             if (activeChar.currentMp > activeChar.maxMp) activeChar.currentMp = activeChar.maxMp;
+            this.triggerSlosh('.mana-orb');
         } else if (type === 'stamina' || type === 'sp') {
             activeChar.maxSp = DeochUtils.getInt('mobile-max-sp-input', 10);
             if (activeChar.currentSp > activeChar.maxSp) activeChar.currentSp = activeChar.maxSp;
+            this.triggerSlosh('.stamina-orb');
         }
         this.refreshOrbVisibility();
         this.syncToMainSheet();
@@ -451,7 +513,7 @@ export const VitalsManager = {
      * @param {string} type - The stat type: 'hp', 'mana', or 'stamina'.
      * @param {number} delta - The value to add or subtract.
      */
-    adjust(type, delta) {
+    adjust(type, delta, source = null) {
         const activeChar = DataManager.activeCharacter;
         if (type === 'hp' || type === 'health') {
             const max = activeChar.maxHp || 28;
@@ -459,20 +521,17 @@ export const VitalsManager = {
             const currentTemp = activeChar.tempHp || 0;
 
             if (ProgressionManager) {
-                const res = ProgressionManager.calculateHPChange(currentHp, currentTemp, delta, max);
+                const res = ProgressionManager.calculateHPChange(currentHp, currentTemp, delta, max, source);
                 activeChar.currentHp = res.hp;
                 activeChar.tempHp = res.temp;
             }
-            this.triggerSlosh('.health-orb');
             this.checkDeathStatus();
         } else if (type === 'mana' || type === 'mp') {
             const max = activeChar.maxMp || 12;
             activeChar.currentMp = Math.max(0, Math.min(max, (activeChar.currentMp || 0) + delta));
-            this.triggerSlosh('.mana-orb');
         } else if (type === 'stamina' || type === 'sp') {
             const max = activeChar.maxSp || 10;
             activeChar.currentSp = Math.max(0, Math.min(max, (activeChar.currentSp || 0) + delta));
-            this.triggerSlosh('.stamina-orb');
         } else if (type === 'temp-hp') {
             activeChar.tempHp = delta;
         }
@@ -485,11 +544,18 @@ export const VitalsManager = {
      * Starts the requestAnimationFrame synchronization loop.
      */
     startOrbSync() {
-        const sync = () => {
+        let lastTime = performance.now();
+        const fpsInterval = 1000 / 60; // 60fps
+        const sync = (timestamp) => {
             if (!this.initialized || (this.signal && this.signal.aborted)) return;
-            this.animateOrbs();
-            this.syncToHUDText();
             this._syncRaf = requestAnimationFrame(sync);
+
+            const elapsed = timestamp - lastTime;
+            if (elapsed >= fpsInterval) {
+                lastTime = timestamp - (elapsed % fpsInterval);
+                this.animateOrbs();
+                this.syncToHUDText();
+            }
         };
         this._syncRaf = requestAnimationFrame(sync);
     },
@@ -572,49 +638,72 @@ export const VitalsManager = {
         const dialog = document.getElementById('death-mercy-dialog');
         if (!dialog) return;
 
+        const config = isMercy ? {
+            title: 'MERCY', color: '#a28352', glow: 'rgba(162, 131, 82, 0.4)',
+            msg: 'Inspiration has saved you from the brink. You cling to life with 1 HP remaining.',
+            icon: 'sparkles',
+            btnText: 'CLING TO LIFE'
+        } : {
+            title: 'YOU ARE DEAD', color: '#ef4444', glow: 'rgba(239, 68, 68, 0.4)',
+            msg: 'The darkness claims your soul. This character has met their end.',
+            icon: 'skull',
+            btnText: 'ACCEPT FATE'
+        };
+
+        this.applyDeathPromptStyles(dialog, config, isMercy);
+
+        if (isMercy) {
+            this.activateMercyState();
+        }
+
+        dialog.showModal();
+    },
+
+    applyDeathPromptStyles(dialog, config, isMercy) {
         const deathTitle = document.getElementById('death-mercy-title');
         const deathText = document.getElementById('death-mercy-text');
         const deathIconContainer = document.getElementById('death-mercy-icon-container');
         const deathClose = document.getElementById('death-mercy-close');
 
-        const config = isMercy ? {
-            title: 'MERCY', color: 'var(--accent-primary)', glow: 'var(--accent-glow)',
-            msg: 'Inspiration has saved you from the brink. You cling to life with 1 HP remaining.',
-            icon: 'sparkles'
-        } : {
-            title: 'YOU ARE DEAD', color: 'var(--color-danger)', glow: 'rgba(239, 68, 68, 0.4)',
-            msg: 'The darkness claims your soul. This character has met their end.',
-            icon: 'skull'
-        };
+        dialog.classList.toggle('border-danger', !isMercy);
+        dialog.style.borderColor = config.color;
+        dialog.style.boxShadow = `0 0 50px ${config.glow}`;
 
         if (deathTitle) {
+            deathTitle.classList.toggle('u-text-danger', !isMercy);
             deathTitle.textContent = config.title;
             deathTitle.style.color = config.color;
             deathTitle.style.textShadow = `0 0 20px ${config.glow}`;
         }
-        if (deathText) deathText.textContent = config.msg;
-        if (deathClose) deathClose.style.background = config.color;
-
-        dialog.style.borderColor = config.color;
-        dialog.style.boxShadow = `0 0 50px ${config.glow}`;
-
-        const icon = deathIconContainer?.querySelector('i, svg');
-        if (icon) icon.setAttribute('data-lucide', config.icon);
-
-        if (isMercy) {
-            DataManager.activeCharacter.currentHp = 1;
-            this.syncToMainSheet();
-            const insp = document.getElementById('test-hud-inspiration');
-            if (insp) {
-                insp.checked = false;
-                insp.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-            this.lastKnownHP = 1;
-            this.lastKnownDeathHP = 1;
+        if (deathText) {
+            deathText.textContent = config.msg;
+            deathText.style.color = '#EAE6DF';
         }
+        if (deathIconContainer) {
+            deathIconContainer.classList.toggle('u-text-danger', !isMercy);
+            deathIconContainer.style.color = config.color;
+            const icon = deathIconContainer.querySelector('i, svg');
+            if (icon) icon.setAttribute('data-lucide', config.icon);
+            DeochUtils.queueIconRefresh(deathIconContainer);
+        }
+        if (deathClose) {
+            deathClose.classList.toggle('u-bg-danger', !isMercy);
+            deathClose.style.background = config.color;
+            deathClose.style.setProperty('color', '#EAE6DF', 'important');
+            deathClose.textContent = config.btnText;
+        }
+    },
 
-        DeochUtils.queueIconRefresh();
-        dialog.showModal();
+    activateMercyState() {
+        DataManager.activeCharacter.currentHp = 1;
+        this.syncToMainSheet();
+        const insp = document.getElementById('test-hud-inspiration');
+        if (insp) {
+            insp.checked = false;
+            insp.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        this.lastKnownHP = 1;
+        this.lastKnownDeathHP = 1;
     },
 
     /**
@@ -629,20 +718,15 @@ export const VitalsManager = {
             const isInspired = inspEl?.checked ?? false;
             this.showDeathPrompt(isInspired);
         }
-        this.lastKnownDeathHP = currentHP;
+        this.lastKnownDeathHP = DataManager.activeCharacter.currentHp || 0;
     },
 
     /**
      * Triggers the slosh animation class on a target selector.
      * @param {string} sel - CSS Selector for the target element.
      */
-    triggerSlosh(sel) {
-        const el = document.querySelector(sel);
-        if (el) {
-            el.classList.remove('sloshing');
-            el.getBoundingClientRect();
-            el.classList.add('sloshing');
-        }
+    triggerSlosh(_sel) {
+        // Disabled by user request
     },
 
     /**

@@ -21,7 +21,6 @@ export const InterfaceManager = {
         // 1. Render dynamic components first so they exist in the DOM
         this.renderConditions();
         this.renderLanguages();
-        this.renderAttributes();
         this.renderRestoration();
 
         // 2. Initialize UI modules
@@ -30,6 +29,14 @@ export const InterfaceManager = {
         this.initBulkModal();
         this.initManagementEvents();
         this.initGlobalListeners();
+        this.initLoreEvents();
+        this.initNewsletterForm();
+
+        const activeTabBtn = document.getElementById('test-tab-nav')?.querySelector('.test-tab-btn.active');
+        if (activeTabBtn && activeTabBtn.getAttribute('data-tab') === 'test-tab-lore') {
+            document.body.classList.add('lore-tab-active');
+        }
+
         this.initialized = true;
     },
 
@@ -61,32 +68,37 @@ export const InterfaceManager = {
         };
 
         const inputId = inputMap[key];
-        const hudId = hudMap[key];
-
         if (inputId) {
             const el = document.getElementById(inputId);
             if (el) el.value = value;
         }
 
-        if (hudId) {
-            const el = document.getElementById(hudId);
-            if (el) {
-                if (key === 'level') {
-                    el.textContent = `Level ${value}`;
-                    const hiddenLevel = document.getElementById('test-hud-level');
-                    if (hiddenLevel) hiddenLevel.textContent = value;
-                } else if (key === 'exp') {
-                    el.textContent = value;
-                    const expInput = document.getElementById('test-exp-input');
-                    if (expInput) {
-                        if (expInput.tagName === 'INPUT') expInput.value = value;
-                        else expInput.textContent = value;
-                    }
-                } else {
-                    el.textContent = value;
-                }
-            }
+        const hudId = hudMap[key];
+        if (!hudId) return;
+
+        const el = document.getElementById(hudId);
+        if (!el) return;
+
+        if (key === 'level') {
+            el.innerHTML = `Level <span class="hud-level-val">${value}</span>`;
+            const hiddenLevel = document.getElementById('test-hud-level');
+            if (hiddenLevel) hiddenLevel.textContent = value;
+            return;
         }
+
+        if (key === 'exp') {
+            el.textContent = value;
+            const expInput = document.getElementById('test-exp-input');
+            if (!expInput) return;
+            if (expInput.tagName === 'INPUT') {
+                expInput.value = value;
+            } else {
+                expInput.textContent = value;
+            }
+            return;
+        }
+
+        el.textContent = value;
     },
 
     applyVitalsUI(char) {
@@ -143,7 +155,7 @@ export const InterfaceManager = {
             size: getInputVal('char-size', 'Medium'),
             level: getInputVal('char-level', '1'),
             exp: parseInt(document.getElementById('char-exp')?.value || '20', 10) || 20,
-            theme: document.documentElement.getAttribute('data-theme') || 'sandstorm',
+            theme: document.documentElement.getAttribute('data-theme') || 'hybrasyl',
             avatar: (() => {
                 const img = document.getElementById('test-hud-avatar-img');
                 return (img && !img.classList.contains('hidden') && img.src) ? img.src : null;
@@ -165,6 +177,7 @@ export const InterfaceManager = {
             masteryCelebrated: getFlag('test-mastery-celebrated'),
             elfrot: parseInt(document.getElementById('char-elfrot')?.value) || 0,
             availableStatPoints: ProgressionManager?.availableStatPoints || 0,
+            healingDice: parseInt(document.getElementById('char-healing-dice')?.value, 10) || 0,
             inspiration: document.getElementById('test-hud-inspiration')?.checked || false,
             languages: (() => {
                 const langData = {};
@@ -186,13 +199,20 @@ export const InterfaceManager = {
                         name: item.getAttribute('data-action-name'),
                         bonus: parseInt(item.getAttribute('data-action-bonus')) || 0,
                         icon: item.getAttribute('data-action-icon') || 'sword',
-                        stat: item.getAttribute('data-action-stat') || ''
+                        stat: item.getAttribute('data-action-stat') || '',
+                        dice: item.getAttribute('data-action-dice') || ''
                     });
                 });
                 return list;
             })(),
-            unarmedPreferredStat: document.querySelector('#test-actions-list .action-item[data-action-type="unarmed"]')?.getAttribute('data-preferred-stat') || '',
-            unarmedPreferredBonus: parseInt(document.querySelector('#test-actions-list .action-item[data-action-type="unarmed"]')?.getAttribute('data-preferred-bonus')) || 0
+            lore: (() => {
+                const list = [];
+                const items = document.querySelectorAll('#test-lore-list .lore-item');
+                items.forEach(item => {
+                    list.push(item.getAttribute('data-lore-text'));
+                });
+                return list;
+            })()
         };
     },
 
@@ -204,20 +224,7 @@ export const InterfaceManager = {
         DeochUtils.setText('test-hud-detail-speed', '30ft');
         DeochUtils.setText('test-hud-detail-size', 'Medium');
 
-        const actionsList = document.getElementById('test-actions-list');
-        if (actionsList) {
-            const existingCustoms = actionsList.querySelectorAll('.action-item[data-action-type="custom"]');
-            existingCustoms.forEach(el => el.remove());
-        }
-
-        const unarmedItem = document.querySelector('#test-actions-list .action-item[data-action-type="unarmed"]');
-        if (unarmedItem) {
-            unarmedItem.removeAttribute('data-preferred-stat');
-            const subtextEl = unarmedItem.querySelector('.u-opacity-0-5');
-            if (subtextEl) {
-                subtextEl.textContent = 'Melee • 1 + Mod Damage';
-            }
-        }
+        this.resetCustomActions();
 
         if (ProgressionManager) {
             ProgressionManager.applyStats({
@@ -232,7 +239,30 @@ export const InterfaceManager = {
         }
 
         this.updateAvatarDisplay(null);
+        this.resetVitals();
+        this.resetClasses();
+        this.resetLore();
 
+        DeochUtils.smartSet('test-exp-input', 20);
+        const savedTheme = DeochUtils.Storage.get('deoch-theme-preference') || 'hybrasyl';
+        this.applyTheme(savedTheme);
+
+        document.body.classList.remove('stat-tooltip-dismissed');
+        DeochUtils.Storage.remove('deoch_has_interacted_with_stat_popup');
+
+        if (ProgressionManager) {
+            ProgressionManager.updateLevelFromExp();
+            ProgressionManager.updateAttributes();
+            ProgressionManager.updateAvailablePointsUI();
+            ProgressionManager.updateStatIndicators();
+        }
+
+        if (GMManager) {
+            GMManager.setGMMode(false);
+        }
+    },
+
+    resetVitals() {
         DataManager.activeCharacter.maxHp = 28;
         DataManager.activeCharacter.maxMp = 12;
         DataManager.activeCharacter.maxSp = 10;
@@ -248,6 +278,13 @@ export const InterfaceManager = {
         const spInput = document.getElementById('mobile-max-sp-input');
         if (spInput) spInput.value = 10;
 
+        const healingDiceInput = document.getElementById('char-healing-dice');
+        const diceBadge = document.getElementById('healing-dice-badge');
+        if (healingDiceInput) healingDiceInput.value = 1;
+        if (diceBadge) diceBadge.textContent = 1;
+    },
+
+    resetClasses() {
         ['test-class-choice-made', 'test-is-multiclass', 'test-multiclass-choice-made', 'test-multiclass-opt-out', 'test-mastery-celebrated'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.value = 'false';
@@ -267,23 +304,24 @@ export const InterfaceManager = {
         if (classInput) classInput.value = 'Human';
         const classInput2 = document.getElementById('char-class-2');
         if (classInput2) classInput2.value = '';
+    },
 
-        DeochUtils.smartSet('test-exp-input', 20);
-        this.applyTheme('sandstorm');
-
-        document.body.classList.remove('stat-tooltip-dismissed');
-        DeochUtils.Storage.remove('deoch_has_interacted_with_stat_popup');
-
-        if (ProgressionManager) {
-            ProgressionManager.updateLevelFromExp();
-            ProgressionManager.updateAttributes();
-            ProgressionManager.updateAvailablePointsUI();
-            ProgressionManager.updateStatIndicators();
+    resetCustomActions() {
+        const actionsList = document.getElementById('test-actions-list');
+        if (actionsList) {
+            actionsList.innerHTML = '';
+            const defaultUnarmed = DeochUtils.createCustomActionItem('Unarmed Attack', 0, 'hand', 'str', '');
+            actionsList.appendChild(defaultUnarmed);
+            DeochUtils.queueIconRefresh(actionsList);
         }
+    },
 
-        if (GMManager) {
-            GMManager.setGMMode(false);
-        }
+    resetLore() {
+        const loreList = document.getElementById('test-lore-list');
+        if (loreList) loreList.innerHTML = '';
+        this.updateLoreEmptyState();
+        const newLoreInput = document.getElementById('new-lore-input');
+        if (newLoreInput) newLoreInput.value = '';
     },
 
     // --- Dynamic Rendering ---
@@ -300,11 +338,7 @@ export const InterfaceManager = {
         container.innerHTML = DeochUtils.generateLanguagesHTML(ProgressionManager.LANGUAGES);
     },
 
-    renderAttributes() {
-        const container = document.getElementById('test-attributes-grid');
-        if (!container || !ProgressionManager) return;
-        container.innerHTML = DeochUtils.generateAttributesHTML(ProgressionManager.ATTRIBUTES);
-    },
+
 
     renderRestoration() {
         const container = document.getElementById('test-restoration-grid');
@@ -320,9 +354,10 @@ export const InterfaceManager = {
         DeochUtils.addEvent('char-sheet-splash', 'click', () => this.transitionSplash(), { signal: this.signal });
 
         if (window.location.hash) {
-            this.handleHashChange();
+            const target = window.location.hash.substring(1) || 'home';
+            this.navigateTo(target, true);
         } else {
-            this.navigateTo('home');
+            this.navigateTo('home', true);
         }
     },
 
@@ -331,7 +366,7 @@ export const InterfaceManager = {
         this.navigateTo(target);
     },
 
-    navigateTo(targetId) {
+    navigateTo(targetId, isInit = false) {
         const navButtons = document.querySelectorAll('.nav-btn');
         const sections = document.querySelectorAll('.page-section');
         const btn = Array.from(navButtons).find(b => b.getAttribute('data-target') === targetId);
@@ -343,9 +378,9 @@ export const InterfaceManager = {
         const targetSection = document.getElementById(targetId);
         if (targetSection) targetSection.classList.add('active');
 
-        document.body.classList.toggle('on-test-page', targetId === 'test-page');
+        document.body.classList.toggle('on-test-page', targetId === 'play');
 
-        if (targetId === 'test-page') {
+        if (targetId === 'play') {
             if (typeof window.ensureTestPageInitialized === 'function') window.ensureTestPageInitialized();
             this.handleTestPageEntry();
         } else {
@@ -356,9 +391,13 @@ export const InterfaceManager = {
         }
 
         const tour = document.getElementById('creation-tour');
-        if (targetId !== 'test-page' && tour) tour.style.display = 'none';
+        if (targetId !== 'play' && tour) tour.style.display = 'none';
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (!isInit) {
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
         DeochUtils.queueIconRefresh();
     },
 
@@ -420,8 +459,10 @@ export const InterfaceManager = {
         setTimeout(() => {
             splashEl.style.display = 'none';
             const hasChar = DataManager.getCharacters().length > 0;
+            const forceNew = DataManager && DataManager.pendingNewCharacter;
+            if (DataManager) DataManager.pendingNewCharacter = false;
 
-            if (!hasChar) {
+            if (forceNew || !hasChar) {
                 DeochUtils.newHero();
             } else if (mainContentEl) {
                 document.body.classList.remove('tour-active');
@@ -456,11 +497,28 @@ export const InterfaceManager = {
         const hud = document.getElementById('top-mobile-hud');
         if (!hud) return;
 
-        DeochUtils.addEvent('top-mobile-hud', 'click', (e) => {
+        let startedInForbidden = false;
+
+        DeochUtils.addEvent('top-mobile-hud', 'pointerdown', (e) => {
             const forbidden = [
                 'button', 'input', 'select', 'svg', 'summary', 'details',
-                '.inspiration-toggle', '.hud-avatar', '.summary-item', 
-                '.stat-box', '.clickable-input', '.stat-confirm-bar'
+                '.inspiration-toggle', '.hud-avatar', '.summary-item',
+                '.stat-box', '.clickable-input', '.stat-confirm-bar',
+                '.hud-combat-pill'
+            ];
+            startedInForbidden = forbidden.some(sel => e.target.closest(sel));
+        }, { signal: this.signal });
+
+        DeochUtils.addEvent('top-mobile-hud', 'click', (e) => {
+            if (startedInForbidden) {
+                startedInForbidden = false;
+                return;
+            }
+            const forbidden = [
+                'button', 'input', 'select', 'svg', 'summary', 'details',
+                '.inspiration-toggle', '.hud-avatar', '.summary-item',
+                '.stat-box', '.clickable-input', '.stat-confirm-bar',
+                '.hud-combat-pill'
             ];
             if (forbidden.some(sel => e.target.closest(sel))) return;
             this.toggleHUD();
@@ -469,6 +527,15 @@ export const InterfaceManager = {
         DeochUtils.addEvent(DeochUtils.qs('.hud-menu-btn', hud), 'click', (e) => {
             e.stopPropagation();
             this.toggleHUD();
+        }, { signal: this.signal });
+
+        DeochUtils.addEvent(document, 'pointerdown', (e) => {
+            if (hud.classList.contains('expanded') && !hud.contains(e.target)) {
+                if (e.target.closest('#dice-tray-widget, #combat-log-widget, #toggle-dice-tray-btn, .combat-utilities-wrapper')) {
+                    return;
+                }
+                this.toggleHUD(false);
+            }
         }, { signal: this.signal });
 
         this.initHUDEXP();
@@ -500,18 +567,19 @@ export const InterfaceManager = {
         if (!isExpanded) hud.querySelectorAll('details').forEach(d => d.open = false);
 
         if (ProgressionManager) ProgressionManager.updateStatIndicators();
-        DeochUtils.queueIconRefresh();
     },
 
     initHUDEXP() {
-        const expBox = document.getElementById('test-hud-exp-trigger');
+        const expBox = document.getElementById('test-exp-modal-trigger');
         if (expBox) {
             expBox.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const modal = document.getElementById('experience-modal');
                 if (modal?.showModal) {
-                    this.updateExperienceModalContent();
                     modal.showModal();
+                    requestAnimationFrame(() => {
+                        this.updateExperienceModalContent();
+                    });
                     setTimeout(() => document.getElementById('test-add-exp-input')?.focus(), 150);
                 }
             }, { signal: this.signal });
@@ -527,10 +595,7 @@ export const InterfaceManager = {
             DeochUtils.addEvent(expInput, 'change', sync, { signal: this.signal });
         }
 
-        const plus = document.getElementById('test-exp-plus');
-        const minus = document.getElementById('test-exp-minus');
-        if (plus) plus.addEventListener('click', (e) => this.handleExpStep(e, 1), { signal: this.signal });
-        if (minus) minus.addEventListener('click', (e) => this.handleExpStep(e, -1), { signal: this.signal });
+
     },
 
     updateExperienceModalContent() {
@@ -554,26 +619,34 @@ export const InterfaceManager = {
         }
     },
 
-    handleExpStep(e, delta) {
-        e.stopPropagation();
-        const current = DeochUtils.getInt('test-exp-input', 0);
-        DeochUtils.smartSet('test-exp-input', Math.max(0, current + delta));
-        if (ProgressionManager) ProgressionManager.updateLevelFromExp();
-    },
-
     initHUDAvatar() {
-        const container = document.getElementById('test-hud-avatar');
+        const changePicBtn = document.getElementById('test-change-picture-btn');
         const upload = document.getElementById('test-avatar-upload');
-        if (container && upload) {
-            container.addEventListener('click', (e) => { e.stopPropagation(); upload.click(); }, { signal: this.signal });
+        if (changePicBtn && upload) {
+            changePicBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                upload.click();
+                const menu = changePicBtn.closest('.management-menu');
+                if (menu) menu.open = false;
+            }, { signal: this.signal });
             upload.addEventListener('change', (e) => this.handleAvatarUpload(e), { signal: this.signal });
+        }
+
+        const avatar = document.getElementById('test-hud-avatar');
+        const inspiration = document.getElementById('test-hud-inspiration');
+        if (avatar && inspiration) {
+            avatar.addEventListener('click', (e) => {
+                e.stopPropagation();
+                inspiration.checked = !inspiration.checked;
+                inspiration.dispatchEvent(new Event('change', { bubbles: true }));
+            }, { signal: this.signal });
         }
     },
 
     handleAvatarUpload(e) {
         const file = e.target.files[0];
         if (!file || !file.type.startsWith('image/')) return;
-        
+
         if (AvatarManager) {
             AvatarManager.open(file, (croppedDataUrl) => {
                 this.updateAvatarDisplay(croppedDataUrl);
@@ -611,31 +684,59 @@ export const InterfaceManager = {
         DeochUtils.smartSet('test-exp-input', exp);
         DeochUtils.smartSet('char-exp', exp);
         DeochUtils.setText('test-hud-level', info.isMulticlass ? info.totalLevel : info.displayLevel);
-        DeochUtils.setText('test-hud-level-text', `Level ${info.primaryLevel}`);
+        const primaryLevelEl = document.getElementById('test-hud-level-text');
+        if (primaryLevelEl) {
+            primaryLevelEl.innerHTML = `<span class="hud-level-val">${info.primaryLevel}</span>`;
+        }
         DeochUtils.setText('test-mobile-level', info.levelText);
 
+        const primaryLine = document.getElementById('test-hud-primary-line');
         const secLine = document.getElementById('test-hud-secondary-line');
-        if (secLine) {
-            secLine.style.display = info.isMulticlass ? 'flex' : 'none';
-            if (info.isMulticlass) DeochUtils.setText('test-hud-secondary-level-text', `Level ${info.secondaryLevel}`);
-        }
+        const multiLine = document.getElementById('test-hud-multiclass-line');
+
+        this.setHUDLinesVisibility(info, primaryLine, secLine, multiLine);
 
         const nextText = document.getElementById('test-hud-next-level-text');
-        if (nextText) {
-            if (info.isMaxLevel) {
-                nextText.style.display = 'none';
-            } else {
-                nextText.style.display = 'block';
-                nextText.textContent = `${info.expNeeded} Experience Needed`;
-            }
-        }
-
-        const spendBtn = document.getElementById('spend-btn');
-        if (spendBtn) {
-            spendBtn.style.display = info.isMastered ? 'flex' : 'none';
-        }
+        this.setHUDNextLevelText(info, nextText);
 
         this.updateExperienceModalContent();
+    },
+
+    getHUDClass(inputId, displayId, fallback) {
+        const input = document.getElementById(inputId);
+        if (input && input.value) return input.value;
+        const display = document.getElementById(displayId);
+        if (display && display.textContent) return display.textContent;
+        return fallback;
+    },
+
+    setHUDLinesVisibility(info, primaryLine, secLine, multiLine) {
+        if (info.isMulticlass) {
+            if (primaryLine) primaryLine.style.display = 'none';
+            if (secLine) secLine.style.display = 'none';
+            
+            const primaryClass = this.getHUDClass('char-class', 'test-hud-class-text', 'Human');
+            const secondaryClass = this.getHUDClass('char-class-2', 'test-hud-secondary-class-visible', '');
+            
+            if (multiLine) {
+                multiLine.style.display = 'flex';
+                multiLine.innerHTML = `${primaryClass} <span class="hud-level-val">${info.primaryLevel}</span> <span class="hud-multiclass-sep">❖</span> ${secondaryClass} <span class="hud-level-val">${info.secondaryLevel}</span>`;
+            }
+        } else {
+            if (primaryLine) primaryLine.style.display = 'flex';
+            if (secLine) secLine.style.display = 'none';
+            if (multiLine) multiLine.style.display = 'none';
+        }
+    },
+
+    setHUDNextLevelText(info, nextText) {
+        if (!nextText) return;
+        if (info.isMaxLevel) {
+            nextText.style.display = 'none';
+        } else {
+            nextText.style.display = 'block';
+            nextText.textContent = `${info.expNeeded} Experience Needed`;
+        }
     },
 
     updateEXPRing(exp) {
@@ -666,6 +767,12 @@ export const InterfaceManager = {
 
     initGlobalListeners() {
         document.addEventListener('click', (e) => this.handleGlobalClick(e), { signal: this.signal });
+        document.addEventListener('contextmenu', (e) => {
+            const isMobileTablet = window.innerWidth <= 1024 || ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            if (isMobileTablet || e.target.closest('.action-item, .orb-touch-zone')) {
+                e.preventDefault();
+            }
+        }, { signal: this.signal });
     },
 
     handleGlobalClick(e) {
@@ -675,6 +782,10 @@ export const InterfaceManager = {
         if (nav) {
             e.preventDefault();
             this.navigateTo(nav.getAttribute('data-nav'));
+            const action = nav.getAttribute('data-action');
+            if (action) {
+                this.handleDataAction(action, e, nav);
+            }
             return;
         }
 
@@ -706,6 +817,11 @@ export const InterfaceManager = {
             case 'scroll-top': window.scrollTo({ top: 0, behavior: 'smooth' }); break;
             case 'close-celebration': if (ProgressionManager) ProgressionManager.closeCelebration(); break;
             case 'update-max-stat': if (VitalsManager) VitalsManager.updateMaxStat(target.getAttribute('data-stat')); break;
+            case 'reset-tour':
+                if (DataManager) {
+                    DataManager.pendingNewCharacter = true;
+                }
+                break;
         }
     },
 
@@ -718,10 +834,10 @@ export const InterfaceManager = {
 
         const actions = {
             'test-save-btn': () => DeochUtils.saveCharacter(),
-            'test-new-btn': () => DeochUtils.newHero(),
             'test-export-btn': () => { if (DataManager) DataManager.exportCharacter(); },
-            'test-theme-btn': () => this.cycleTheme(),
-            'spend-btn': handleSpend,
+            'test-theme-btn': () => {
+                this.cycleTheme();
+            },
             'modal-spend-btn': handleSpend,
             'test-confirm-stats': () => { e.stopPropagation(); if (ProgressionManager) ProgressionManager.confirmStatAllocation(); },
             'test-deny-stats': () => { e.stopPropagation(); if (ProgressionManager) ProgressionManager.denyStatAllocation(); },
@@ -736,7 +852,12 @@ export const InterfaceManager = {
             },
             'test-import-btn': () => { if (DataManager) DataManager.importFromTextarea(); },
             'test-copy-btn': () => { if (DataManager) DataManager.copyCharacterCode(); },
-            'test-file-import-btn': () => document.getElementById('test-import-input')?.click()
+            'privacy-toggle-btn': () => {
+                document.getElementById('privacy-content')?.classList.toggle('open');
+            },
+            'contact-toggle-btn': () => {
+                document.getElementById('contact-content')?.classList.toggle('open');
+            }
         };
         if (actions[id]) {
             if (btn.tagName === 'BUTTON') e.preventDefault();
@@ -752,12 +873,21 @@ export const InterfaceManager = {
         btn.classList.add('active');
         const pane = document.getElementById(target);
         if (pane) pane.style.display = 'block';
-        DeochUtils.queueIconRefresh();
+
+        if (target === 'test-tab-lore') {
+            document.body.classList.add('lore-tab-active');
+        } else {
+            document.body.classList.remove('lore-tab-active');
+        }
+
+        if (pane) {
+            DeochUtils.queueIconRefresh(pane);
+        }
     },
 
     cycleTheme() {
-        const themes = UpkeepData.THEMES || ['sandstorm'];
-        const current = document.documentElement.getAttribute('data-theme') || 'sandstorm';
+        const themes = UpkeepData.THEMES || ['hybrasyl'];
+        const current = document.documentElement.getAttribute('data-theme') || 'hybrasyl';
         let idx = (themes.indexOf(current) + 1) % themes.length;
         this.applyTheme(themes[idx]);
     },
@@ -770,9 +900,7 @@ export const InterfaceManager = {
 
         if (settingsBtn) {
             settingsBtn.addEventListener('click', () => {
-                settingsBtn.classList.remove('btn-clicked-spin');
-                settingsBtn.getBoundingClientRect();
-                settingsBtn.classList.add('btn-clicked-spin');
+                DeochUtils.restartAnimation(settingsBtn, 'btn-clicked-spin');
             }, { signal: this.signal });
 
             document.addEventListener('click', (e) => {
@@ -832,6 +960,10 @@ export const InterfaceManager = {
         if (DataManager) DataManager.set(DataManager.KEYS.THEME, theme);
         const themeSelect = document.getElementById('theme-select');
         if (themeSelect) themeSelect.value = theme;
+
+        if (window.hudStaminaOrbShader && typeof window.hudStaminaOrbShader.updateThemeColors === 'function') {
+            window.hudStaminaOrbShader.updateThemeColors();
+        }
     },
 
     closeImportExportModal() {
@@ -843,24 +975,46 @@ export const InterfaceManager = {
         const selectors = ['.hp-group .orb-touch-zone', '.mp-group .orb-touch-zone', '.sp-group .orb-touch-zone'];
         document.querySelectorAll(selectors.join(',')).forEach(el => {
             let timer;
-            const start = (_e) => {
-                let stat = 'stamina';
-                if (el.closest('.hp-group')) stat = 'hp';
-                else if (el.closest('.mp-group')) stat = 'mana';
+            let stat = 'stamina';
+            if (el.closest('.hp-group')) stat = 'hp';
+            else if (el.closest('.mp-group')) stat = 'mana';
+
+            const triggerAction = () => {
+                if (stat === 'stamina') {
+                    DataManager.activeCharacter.currentSp = DataManager.activeCharacter.maxSp;
+                    if (VitalsManager) VitalsManager.adjust('stamina', 0);
+                } else {
+                    this.showBulkModal(stat);
+                }
+                if (navigator.vibrate) navigator.vibrate(50);
+            };
+
+            let lastTouchTriggerTime = 0;
+
+            const startTouch = () => {
                 timer = setTimeout(() => {
-                    if (stat === 'stamina') {
-                        DataManager.activeCharacter.currentSp = DataManager.activeCharacter.maxSp;
-                        if (VitalsManager) VitalsManager.adjust('stamina', 0);
-                    } else {
-                        this.showBulkModal(stat);
-                    }
-                    if (navigator.vibrate) navigator.vibrate(50);
+                    lastTouchTriggerTime = Date.now();
+                    triggerAction();
                 }, 600);
             };
-            const end = () => clearTimeout(timer);
-            el.addEventListener('pointerdown', start, { signal: this.signal });
-            el.addEventListener('pointerup', end, { signal: this.signal });
-            el.addEventListener('pointerleave', end, { signal: this.signal });
+
+            const endTouch = () => {
+                clearTimeout(timer);
+            };
+
+            el.addEventListener('touchstart', startTouch, { signal: this.signal, passive: true });
+            el.addEventListener('touchend', endTouch, { signal: this.signal, passive: true });
+            el.addEventListener('touchcancel', endTouch, { signal: this.signal, passive: true });
+            el.addEventListener('touchmove', endTouch, { signal: this.signal, passive: true });
+
+            el.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const timeSinceTouchTrigger = Date.now() - lastTouchTriggerTime;
+                if (timeSinceTouchTrigger > 800) {
+                    triggerAction();
+                }
+            }, { signal: this.signal });
         });
     },
 
@@ -955,7 +1109,7 @@ export const InterfaceManager = {
             val = Math.abs(val) * multiplier;
         }
 
-        if (val !== 0 && VitalsManager) VitalsManager.adjust(this.currentBulkStat, val);
+        if (val !== 0 && VitalsManager) VitalsManager.adjust(this.currentBulkStat, val, 'bulk');
         this.hideBulkModal();
     },
 
@@ -1009,6 +1163,142 @@ export const InterfaceManager = {
                 });
             }
         }
-        DeochUtils.queueIconRefresh();
+        if (galleryContainer) DeochUtils.queueIconRefresh(galleryContainer);
+        if (galleryList) DeochUtils.queueIconRefresh(galleryList);
+    },
+
+    initLoreEvents() {
+        const addLoreBtn = document.getElementById('add-lore-btn');
+        const newLoreInput = document.getElementById('new-lore-input');
+        if (addLoreBtn && newLoreInput) {
+            addLoreBtn.addEventListener('click', () => {
+                const text = newLoreInput.value.trim();
+                if (text) {
+                    const loreList = document.getElementById('test-lore-list');
+                    if (loreList) {
+                        const item = this.createLoreItem(text);
+                        loreList.appendChild(item);
+                        newLoreInput.value = '';
+                        this.updateLoreEmptyState();
+                        DeochUtils.queueIconRefresh(item);
+                        if (DataManager) DataManager.saveCharacter();
+                    }
+                }
+            }, { signal: this.signal });
+        }
+
+        const loreList = document.getElementById('test-lore-list');
+        if (loreList) {
+            loreList.addEventListener('click', (e) => {
+                const deleteBtn = e.target.closest('.delete-lore-btn');
+                if (deleteBtn) {
+                    const item = deleteBtn.closest('.lore-item');
+                    if (item) {
+                        item.remove();
+                        this.updateLoreEmptyState();
+                        if (DataManager) DataManager.saveCharacter();
+                    }
+                }
+            }, { signal: this.signal });
+        }
+    },
+
+    createLoreItem(text) {
+        const item = document.createElement('div');
+        item.className = 'lore-item glass-panel-premium u-p-md u-flex-between u-align-start u-gap-1 u-border-radius-md u-mb-0-5';
+        item.setAttribute('data-lore-text', text);
+        item.style.border = '1px solid rgba(255,255,255,0.08)';
+        item.style.background = 'rgba(0,0,0,0.15)';
+        item.innerHTML = `
+            <div class="u-font-size-xl u-text-white u-line-height-1-4" style="text-align: left; flex: 1; overflow-wrap: anywhere;">
+                ${DeochUtils.escapeHtml(text)}
+            </div>
+            <button type="button" class="delete-lore-btn u-btn-reset u-text-danger u-opacity-0-6 u-transition-smooth" style="cursor: pointer; padding: 2px; display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+            </button>
+        `;
+        return item;
+    },
+
+    initNewsletterForm() {
+        const form = document.getElementById('newsletter-form');
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const emailInput = document.getElementById('newsletter-email');
+            const statusMessage = document.getElementById('newsletter-status');
+            if (!emailInput) return;
+
+            const email = emailInput.value;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn ? submitBtn.textContent : 'Subscribe';
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Subscribing...';
+            }
+
+            try {
+                const response = await fetch('https://formsubmit.co/ajax/freyanile1@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        _subject: 'Deoch Vanguard Newsletter Subscription'
+                    })
+                });
+
+                if (response.ok) {
+                    if (statusMessage) {
+                        statusMessage.style.display = 'block';
+                        statusMessage.textContent = 'Success! You\'ve joined the mailing list.';
+                        statusMessage.style.color = '#34d399';
+                    }
+                    emailInput.value = '';
+                } else {
+                    throw new Error('Newsletter submission failed');
+                }
+            } catch (error) {
+                console.error('Newsletter submission error:', error);
+                if (statusMessage) {
+                    statusMessage.style.display = 'block';
+                    statusMessage.textContent = 'Submission failed. Please try again.';
+                    statusMessage.style.color = '#f87171';
+                }
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            }
+        });
+    },
+
+    updateLoreEmptyState() {
+        const loreList = document.getElementById('test-lore-list');
+        if (!loreList) return;
+
+        const items = loreList.querySelectorAll('.lore-item');
+        const existingPlaceholder = loreList.querySelector('.lore-empty-placeholder');
+
+        if (items.length === 0) {
+            if (!existingPlaceholder) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'lore-empty-placeholder u-p-1 u-text-center u-opacity-0-4 u-font-size-sm u-text-secondary';
+                placeholder.innerHTML = `
+                    <i data-lucide="scroll" class="u-mb-0-5" style="width: 24px; height: 24px; margin: 0 auto; display: block;"></i>
+                    <div>Chronicle is empty. Add lore entries below.</div>
+                `;
+                loreList.appendChild(placeholder);
+            }
+        } else {
+            if (existingPlaceholder) {
+                existingPlaceholder.remove();
+            }
+        }
     }
 };

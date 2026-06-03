@@ -7,12 +7,12 @@
     max-width: 400px;
     width: 90vw;
     background: rgba(15, 15, 15, 0.95);
-    backdrop-filter: blur(20px);
     border: 1px solid var(--accent-primary);
     border-radius: 20px;
     padding: 1.5rem;
     overflow: hidden;
-    color: white;
+    color: #EAE6DF;
+    contain: content;
 }
 
 .cropper-container {
@@ -87,7 +87,7 @@
     width: 24px;
     height: 24px;
     background: var(--accent-primary);
-    border: 3px solid #fff;
+    border: 3px solid #EAE6DF;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 0 15px var(--accent-glow);

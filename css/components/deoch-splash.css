@@ -7,9 +7,9 @@
 .tooltip--stat-points.splash-transparent,
 #stat-points-tooltip.splash-transparent,
 #stat-points-indicator.splash-transparent {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 /* Tour Splash Specifics */
@@ -37,15 +37,36 @@ body #creation-tour .char-splash-title {
     justify-content: center;
     padding: 7rem 1.5rem 2rem; /* Adjusted to user preference */
     text-align: center;
-    background: transparent;
+    background: rgba(0, 0, 0, 0.85);
     z-index: var(--z-notification); /* Above HUD and most UI */
     overflow: hidden;
+    animation: overlayFadeIn 0.5s ease forwards;
 }
 
 .char-splash-content {
     max-width: 600px;
     width: 100%;
     animation: fadeInScale 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes overlayFadeIn {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+        background-color: rgba(0, 0, 0, 0.85);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .char-splash-title {
@@ -109,5 +130,5 @@ body #creation-tour .char-splash-title {
     opacity: 0;
     transform: scale(1.1);
     pointer-events: none;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }

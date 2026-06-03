@@ -1,3 +1,5 @@
+import { DeochUtils } from './DeochUtils.js';
+
 /**
  * @module ModalManager
  * @description Encapsulates custom modal dialogs (confirm, prompt) to keep general utilities stateless.
@@ -29,11 +31,10 @@ export const ModalManager = {
         
         document.getElementById('confirm-title').textContent = title;
         document.getElementById('confirm-text').textContent = text;
+        const cancelBtn = document.getElementById('confirm-cancel-btn');
+        const okBtn = document.getElementById('confirm-ok-btn');
         
         return new Promise((resolve) => {
-            const cancelBtn = document.getElementById('confirm-cancel-btn');
-            const okBtn = document.getElementById('confirm-ok-btn');
-            
             const cleanup = (value) => {
                 cancelBtn.removeEventListener('click', onCancel);
                 okBtn.removeEventListener('click', onOk);
@@ -68,11 +69,10 @@ export const ModalManager = {
         document.getElementById('prompt-text').textContent = text;
         const input = document.getElementById('prompt-input');
         input.value = defaultValue;
+        const cancelBtn = document.getElementById('prompt-cancel-btn');
+        const okBtn = document.getElementById('prompt-ok-btn');
         
         return new Promise((resolve) => {
-            const cancelBtn = document.getElementById('prompt-cancel-btn');
-            const okBtn = document.getElementById('prompt-ok-btn');
-            
             const cleanup = (value) => {
                 cancelBtn.removeEventListener('click', onCancel);
                 okBtn.removeEventListener('click', onOk);
@@ -106,91 +106,161 @@ export const ModalManager = {
     },
 
     /**
+     * Helper to populate custom action fields and return initial values.
+     * @private
+     */
+    _populateCustomActionFields(initialData, symbolBtns, statBtns) {
+        const nameInput = document.getElementById('custom-action-name');
+        const hitBonusInput = document.getElementById('custom-action-hit-bonus');
+        const dmgBonusInput = document.getElementById('custom-action-dmg-bonus');
+        const deleteBtn = document.getElementById('custom-action-delete');
+        const okBtn = document.getElementById('custom-action-submit');
+
+        const data = initialData || {};
+        nameInput.value = data.name || '';
+
+        if (hitBonusInput) {
+            const val = data.bonus;
+            hitBonusInput.value = (val === 0 || val === '0' || val === undefined) ? '' : val;
+        }
+        if (dmgBonusInput) {
+            const val = data.dmgBonus;
+            dmgBonusInput.value = (val === 0 || val === '0' || val === undefined) ? '' : val;
+        }
+
+        const diceCounts = DeochUtils.parseDiceString(data.dice || '');
+        [4, 6, 8, 10, 12, 20].forEach(sides => {
+            const qtySpan = document.getElementById(`custom-dice-qty-${sides}`);
+            if (qtySpan) {
+                qtySpan.textContent = diceCounts[sides] || 0;
+            }
+        });
+
+        if (deleteBtn) {
+            deleteBtn.style.display = initialData ? '' : 'none';
+        }
+        if (okBtn) {
+            okBtn.textContent = initialData ? 'Save' : 'Create';
+        }
+
+        const selectedIcon = data.icon || 'sword';
+        symbolBtns.forEach(b => {
+            b.el.classList.toggle('active', b.icon === selectedIcon);
+        });
+
+        const selectedStat = data.stat || 'str';
+        statBtns.forEach(btn => {
+            const btnStat = btn.getAttribute('data-stat');
+            btn.classList.toggle('active', btnStat === selectedStat);
+        });
+
+        return { selectedIcon, selectedStat };
+    },
+
+    /**
      * Shows the Custom Action Creation Modal and returns the created action details.
-     * @param {{name: string, bonus: number, icon: string, stat: string}|null} initialData - The initial action data to pre-populate.
-     * @returns {Promise<{name: string, bonus: number, icon: string, stat: string}|null>}
+     * @param {{name: string, bonus: number, icon: string, stat: string, dice: string}|null} initialData - The initial action data to pre-populate.
+     * @returns {Promise<{name: string, bonus: number, icon: string, stat: string, dice: string}|null>}
      */
     showCustomActionDialog(initialData = null) {
         const dialog = document.getElementById('custom-action-dialog');
         if (!dialog) return Promise.resolve(null);
-        
+
         const nameInput = document.getElementById('custom-action-name');
-        const bonusInput = document.getElementById('custom-action-bonus');
-        const btnSword = document.getElementById('custom-action-symbol-sword');
-        const btnSpell = document.getElementById('custom-action-symbol-spell');
+        const hitBonusInput = document.getElementById('custom-action-hit-bonus');
+        const dmgBonusInput = document.getElementById('custom-action-dmg-bonus');
+        const deleteBtn = document.getElementById('custom-action-delete');
+        const okBtn = document.getElementById('custom-action-submit');
+        const cancelBtn = document.getElementById('custom-action-cancel');
+
+        const symbolBtns = [
+            { el: document.getElementById('custom-action-symbol-sword'), icon: 'sword' },
+            { el: document.getElementById('custom-action-symbol-spell'), icon: 'sparkles' },
+            { el: document.getElementById('custom-action-symbol-hand'), icon: 'hand' },
+            { el: document.getElementById('custom-action-symbol-ranged'), icon: 'crosshair' }
+        ].filter(b => b.el);
         const statBtns = dialog.querySelectorAll('[data-stat]');
-        
-        // Populate defaults or initialData
-        nameInput.value = initialData ? initialData.name : '';
-        bonusInput.value = initialData ? initialData.bonus : '0';
-        
-        let selectedIcon = initialData ? initialData.icon : 'sword';
-        if (selectedIcon === 'sparkles') {
-            btnSpell.classList.add('active');
-            btnSword.classList.remove('active');
-        } else {
-            btnSword.classList.add('active');
-            btnSpell.classList.remove('active');
-        }
-        
-        let selectedStat = initialData ? initialData.stat : 'str';
-        statBtns.forEach(btn => {
-            if (btn.getAttribute('data-stat') === selectedStat) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-        
+
+        const config = this._populateCustomActionFields(initialData, symbolBtns, statBtns);
+        let selectedIcon = config.selectedIcon;
+        let selectedStat = config.selectedStat;
+
         return new Promise((resolve) => {
-            const cancelBtn = document.getElementById('custom-action-cancel');
-            const okBtn = document.getElementById('custom-action-submit');
-            
+            const diceQtyBtns = dialog.querySelectorAll('[data-dice-qty-dec], [data-dice-qty-inc]');
+            const diceHandlers = [];
+
             const cleanup = (value) => {
                 cancelBtn.removeEventListener('click', onCancel);
                 okBtn.removeEventListener('click', onOk);
-                btnSword.removeEventListener('click', selectSword);
-                btnSpell.removeEventListener('click', selectSpell);
+                if (deleteBtn) deleteBtn.removeEventListener('click', onDelete);
+                symbolBtns.forEach(b => b.el.removeEventListener('click', b._handler));
                 statBtns.forEach(btn => btn.removeEventListener('click', selectStatFn));
+                diceHandlers.forEach(({ btn, handler }) => btn.removeEventListener('click', handler));
                 dialog.removeEventListener('cancel', onCancel);
                 dialog.close();
                 resolve(value);
             };
-            
+
             const onCancel = () => cleanup(null);
-            
+
             const onOk = () => {
                 const name = nameInput.value.trim() || 'Attack';
-                const bonus = parseInt(bonusInput.value) || 0;
-                cleanup({ name, bonus, icon: selectedIcon, stat: selectedStat });
+                const bonus = hitBonusInput ? (parseInt(hitBonusInput.value) || 0) : 0;
+                const dmgBonus = dmgBonusInput ? (parseInt(dmgBonusInput.value) || 0) : 0;
+
+                const finalDiceCounts = {};
+                [4, 6, 8, 10, 12, 20].forEach(sides => {
+                    const qtySpan = document.getElementById(`custom-dice-qty-${sides}`);
+                    finalDiceCounts[sides] = qtySpan ? (parseInt(qtySpan.textContent, 10) || 0) : 0;
+                });
+                const dice = DeochUtils.serializeDiceCounts(finalDiceCounts);
+
+                cleanup({ name, bonus, dmgBonus, icon: selectedIcon, stat: selectedStat, dice });
             };
-            
-            const selectSword = () => {
-                selectedIcon = 'sword';
-                btnSword.classList.add('active');
-                btnSpell.classList.remove('active');
-            };
-            
-            const selectSpell = () => {
-                selectedIcon = 'sparkles';
-                btnSpell.classList.add('active');
-                btnSword.classList.remove('active');
-            };
-            
+
+            const onDelete = () => cleanup({ deleted: true });
+
+            symbolBtns.forEach(b => {
+                b._handler = () => {
+                    selectedIcon = b.icon;
+                    for (const s of symbolBtns) {
+                        s.el.classList.toggle('active', s === b);
+                    }
+                };
+                b.el.addEventListener('click', b._handler);
+            });
+
             const selectStatFn = (e) => {
                 statBtns.forEach(btn => btn.classList.remove('active'));
                 const btn = e.currentTarget;
                 btn.classList.add('active');
                 selectedStat = btn.getAttribute('data-stat');
             };
-            
+
+            diceQtyBtns.forEach(btn => {
+                const decVal = btn.getAttribute('data-dice-qty-dec');
+                const incVal = btn.getAttribute('data-dice-qty-inc');
+                const sides = parseInt(decVal || incVal, 10);
+                const isDec = !!decVal;
+
+                const handler = () => {
+                    const qtySpan = document.getElementById(`custom-dice-qty-${sides}`);
+                    if (qtySpan) {
+                        const currentQty = parseInt(qtySpan.textContent, 10) || 0;
+                        qtySpan.textContent = isDec ? Math.max(0, currentQty - 1) : currentQty + 1;
+                    }
+                };
+
+                btn.addEventListener('click', handler);
+                diceHandlers.push({ btn, handler });
+            });
+
             cancelBtn.addEventListener('click', onCancel);
             okBtn.addEventListener('click', onOk);
-            btnSword.addEventListener('click', selectSword);
-            btnSpell.addEventListener('click', selectSpell);
+            if (deleteBtn) deleteBtn.addEventListener('click', onDelete);
             statBtns.forEach(btn => btn.addEventListener('click', selectStatFn));
             dialog.addEventListener('cancel', onCancel);
-            
+
             dialog.showModal();
             setTimeout(() => {
                 nameInput.focus();
@@ -198,66 +268,7 @@ export const ModalManager = {
         });
     },
 
-    /**
-     * Shows the Unarmed Stat selection dialog.
-     * @param {string} currentPref - Current preferred stat.
-     * @param {number} currentBonus - Current flat bonus.
-     * @returns {Promise<{stat: string, bonus: number}|null>}
-     */
-    showUnarmedStatDialog(currentPref = 'str', currentBonus = 0) {
-        const dialog = document.getElementById('unarmed-stat-dialog');
-        if (!dialog) return Promise.resolve(null);
-        
-        const statBtns = dialog.querySelectorAll('[data-unarmed-stat]');
-        const bonusInput = document.getElementById('unarmed-stat-bonus');
-        
-        let selectedStat = currentPref.toLowerCase();
-        if (bonusInput) {
-            bonusInput.value = currentBonus || '0';
-        }
-        
-        statBtns.forEach(btn => {
-            if (btn.getAttribute('data-unarmed-stat') === selectedStat) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-        
-        return new Promise((resolve) => {
-            const cancelBtn = document.getElementById('unarmed-stat-cancel');
-            const okBtn = document.getElementById('unarmed-stat-submit');
-            
-            const cleanup = (value) => {
-                cancelBtn.removeEventListener('click', onCancel);
-                okBtn.removeEventListener('click', onOk);
-                statBtns.forEach(btn => btn.removeEventListener('click', selectStatFn));
-                dialog.removeEventListener('cancel', onCancel);
-                dialog.close();
-                resolve(value);
-            };
-            
-            const onCancel = () => cleanup(null);
-            const onOk = () => {
-                const bonus = parseInt(bonusInput?.value) || 0;
-                cleanup({ stat: selectedStat, bonus });
-            };
-            
-            const selectStatFn = (e) => {
-                statBtns.forEach(btn => btn.classList.remove('active'));
-                const btn = e.currentTarget;
-                btn.classList.add('active');
-                selectedStat = btn.getAttribute('data-unarmed-stat');
-            };
-            
-            cancelBtn.addEventListener('click', onCancel);
-            okBtn.addEventListener('click', onOk);
-            statBtns.forEach(btn => btn.addEventListener('click', selectStatFn));
-            dialog.addEventListener('cancel', onCancel);
-            
-            dialog.showModal();
-        });
-    },
+
 
     /**
      * Cleans up the ModalManager state.

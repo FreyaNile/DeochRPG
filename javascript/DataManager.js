@@ -140,97 +140,111 @@ export const DataManager = {
             currentSp: char.currentSp !== undefined ? char.currentSp : (char.maxSp || 10)
         };
 
-        // Apply basic info via centralized sync
-        if (InterfaceManager) {
-            InterfaceManager.updateFieldUI('name', char.name || 'Unknown Hero');
-            InterfaceManager.updateFieldUI('renown', char.renown || 'Renown 1');
-            InterfaceManager.updateFieldUI('race', char.race || 'Human');
-            InterfaceManager.updateFieldUI('age', char.age || '20');
-            InterfaceManager.updateFieldUI('speed', char.speed || '30ft');
-            InterfaceManager.updateFieldUI('size', char.size || 'Medium');
-            InterfaceManager.updateFieldUI('elfrot', char.elfrot || 0);
-            InterfaceManager.updateFieldUI('exp', char.exp || 20);
-            InterfaceManager.updateAvatarDisplay(char.avatar);
-            InterfaceManager.applyVitalsUI(char);
-            InterfaceManager.applyClassInfoUI(char);
-            if (char.theme) InterfaceManager.applyTheme(char.theme);
+        this.applyCharacterFields(char);
+        this.applyCharacterLanguages(char);
+        this.applyCharacterStatsAndActions(char);
+        this.applyCharacterProgression(char);
+        this.applyCharacterLore(char);
 
-            // Apply inspiration (if exists in data)
-            if (char.inspiration !== undefined) {
-                DeochUtils.smartSet('test-hud-inspiration', char.inspiration);
-            }
+        console.log('Character loaded:', char.name);
+        this.renderGallery();
+        this.isInitializing = false;
+    },
 
-            // Apply languages (if exists in data)
-            if (char.languages && ProgressionManager) {
-                ProgressionManager.LANGUAGES.forEach(l => {
-                    const saved = char.languages[l.key] || { v: false, l: false };
-                    const vEl = document.getElementById(`${l.id}-v`);
-                    const lEl = document.getElementById(`${l.id}-l`);
-                    if (vEl) vEl.checked = !!saved.v;
-                    if (lEl) lEl.checked = !!saved.l;
-                });
-            } else if (ProgressionManager) {
-                ProgressionManager.LANGUAGES.forEach(l => {
-                    const vEl = document.getElementById(`${l.id}-v`);
-                    const lEl = document.getElementById(`${l.id}-l`);
-                    if (vEl) vEl.checked = false;
-                    if (lEl) lEl.checked = false;
-                });
-            }
+    applyCharacterFields(char) {
+        if (!InterfaceManager) return;
+        InterfaceManager.updateFieldUI('name', char.name || 'Unknown Hero');
+        InterfaceManager.updateFieldUI('renown', char.renown || 'Renown 1');
+        InterfaceManager.updateFieldUI('race', char.race || 'Human');
+        InterfaceManager.updateFieldUI('age', char.age || '20');
+        InterfaceManager.updateFieldUI('speed', char.speed || '30ft');
+        InterfaceManager.updateFieldUI('size', char.size || 'Medium');
+        InterfaceManager.updateFieldUI('elfrot', char.elfrot || 0);
+        InterfaceManager.updateFieldUI('exp', char.exp || 20);
+        InterfaceManager.updateAvatarDisplay(char.avatar);
+        InterfaceManager.applyVitalsUI(char);
+        InterfaceManager.applyClassInfoUI(char);
+        if (char.theme) InterfaceManager.applyTheme(char.theme);
+
+        if (char.inspiration !== undefined) {
+            DeochUtils.smartSet('test-hud-inspiration', char.inspiration);
         }
-
-        // GM Mode Toggle
         if (GMManager) {
             GMManager.setGMMode(char.name === '1');
         }
+    },
 
-        // Apply stats
+    applyCharacterLanguages(char) {
+        if (!InterfaceManager) return;
+        if (char.languages && ProgressionManager) {
+            ProgressionManager.LANGUAGES.forEach(l => {
+                const saved = char.languages[l.key] || { v: false, l: false };
+                const vEl = document.getElementById(`${l.id}-v`);
+                const lEl = document.getElementById(`${l.id}-l`);
+                if (vEl) vEl.checked = !!saved.v;
+                if (lEl) lEl.checked = !!saved.l;
+            });
+        } else if (ProgressionManager) {
+            ProgressionManager.LANGUAGES.forEach(l => {
+                const vEl = document.getElementById(`${l.id}-v`);
+                const lEl = document.getElementById(`${l.id}-l`);
+                if (vEl) vEl.checked = false;
+                if (lEl) lEl.checked = false;
+            });
+        }
+    },
+
+    applyCharacterLore(char) {
+        const loreList = document.getElementById('test-lore-list');
+        if (!loreList || !InterfaceManager) return;
+
+        loreList.innerHTML = '';
+        if (char.lore && Array.isArray(char.lore)) {
+            char.lore.forEach(text => {
+                const item = InterfaceManager.createLoreItem(text);
+                loreList.appendChild(item);
+            });
+        }
+        InterfaceManager.updateLoreEmptyState();
+        DeochUtils.queueIconRefresh(loreList);
+    },
+
+    applyCharacterStatsAndActions(char) {
+        this.applyCharacterStats(char);
+        this.applyCustomActions(char);
+    },
+
+    applyCharacterStats(char) {
         if (char.stats && ProgressionManager) {
             ProgressionManager.applyStats(char.stats);
         }
+    },
 
-        // Apply custom actions
+    applyCustomActions(char) {
         const actionsList = document.getElementById('test-actions-list');
-        if (actionsList) {
-            // Remove existing custom actions first
-            const existingCustoms = actionsList.querySelectorAll('.action-item[data-action-type="custom"]');
-            existingCustoms.forEach(el => el.remove());
+        if (!actionsList) return;
 
-            if (char.customActions && Array.isArray(char.customActions)) {
-                char.customActions.forEach(act => {
-                    const newItem = DeochUtils.createCustomActionItem(act.name, act.bonus, act.icon, act.stat);
-                    actionsList.appendChild(newItem);
-                });
-            }
-            DeochUtils.queueIconRefresh();
+        actionsList.innerHTML = '';
+
+        if (char.customActions && Array.isArray(char.customActions) && char.customActions.length > 0) {
+            char.customActions.forEach(act => {
+                const newItem = DeochUtils.createCustomActionItem(act.name, act.bonus, act.icon, act.stat, act.dice || '');
+                actionsList.appendChild(newItem);
+            });
+        } else {
+            // Pre-populate default Unarmed Attack if empty
+            const defaultUnarmed = DeochUtils.createCustomActionItem('Unarmed Attack', 0, 'hand', 'str', '');
+            actionsList.appendChild(defaultUnarmed);
         }
+        DeochUtils.queueIconRefresh(actionsList);
+    },
 
-        // Apply unarmed preference
-        const unarmedItem = document.querySelector('#test-actions-list .action-item[data-action-type="unarmed"]');
-        if (unarmedItem) {
-            const preferred = char.unarmedPreferredStat || '';
-            if (preferred) {
-                unarmedItem.setAttribute('data-preferred-stat', preferred);
-                const subtextEl = unarmedItem.querySelector('.u-opacity-0-5');
-                if (subtextEl) {
-                    subtextEl.textContent = `Melee • 1 + Mod Damage (${preferred.toUpperCase()})`;
-                }
-            } else {
-                unarmedItem.removeAttribute('data-preferred-stat');
-                const subtextEl = unarmedItem.querySelector('.u-opacity-0-5');
-                if (subtextEl) {
-                    subtextEl.textContent = 'Melee • 1 + Mod Damage';
-                }
-            }
-        }
-
-        // Apply flags using unified utility
+    applyCharacterProgression(char) {
         ['test-class-choice-made', 'test-is-multiclass', 'test-multiclass-choice-made', 'test-multiclass-opt-out', 'test-mastery-celebrated'].forEach(id => {
             const key = id.replace('test-', '').replace(/-([a-z])/g, (g) => g[1].toUpperCase());
             DeochUtils.smartSet(id, char[key]);
         });
 
-        // Sync ProgressionManager tracking
         if (ProgressionManager) {
             const currentExp = parseInt(char.exp) || 20;
             ProgressionManager.lastProcessedLevel = ProgressionManager.calculateCurrentLevel(currentExp);
@@ -240,11 +254,18 @@ export const DataManager = {
             ProgressionManager.updateAttributes();
             ProgressionManager.updateAvailablePointsUI();
             ProgressionManager.updateStatIndicators();
-        }
 
-        console.log('Character loaded:', char.name);
-        this.renderGallery();
-        this.isInitializing = false;
+            // Restore saved healing dice
+            const healingDiceInput = document.getElementById('char-healing-dice');
+            const diceBadge = document.getElementById('healing-dice-badge');
+            const savedDice = char.healingDice !== undefined ? char.healingDice : ProgressionManager.lastProcessedLevel;
+            if (healingDiceInput) {
+                healingDiceInput.value = savedDice;
+            }
+            if (diceBadge) {
+                diceBadge.textContent = savedDice;
+            }
+        }
     },
 
     newCharacter() {

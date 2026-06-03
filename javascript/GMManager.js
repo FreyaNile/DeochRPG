@@ -25,7 +25,7 @@ export const GMManager = {
     setGMMode(isActive) {
         const tabsCard = document.getElementById('test-tabs-card');
         const tabNav = tabsCard?.querySelector('.tab-nav');
-        const tabContent = tabsCard?.querySelector('.tab-content');
+        const tabPanes = tabsCard?.querySelectorAll('.test-tab-pane') || [];
         const gmCatalog = document.getElementById('gm-monster-catalog');
         const gmDetail = document.getElementById('gm-monster-detail');
         const gmList = document.getElementById('gm-monster-list');
@@ -35,7 +35,7 @@ export const GMManager = {
         if (tabsCard) tabsCard.classList.toggle('gm-mode-active', isActive);
         // Use class toggle so original CSS display value is restored correctly
         if (tabNav) tabNav.classList.toggle('hidden', isActive);
-        if (tabContent) tabContent.classList.toggle('hidden', isActive);
+        tabPanes.forEach(pane => pane.classList.toggle('hidden', isActive));
         if (gmCatalog) gmCatalog.classList.toggle('hidden', !isActive);
         if (gmList) gmList.classList.remove('hidden');
         if (gmDetail) gmDetail.classList.add('hidden');
@@ -83,7 +83,7 @@ export const GMManager = {
                 this._renderMonsterDetail(display, monster);
                 list.classList.add('hidden');
                 detail.classList.remove('hidden');
-                DeochUtils.queueIconRefresh();
+                DeochUtils.queueIconRefresh(detail);
             }, { signal: this.signal });
         }
 

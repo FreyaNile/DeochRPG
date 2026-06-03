@@ -22,7 +22,7 @@
     overflow: hidden;
 }
 
-body.on-test-page.char-sheet-active .floating-vitality-orbs {
+body.on-test-page.char-sheet-active .floating-vitality-orbs:not(.splash-transparent) {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
@@ -69,16 +69,8 @@ body.on-test-page.char-sheet-active .floating-vitality-orbs {
     flex-shrink: 0;
     cursor: pointer;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     background: rgba(0, 0, 0, 0.4);
-}
-
-.orb-container:hover {
-    transform: scale(1.05);
-}
-
-.orb-container:active {
-    transform: scale(0.95);
+    outline: none;
 }
 
 .health-orb, .mana-orb { width: 110px; height: 110px; }
@@ -120,13 +112,20 @@ body.on-test-page.char-sheet-active .floating-vitality-orbs {
 
 .orb-value-overlay span {
     font-family: var(--font-primary);
-    color: white;
+    color: #EAE6DF;
     font-weight: 800;
     text-shadow: 0 0 8px rgba(0, 0, 0, 1);
 }
 
 .health-orb span, .mana-orb span { font-size: 1.4rem; }
 .stamina-orb span { font-size: 1rem; }
+
+.orb-touch-zone,
+.orb-touch-zone * {
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}
 
 .orb-touch-zone {
     position: absolute;
@@ -137,6 +136,7 @@ body.on-test-page.char-sheet-active .floating-vitality-orbs {
     cursor: pointer;
     background: transparent;
     pointer-events: auto;
+    outline: none;
 }
 
 .orb-touch-zone.up {
@@ -149,7 +149,14 @@ body.on-test-page.char-sheet-active .floating-vitality-orbs {
     border-radius: 0 0 50% 50%;
 }
 
-.orb-container.sloshing {
+.orb-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.orb-container.sloshing .orb-inner {
     animation: orbSlosh 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
@@ -186,8 +193,6 @@ body.on-test-page.char-sheet-active .floating-vitality-orbs {
 
 .bulk-adjustment-content {
     background: rgba(10, 10, 15, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--accent-primary);
     border-radius: 16px;
     padding: 0.5rem;
@@ -207,7 +212,7 @@ body.on-test-page.char-sheet-active .floating-vitality-orbs {
 
 .bulk-adjustment-title {
     display: block;
-    font-family: 'Exocet', serif;
+    font-family: "Exocet", serif;
     font-size: 0.6rem;
     margin-bottom: 0.5rem;
     letter-spacing: 0.1em;
@@ -226,9 +231,9 @@ body.on-test-page.char-sheet-active .floating-vitality-orbs {
     font-size: 0.85rem;
     font-weight: 900;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
+    color: #EAE6DF;
     width: 100%;
 }
 
@@ -263,14 +268,14 @@ body.on-test-page.char-sheet-active .floating-vitality-orbs {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    color: white;
+    color: #EAE6DF;
     padding: 0.4rem;
     width: 100%;
     font-family: var(--font-primary);
     font-size: 1rem;
     text-align: center;
     outline: none;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .bulk-input:focus {

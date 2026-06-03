@@ -56,8 +56,8 @@ class App {
     constructor() {
         this.initialized = false;
         this.testPageInitialized = false;
-        this.lifecycle = null;
-        this.signal = null;
+        this.lifecycle = new AbortController();
+        this.signal = this.lifecycle.signal;
         this.idleHandle = null;
         this.visualsTimeout = null;
     }
@@ -68,11 +68,6 @@ class App {
      */
     async init() {
         if (this.initialized) return;
-        
-        // Ensure clean state for new lifecycle
-        if (this.lifecycle) this.lifecycle.abort();
-        this.lifecycle = new AbortController();
-        this.signal = this.lifecycle.signal;
 
         console.log('Deoch App: Initializing...');
 

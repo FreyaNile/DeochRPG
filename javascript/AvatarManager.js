@@ -67,12 +67,20 @@ export const AvatarManager = {
         // Pan Start
         if (this.elements.container) {
             this.elements.container.addEventListener('mousedown', (e) => this.startDrag(e), { signal: this.signal });
-            this.elements.container.addEventListener('touchstart', (e) => this.startDrag(e.touches[0]), { passive: false, signal: this.signal });
+            this.elements.container.addEventListener('touchstart', (e) => {
+                if (e.cancelable) e.preventDefault();
+                this.startDrag(e.touches[0]);
+            }, { passive: false, signal: this.signal });
         }
 
         // Pan Move
         window.addEventListener('mousemove', (e) => this.onDrag(e), { signal: this.signal });
-        window.addEventListener('touchmove', (e) => this.onDrag(e.touches[0]), { passive: false, signal: this.signal });
+        window.addEventListener('touchmove', (e) => {
+            if (this.state.isDragging) {
+                if (e.cancelable) e.preventDefault();
+                this.onDrag(e.touches[0]);
+            }
+        }, { passive: false, signal: this.signal });
 
         // Pan End
         window.addEventListener('mouseup', () => this.endDrag(), { signal: this.signal });

@@ -7,7 +7,7 @@ export const UpkeepData = {
     THEMES: [
         'amethyst', 'crimson', 'emerald', 'abyssal', 'sapphire',
         'inferno', 'voidwalker', 'royal-gold', 'rose-quartz', 'necrotic',
-        'frostbite', 'toxic', 'sandstorm', 'phantom', 'glitch',
+        'frostbite', 'toxic', 'hybrasyl', 'phantom', 'glitch',
         'autumn', 'blizzard', 'sanguine', 'alchemist'
     ],
 

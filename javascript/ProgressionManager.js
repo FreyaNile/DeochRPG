@@ -109,8 +109,6 @@ export const ProgressionManager = {
 
     // --- Core Formulas ---
 
-    calculateMod: (val) => Math.floor((val - 10) / 2),
-
     calculateLevelFromExp(exp) {
         /**
          * LEVEL FORMULA: level = (-1 + sqrt(1 + exp/62.5)) / 2
@@ -133,14 +131,13 @@ export const ProgressionManager = {
 
     setStatValue(stat, value) {
         DeochUtils.smartSet(`stat-${stat}`, value);
-        DeochUtils.smartSet(`char-${stat}`, value);
 
         // Update summaries
         document.querySelectorAll(`.summary-item[data-stat="${stat}"] .val, .stat-box[data-stat="${stat}"] .val`).forEach(el => {
             el.textContent = value;
         });
 
-        const mod = this.calculateMod(value);
+        const mod = DeochUtils.calculateMod(value);
         document.querySelectorAll(`.summary-item[data-stat="${stat}"] .mod, .stat-box[data-stat="${stat}"] .mod`).forEach(el => {
             el.textContent = `(${(mod >= 0 ? '+' : '')}${mod})`;
         });
@@ -171,9 +168,7 @@ export const ProgressionManager = {
 
         selectors.forEach(selector => {
             document.querySelectorAll(selector).forEach(el => {
-                el.classList.remove('stat-allocated-flash');
-                el.getBoundingClientRect();
-                el.classList.add('stat-allocated-flash');
+                DeochUtils.restartAnimation(el, 'stat-allocated-flash');
                 setTimeout(() => el.classList.remove('stat-allocated-flash'), 650);
             });
         });
@@ -283,12 +278,12 @@ export const ProgressionManager = {
     updateAttributes() {
         const stats = this.getStats();
         const mods = {
-            str: this.calculateMod(stats.str),
-            dex: this.calculateMod(stats.dex),
-            con: this.calculateMod(stats.con),
-            int: this.calculateMod(stats.int),
-            wis: this.calculateMod(stats.wis),
-            cha: this.calculateMod(stats.cha)
+            str: DeochUtils.calculateMod(stats.str),
+            dex: DeochUtils.calculateMod(stats.dex),
+            con: DeochUtils.calculateMod(stats.con),
+            int: DeochUtils.calculateMod(stats.int),
+            wis: DeochUtils.calculateMod(stats.wis),
+            cha: DeochUtils.calculateMod(stats.cha)
         };
 
         this.ATTRIBUTES.forEach(s => {
@@ -317,21 +312,6 @@ export const ProgressionManager = {
             }
         });
 
-        // Unarmed Attack
-        const unarmedItem = document.querySelector('#test-actions-list .action-item[data-action-type="unarmed"]');
-        if (unarmedItem) {
-            const stat = unarmedItem.getAttribute('data-preferred-stat');
-            const bonus = parseInt(unarmedItem.getAttribute('data-preferred-bonus')) || 0;
-            const displayEl = unarmedItem.querySelector('.action-bonus');
-            if (displayEl) {
-                if (stat) {
-                    const displayBonus = this.getStatMod(stat) + bonus;
-                    displayEl.textContent = `${displayBonus >= 0 ? '+' : ''}${displayBonus}`;
-                } else {
-                    displayEl.textContent = '+STR/DEX';
-                }
-            }
-        }
     },
 
     updateLevelFromExp(isMasteryAction = false) {
@@ -433,6 +413,7 @@ export const ProgressionManager = {
 
         const classChoiceMade = document.getElementById('test-class-choice-made');
         if (exp >= 500 && classChoiceMade && classChoiceMade.value === 'false') {
+            document.getElementById('experience-modal')?.close();
             this.showClassSelection();
             return;
         }
@@ -442,7 +423,7 @@ export const ProgressionManager = {
         if (exp >= 10500 && multiclassChoiceMade && multiclassChoiceMade.value === 'false') {
             if (multiclassModal) {
                 document.getElementById('experience-modal')?.close();
-                multiclassModal.style.display = 'flex';
+                multiclassModal.showModal();
             }
         }
     },
@@ -457,7 +438,7 @@ export const ProgressionManager = {
                 document.getElementById('test-multiclass-choice-made').value = 'true';
                 document.getElementById('test-is-multiclass').value = 'true';
                 const multiclassModal = document.getElementById('test-multiclass-modal');
-                if (multiclassModal) multiclassModal.style.display = 'none';
+                if (multiclassModal) multiclassModal.close();
                 window.dispatchEvent(new CustomEvent('deoch:request-class-selection', {
                     detail: { isSecondary: true }
                 }));
@@ -473,7 +454,7 @@ export const ProgressionManager = {
                 document.getElementById('test-multiclass-choice-made').value = 'true';
                 document.getElementById('test-multiclass-opt-out').value = 'true';
                 const multiclassModal = document.getElementById('test-multiclass-modal');
-                if (multiclassModal) multiclassModal.style.display = 'none';
+                if (multiclassModal) multiclassModal.close();
                 this.updateLevelFromExp();
             }, { signal: this.signal });
         }
@@ -487,7 +468,7 @@ export const ProgressionManager = {
         const classes = [
             {
                 name: 'Barbarian',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><g transform="rotate(45 12 12)"><line x1="12" y1="6" x2="12" y2="22" /><path d="M 12 6 c -3 0 -5 -1 -7 -2 a 6 6 0 0 0 0 10 c 2 -1 4 -2 7 -2 Z" fill="currentColor" /><path d="M 12 6 c 3 0 5 -1 7 -2 a 6 6 0 0 1 0 10 c -2 -1 -4 -2 -7 -2 Z" fill="currentColor" /></g></svg>`,
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><g transform="rotate(45 12 12)"><line x1="12" y1="6" x2="12" y2="22" /><path d="M 12 6 c -3 0 -5 -1 -7 -2 a 6 6 0 0 0 0 10 c 2 -1 4 -2 7 -2 Z" fill="currentColor" /><path d="M 12 6 c 3 0 5 -1 7 -2 a 6 6 0 0 1 0 10 c -2 -1 -4 -2 -7 -2 Z" fill="currentColor" /></g></svg>',
                 iconType: 'svg',
                 desc: 'Instinctive'
             },
@@ -540,48 +521,51 @@ export const ProgressionManager = {
         if (celebrated) celebrated.value = 'true';
 
         const overlay = document.getElementById('test-mastery-celebration');
-        if (!overlay) return;
-
-        const refreshModal = () => {
-            const expInput = document.getElementById('test-exp-input');
-            const expDisplay = document.getElementById('mastery-exp-display');
-            const currentExp = DeochUtils.getInt('test-exp-input', 0);
-
-            if (expDisplay) expDisplay.textContent = currentExp;
-            DeochUtils.setText('test-exp-value-display', currentExp);
-
-            const stats = ['hp', 'mp', 'str', 'dex', 'con', 'int', 'wis', 'cha'];
-            stats.forEach(stat => {
-                const btn = document.getElementById(`test-cel-mastery-${stat}-btn`);
-                const costDisplay = document.getElementById(`test-cel-mastery-${stat}-cost`);
-                if (!btn || !costDisplay) return;
-
-                const cost = this.calculateMasteryCost(stat);
-                costDisplay.textContent = `Cost: ${cost} EXP`;
-
-                const canAfford = currentExp >= cost;
-                btn.disabled = !canAfford;
-                btn.style.opacity = canAfford ? '1' : '0.4';
-                btn.onclick = (e) => this.handleMasteryPurchase(e, stat, cost, expInput, refreshModal);
-            });
-        };
-
-        DeochUtils.initSparkles();
-        refreshModal();
-
-        overlay.classList.remove('hidden');
-        overlay.style.display = 'flex';
-        DeochUtils.queueIconRefresh();
-
         const dialog = document.getElementById('mastery-celebration-dialog');
-        if (dialog) setTimeout(() => dialog.showModal(), 50);
+        if (!dialog) return;
+
+        document.body.classList.add('mastery-celebration-active');
+        dialog.showModal();
+        if (overlay) {
+            overlay.classList.remove('hidden');
+            overlay.style.display = 'flex';
+        }
+
+        requestAnimationFrame(() => {
+            DeochUtils.initSparkles();
+            this.refreshMasteryModal();
+        });
+    },
+
+    refreshMasteryModal() {
+        const expInput = document.getElementById('test-exp-input');
+        const expDisplay = document.getElementById('mastery-exp-display');
+        const currentExp = DeochUtils.getInt('test-exp-input', 0);
+
+        if (expDisplay) expDisplay.textContent = currentExp;
+        DeochUtils.setText('test-exp-value-display', currentExp);
+
+        const stats = ['hp', 'mp', 'str', 'dex', 'con', 'int', 'wis', 'cha'];
+        stats.forEach(stat => {
+            const btn = document.getElementById(`test-cel-mastery-${stat}-btn`);
+            const costDisplay = document.getElementById(`test-cel-mastery-${stat}-cost`);
+            if (!btn || !costDisplay) return;
+
+            const cost = this.calculateMasteryCost(stat);
+            costDisplay.textContent = `Cost: ${cost} EXP`;
+
+            const canAfford = currentExp >= cost;
+            btn.disabled = !canAfford;
+            btn.style.opacity = canAfford ? '1' : '0.4';
+            btn.onclick = (e) => this.handleMasteryPurchase(e, stat, cost, expInput, () => this.refreshMasteryModal());
+        });
     },
 
     calculateMasteryCost(stat) {
         if (stat === 'hp') return (DataManager.activeCharacter.maxHp || 28) * 50;
         if (stat === 'mp') return (DataManager.activeCharacter.maxMp || 12) * 100;
         const base = this.getStatValue(stat);
-        const mod = this.calculateMod(base);
+        const mod = DeochUtils.calculateMod(base);
         return base * Math.max(1, mod) * 125;
     },
 
@@ -624,6 +608,7 @@ export const ProgressionManager = {
         }
         const celebrated = document.getElementById('test-mastery-celebrated');
         if (celebrated) celebrated.value = 'true';
+        document.body.classList.remove('mastery-celebration-active');
     },
 
     // --- Rest & Healing ---
@@ -701,7 +686,7 @@ export const ProgressionManager = {
         if (rollValue <= 0 || isNaN(rollValue)) return;
 
         if (VitalsManager) {
-            VitalsManager.adjust(type === 'hp' ? 'hp' : 'mana', rollValue);
+            VitalsManager.adjust(type === 'hp' ? 'hp' : 'mana', rollValue, 'healing-dice');
         } else {
             if (type === 'hp') {
                 const hpInput = document.getElementById('char-hp');
@@ -732,39 +717,41 @@ export const ProgressionManager = {
 
         const level = parseInt(levelInput?.value) || 1;
 
-        if (healingDiceInput) healingDiceInput.value = level;
+        if (healingDiceInput) {
+            healingDiceInput.value = level;
+            healingDiceInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
         if (diceBadge) diceBadge.textContent = level;
         if (healingResultSpan) healingResultSpan.textContent = '--';
 
-        if (healingDiceInput) healingDiceInput.dispatchEvent(new Event('change', { bubbles: true }));
-
-        if (VitalsManager && DataManager.activeCharacter) {
-            const activeChar = DataManager.activeCharacter;
-            activeChar.currentHp = activeChar.maxHp || 28;
-            activeChar.currentMp = activeChar.maxMp || 12;
-            activeChar.tempHp = 0;
-            
-            VitalsManager.syncToMainSheet();
-            VitalsManager.syncToHUDText();
-            VitalsManager.triggerSlosh('.health-orb');
-            VitalsManager.triggerSlosh('.mana-orb');
-        } else {
-            const hpInput = document.getElementById('char-hp');
-            const maxHpInput = document.getElementById('char-hp-max');
-            const manaInput = document.getElementById('char-mana');
-            const maxManaInput = document.getElementById('char-mana-max');
-            const maxHp = parseInt(maxHpInput?.value) || 0;
-            const maxMana = parseInt(maxManaInput?.value) || 0;
-
-            if (hpInput) hpInput.value = maxHp;
-            if (manaInput) manaInput.value = maxMana;
-            if (hpInput) hpInput.dispatchEvent(new Event('change', { bubbles: true }));
-            if (manaInput) manaInput.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-
         if (DataManager) DataManager.saveCharacter();
 
-        DeochUtils.showRestToast('Restored HP, Mana, and Healing Dice!', restBtn || document.body);
+        DeochUtils.showRestToast('Healing Dice Replenished!', restBtn || document.body);
+    },
+
+    applyWakeUpEffects() {
+        // Toggle hungry and thirsty conditions on wakeup if they are not already checked
+        const hungryInput = document.getElementById('char-hungry');
+        const thirstyInput = document.getElementById('char-thirst');
+        if (hungryInput && !hungryInput.checked) {
+            hungryInput.checked = true;
+            hungryInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        if (thirstyInput && !thirstyInput.checked) {
+            thirstyInput.checked = true;
+            thirstyInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        // Remove 1 level of exhaustion if present
+        const exhaustionInputs = document.querySelectorAll('.exhaustion-dots input');
+        const checkedExhaustion = document.querySelectorAll('.exhaustion-dots input:checked');
+        if (checkedExhaustion.length > 0) {
+            const targetIndex = checkedExhaustion.length - 1;
+            if (exhaustionInputs[targetIndex]) {
+                exhaustionInputs[targetIndex].checked = false;
+                exhaustionInputs[targetIndex].dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
     },
 
     sleep() {
@@ -772,7 +759,7 @@ export const ProgressionManager = {
         const sleepBtn = document.getElementById('short-rest-btn');
         const healingDiceSection = document.getElementById('healing-dice-section');
         const condPanel = document.querySelector('.conditions-panel');
-        
+
         if (this.isSleeping) {
             document.body.classList.add('sleep-shade-active');
             if (healingDiceSection) healingDiceSection.style.display = 'flex';
@@ -782,12 +769,12 @@ export const ProgressionManager = {
         } else {
             document.body.classList.remove('sleep-shade-active');
             if (healingDiceSection) healingDiceSection.style.display = 'none';
+            if (condPanel && condPanel.hasAttribute('open')) {
+                condPanel.removeAttribute('open');
+            }
+            this.applyWakeUpEffects();
         }
         DeochUtils.toggleSleepButtonState(sleepBtn, this.isSleeping);
-        
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
     },
 
     // --- Exhaustion & Conditions ---
@@ -841,13 +828,16 @@ export const ProgressionManager = {
             let tagsHTML = '';
             if (exhaustionLevel > 0) {
                 tagsHTML += `
-                    <div class="u-font-size-xs u-bold u-border-radius-full u-text-danger u-bg-danger-alpha u-p-0-2-0-8 u-border-danger">
-                        Exhaust ${exhaustionLevel}
+                    <div class="u-font-size-xs u-bold u-border-radius-full u-text-danger u-bg-danger-alpha u-p-0-2-0-8 u-border-danger u-flex-center u-gap-0-4" style="display: inline-flex; align-items: center;">
+                        <i data-lucide="activity" class="u-icon-xs"></i><span>${exhaustionLevel}</span>
                     </div>
                 `;
             }
             summary.innerHTML = tagsHTML;
             summary.classList.toggle('hidden', tagsHTML === '');
+            if (exhaustionLevel > 0) {
+                DeochUtils.queueIconRefresh(summary);
+            }
         }
     },
 
@@ -886,24 +876,35 @@ export const ProgressionManager = {
 
     initStatRolling() {
         document.addEventListener('click', (e) => {
-            const el = e.target.closest('.stat-box, .summary-item');
+            const el = e.target.closest('.stat-box, .summary-item, .hud-combat-pill--rollable');
             if (el) this.handleStatClick(e, el);
         }, { signal: this.signal });
     },
 
     handleStatClick(e, el) {
         if (el.closest('#floating-vitality-orbs')) return;
-        const stat = el.getAttribute('data-stat') || 'str';
 
+        const combatStat = el.getAttribute('data-combat-stat');
+        if (combatStat === 'init') {
+            this.handleInitiativeClick(el);
+            return;
+        }
+
+        const stat = el.getAttribute('data-stat') || 'str';
         if (el.classList.contains('can-increase')) {
             this.handleStatAllocation(stat);
             return;
         }
 
-        if (el.classList.contains('stat-rolling') || !DiceTray) return;
+        this.handleCoreStatClick(el, stat);
+    },
 
-        const mod = this.getStatMod(stat);
-        const total = DiceTray.rollCheck(mod, stat.toUpperCase());
+    handleInitiativeClick(el) {
+        if (el.classList.contains('stat-rolling') || !DiceTray) return;
+        const mod = this.getStatMod('wis');
+        const total = DiceTray.rollCheck(mod, 'INITIATIVE');
+        const isNat1 = DiceTray.lastRollIsNat1;
+        const isNat20 = DiceTray.lastRollIsNat20;
 
         el.classList.add('stat-rolling');
         if (window.navigator?.vibrate) window.navigator.vibrate(10);
@@ -911,6 +912,8 @@ export const ProgressionManager = {
         const resultDiv = document.createElement('div');
         resultDiv.className = 'stat-roll-result';
         resultDiv.textContent = total;
+        if (isNat1) resultDiv.style.color = 'var(--color-danger)';
+        if (isNat20) resultDiv.style.color = 'var(--color-success)';
         resultDiv.style.position = 'absolute';
         resultDiv.style.top = '0';
         resultDiv.style.left = '0';
@@ -933,7 +936,49 @@ export const ProgressionManager = {
             el.style.position = originalPosition;
             el.classList.add('stat-fade-back');
             setTimeout(() => el.classList.remove('stat-fade-back'), 400);
-            DeochUtils.queueIconRefresh();
+            DeochUtils.queueIconRefresh(el);
+        }, 2000);
+    },
+
+    handleCoreStatClick(el, stat) {
+        if (el.classList.contains('stat-rolling') || !DiceTray) return;
+
+        const mod = this.getStatMod(stat);
+        const total = DiceTray.rollCheck(mod, stat.toUpperCase());
+        const isNat1 = DiceTray.lastRollIsNat1;
+        const isNat20 = DiceTray.lastRollIsNat20;
+
+        el.classList.add('stat-rolling');
+        if (window.navigator?.vibrate) window.navigator.vibrate(10);
+
+        const resultDiv = document.createElement('div');
+        resultDiv.className = 'stat-roll-result';
+        resultDiv.textContent = total;
+        if (isNat1) resultDiv.style.color = 'var(--color-danger)';
+        if (isNat20) resultDiv.style.color = 'var(--color-success)';
+        resultDiv.style.position = 'absolute';
+        resultDiv.style.top = '0';
+        resultDiv.style.left = '0';
+        resultDiv.style.width = '100%';
+        resultDiv.style.height = '100%';
+        resultDiv.style.display = 'flex';
+        resultDiv.style.alignItems = 'center';
+        resultDiv.style.justifyContent = 'center';
+        resultDiv.style.background = 'rgba(0,0,0,0.8)';
+        resultDiv.style.borderRadius = 'inherit';
+        resultDiv.style.zIndex = 'var(--z-surface)';
+
+        const originalPosition = el.style.position;
+        if (!originalPosition || originalPosition === 'static') el.style.position = 'relative';
+        el.appendChild(resultDiv);
+
+        setTimeout(() => {
+            el.classList.remove('stat-rolling');
+            resultDiv.remove();
+            el.style.position = originalPosition;
+            el.classList.add('stat-fade-back');
+            setTimeout(() => el.classList.remove('stat-fade-back'), 400);
+            DeochUtils.queueIconRefresh(el);
         }, 2000);
     },
 
@@ -944,7 +989,7 @@ export const ProgressionManager = {
         if (!actionsList || !addActionBtn) return;
 
         let longPressTimeout = null;
-        let isLongPress = false;
+        let lastTouchTriggerTime = 0;
         const LONG_PRESS_DURATION = 600; // ms
 
         const cancelLongPress = () => {
@@ -954,38 +999,38 @@ export const ProgressionManager = {
             }
         };
 
-        actionsList.addEventListener('mousedown', (e) => {
-            const actionItem = e.target.closest('.action-item');
-            if (!actionItem) return;
-            isLongPress = false;
-            cancelLongPress();
-            longPressTimeout = setTimeout(() => {
-                isLongPress = true;
-                this.handleActionLongPress(actionItem);
-            }, LONG_PRESS_DURATION);
-        }, { signal: this.signal });
-
         actionsList.addEventListener('touchstart', (e) => {
             const actionItem = e.target.closest('.action-item');
             if (!actionItem) return;
-            isLongPress = false;
             cancelLongPress();
             longPressTimeout = setTimeout(() => {
-                isLongPress = true;
+                lastTouchTriggerTime = Date.now();
                 this.handleActionLongPress(actionItem);
             }, LONG_PRESS_DURATION);
         }, { signal: this.signal, passive: true });
 
-        const cancelEvents = ['mouseup', 'mouseleave', 'touchend', 'touchcancel', 'touchmove'];
+        const cancelEvents = ['touchend', 'touchcancel', 'touchmove'];
         cancelEvents.forEach(evt => {
             actionsList.addEventListener(evt, () => {
                 cancelLongPress();
             }, { signal: this.signal, passive: true });
         });
 
+        actionsList.addEventListener('contextmenu', (e) => {
+            const actionItem = e.target.closest('.action-item');
+            if (actionItem) {
+                e.preventDefault();
+                e.stopPropagation();
+                const timeSinceTouchTrigger = Date.now() - lastTouchTriggerTime;
+                if (timeSinceTouchTrigger > 800) {
+                    this.handleActionLongPress(actionItem);
+                }
+            }
+        }, { signal: this.signal });
+
         actionsList.addEventListener('click', async (e) => {
-            if (isLongPress) {
-                isLongPress = false;
+            const timeSinceTouchTrigger = Date.now() - lastTouchTriggerTime;
+            if (timeSinceTouchTrigger <= 800) {
                 e.preventDefault();
                 e.stopPropagation();
                 return;
@@ -994,119 +1039,243 @@ export const ProgressionManager = {
             if (!actionItem) return;
             const type = actionItem.getAttribute('data-action-type');
 
-            if (type === 'unarmed') {
-                const stat = actionItem.getAttribute('data-preferred-stat') || 
-                    (this.getStatMod('dex') > this.getStatMod('str') ? 'dex' : 'str');
-                const bonus = parseInt(actionItem.getAttribute('data-preferred-bonus')) || 0;
-                const mod = this.getStatMod(stat);
-                this.rollAction(actionItem, 'Unarmed Attack', mod + bonus, (m) => Math.max(1, 1 + m));
-            } else if (type === 'custom') {
+            if (type === 'custom') {
                 const name = actionItem.getAttribute('data-action-name');
                 const stat = actionItem.getAttribute('data-action-stat');
                 const bonus = parseInt(actionItem.getAttribute('data-action-bonus')) || 0;
-                const statMod = stat ? this.getStatMod(stat) : 0;
-                this.rollAction(actionItem, name, statMod + bonus);
+                const dmgBonus = parseInt(actionItem.getAttribute('data-action-dmg-bonus')) || 0;
+                const mod = stat ? this.getStatMod(stat) : 0;
+                const diceAttr = actionItem.getAttribute('data-action-dice') || '';
+                
+                const damageFormula = () => {
+                    let totalDmg = 0;
+                    if (diceAttr) {
+                        const counts = DeochUtils.parseDiceString(diceAttr);
+                        for (const [sidesStr, count] of Object.entries(counts)) {
+                            const sides = parseInt(sidesStr, 10);
+                            for (let i = 0; i < count; i++) {
+                                totalDmg += Math.floor(DeochUtils.random() * sides) + 1;
+                            }
+                        }
+                    } else {
+                        totalDmg = 1;
+                    }
+                    return {
+                        total: Math.max(1, totalDmg + mod + dmgBonus),
+                        rolls: totalDmg,
+                        mod: mod,
+                        dmgBonus: dmgBonus
+                    };
+                };
+                this.rollAction(actionItem, name, mod + bonus, damageFormula);
             }
         }, { signal: this.signal });
-
+ 
         addActionBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             this.showAddActionPrompt();
         }, { signal: this.signal });
     },
-
+ 
     async handleActionLongPress(actionItem) {
         const type = actionItem.getAttribute('data-action-type');
-        if (type === 'unarmed') {
-            const currentPref = actionItem.getAttribute('data-preferred-stat') || 
-                (this.getStatMod('dex') > this.getStatMod('str') ? 'dex' : 'str');
-            const currentBonus = parseInt(actionItem.getAttribute('data-preferred-bonus')) || 0;
-            const result = await ModalManager.showUnarmedStatDialog(currentPref, currentBonus);
-            if (!result) return;
-            
-            actionItem.setAttribute('data-preferred-stat', result.stat);
-            actionItem.setAttribute('data-preferred-bonus', result.bonus);
-            
-            const subtextEl = actionItem.querySelector('.u-opacity-0-5');
-            if (subtextEl) {
-                const bonusText = result.bonus ? ` +${result.bonus}` : '';
-                subtextEl.textContent = `Melee • 1 + Mod Damage (${result.stat.toUpperCase()}${bonusText})`;
-            }
-            
-            this.updateActionBonuses();
-            
-            if (window.DataManager && typeof window.DataManager.saveCharacter === 'function') {
-                window.DataManager.saveCharacter();
-            }
-        } else if (type === 'custom') {
-            const initialData = {
-                name: actionItem.getAttribute('data-action-name') || '',
-                bonus: parseInt(actionItem.getAttribute('data-action-bonus')) || 0,
-                icon: actionItem.getAttribute('data-action-icon') || 'sword',
-                stat: actionItem.getAttribute('data-action-stat') || ''
-            };
-            const result = await ModalManager.showCustomActionDialog(initialData);
-            if (!result) return;
-
-            actionItem.setAttribute('data-action-name', result.name);
-            actionItem.setAttribute('data-action-bonus', result.bonus);
-            actionItem.setAttribute('data-action-icon', result.icon);
-            actionItem.setAttribute('data-action-stat', result.stat);
-
-            const nameEl = actionItem.querySelector('.u-bold');
-            const subEl = actionItem.querySelector('.u-opacity-0-5');
-            const iconContainer = actionItem.querySelector('.action-icon-circle');
-
-            if (nameEl) nameEl.textContent = result.name;
-            const statText = result.stat ? ` • ${result.stat.toUpperCase()}` : '';
-            if (subEl) subEl.textContent = `Custom Action${statText}`;
-            if (iconContainer) {
-                iconContainer.innerHTML = `<i data-lucide="${result.icon}" class="u-font-size-xs u-text-accent"></i>`;
-            }
-            DeochUtils.queueIconRefresh();
-            this.updateActionBonuses();
-            if (window.DataManager && typeof window.DataManager.saveCharacter === 'function') {
-                window.DataManager.saveCharacter();
-            }
+        if (type === 'custom') {
+            await this.handleCustomLongPress(actionItem);
         }
+    },
+
+    async handleCustomLongPress(actionItem) {
+        const initialData = {
+            name: actionItem.getAttribute('data-action-name') || '',
+            bonus: parseInt(actionItem.getAttribute('data-action-bonus')) || 0,
+            dmgBonus: parseInt(actionItem.getAttribute('data-action-dmg-bonus')) || 0,
+            icon: actionItem.getAttribute('data-action-icon') || 'sword',
+            stat: actionItem.getAttribute('data-action-stat') || '',
+            dice: actionItem.getAttribute('data-action-dice') || ''
+        };
+        const result = await ModalManager.showCustomActionDialog(initialData);
+        if (!result) return;
+
+        if (result.deleted) {
+            actionItem.remove();
+            DeochUtils.saveCharacter();
+            return;
+        }
+
+        actionItem.setAttribute('data-action-name', result.name);
+        actionItem.setAttribute('data-action-bonus', result.bonus);
+        actionItem.setAttribute('data-action-dmg-bonus', result.dmgBonus);
+        actionItem.setAttribute('data-action-icon', result.icon);
+        actionItem.setAttribute('data-action-stat', result.stat);
+        actionItem.setAttribute('data-action-dice', result.dice);
+
+        const nameEl = actionItem.querySelector('.u-bold');
+        const subEl = actionItem.querySelector('.u-opacity-0-5');
+        const iconContainer = actionItem.querySelector('.action-icon-circle');
+
+        if (nameEl) nameEl.textContent = result.name;
+        
+        const statText = result.stat ? result.stat.toUpperCase() : '';
+        let subtext = '1';
+        let dmgBonusPart = '';
+        if (result.dmgBonus > 0) {
+            dmgBonusPart = ` + ${result.dmgBonus}`;
+        } else if (result.dmgBonus < 0) {
+            dmgBonusPart = ` - ${Math.abs(result.dmgBonus)}`;
+        }
+        if (result.dice) {
+            subtext = statText ? `${statText} • ${result.dice}${dmgBonusPart} DMG` : `${result.dice}${dmgBonusPart} DMG`;
+        } else if (statText) {
+            subtext = `${statText} + 1${dmgBonusPart}`;
+        } else if (result.dmgBonus) {
+            subtext = `1${dmgBonusPart}`;
+        }
+        
+        if (subEl) subEl.textContent = subtext;
+        if (iconContainer) {
+            iconContainer.innerHTML = `<i data-lucide="${result.icon}" class="u-icon-sm u-text-accent"></i>`;
+        }
+        DeochUtils.queueIconRefresh(actionItem);
+        this.updateActionBonuses();
+        DeochUtils.saveCharacter();
     },
 
     getStatMod(stat) {
         const val = this.getStatValue(stat);
-        return this.calculateMod(val);
+        return DeochUtils.calculateMod(val);
+    },
+
+    _getHitLogStr(el, roll, mod) {
+        const stat = el.getAttribute('data-action-stat');
+        const hitBonus = parseInt(el.getAttribute('data-action-bonus')) || 0;
+        
+        let hitStr = 'HIT: ';
+        if (stat) {
+            const modSign = mod >= 0 ? '+' : '';
+            hitStr += `${stat.toUpperCase()}(${modSign}${mod}) + `;
+        }
+        hitStr += `d20(${roll})`;
+        if (hitBonus > 0) {
+            hitStr += ` + ${hitBonus}`;
+        } else if (hitBonus < 0) {
+            hitStr += ` - ${Math.abs(hitBonus)}`;
+        }
+        return hitStr;
+    },
+
+    _getDmgLogStr(el, dmg, mod, dmgInfo) {
+        if (dmg === null) return '';
+        const stat = el.getAttribute('data-action-stat');
+        const diceAttr = el.getAttribute('data-action-dice');
+        const dmgBonus = parseInt(el.getAttribute('data-action-dmg-bonus')) || 0;
+        
+        let dmgStr = 'DMG: ';
+        if (stat) {
+            const modSign = mod >= 0 ? '+' : '';
+            dmgStr += `${stat.toUpperCase()}(${modSign}${mod}) + `;
+        }
+        if (diceAttr) {
+            const baseDmg = (dmgInfo && dmgInfo.rolls !== undefined) ? dmgInfo.rolls : dmg;
+            dmgStr += `${diceAttr}(${baseDmg})`;
+        } else {
+            dmgStr += '1';
+        }
+        if (dmgBonus > 0) {
+            dmgStr += ` + ${dmgBonus}`;
+        } else if (dmgBonus < 0) {
+            dmgStr += ` - ${Math.abs(dmgBonus)}`;
+        }
+        return dmgStr;
+    },
+
+    logActionRoll(el, name, roll, bonus, dmg, dmgInfo = null) {
+        if (!DiceTray || typeof DiceTray.addToHistory !== 'function') return;
+
+        const stat = el.getAttribute('data-action-stat');
+        const mod = stat ? this.getStatMod(stat) : 0;
+        
+        const hitStr = this._getHitLogStr(el, roll, mod);
+        const dmgStr = this._getDmgLogStr(el, dmg, mod, dmgInfo);
+
+        const escapedName = DeochUtils.escapeHtml(name);
+        let info = `<div class="u-bold" style="font-size: 0.75rem; color: var(--text-primary); margin-bottom: 2px;">${escapedName}</div><div>${hitStr}</div>`;
+        if (dmgStr) {
+            info += `<div class="log-divider"></div><div>${dmgStr}</div>`;
+        }
+        
+        const isNat1 = (roll === 1);
+        const isNat20 = (roll === 20);
+        
+        let hitTotal = Math.max(1, roll + bonus);
+        if (isNat1) {
+            hitTotal = 1;
+        } else if (isNat20) {
+            hitTotal = 20;
+        }
+
+        let finalTotal = hitTotal;
+        if (dmg !== null) {
+            finalTotal = `<div style="visibility: hidden; font-size: 0.75rem; line-height: 1.2; margin-bottom: 2px;">&nbsp;</div><div>${hitTotal}</div><div style="height: 1px; margin: 0.25rem 0; opacity: 0;"></div><div>${dmg}</div>`;
+        }
+        
+        DiceTray.addToHistory(finalTotal, info, isNat1, isNat20);
     },
 
     rollAction(el, name, bonus, damageFormula = null) {
         if (el.classList.contains('action-rolling')) return;
+
         const roll = Math.floor(DeochUtils.random() * 20) + 1;
-        const total = roll + bonus;
+        const isNat1 = (roll === 1);
+        const isNat20 = (roll === 20);
+        let total;
+        if (isNat1) {
+            total = 1;
+        } else if (isNat20) {
+            total = 20;
+        } else {
+            total = Math.max(1, roll + bonus);
+        }
+        
         const bonusDisplay = el.querySelector('.action-bonus');
         if (!bonusDisplay) return;
 
-        const originalBonus = bonusDisplay.innerHTML;
         el.classList.add('action-rolling');
-        if (window.navigator && window.navigator.vibrate) window.navigator.vibrate(15);
 
-        let resultHTML = `<span class="action-roll-result">${total}</span>`;
+        let resultColor = '';
+        if (isNat1) resultColor = 'var(--color-danger)';
+        if (isNat20) resultColor = 'var(--color-success)';
+
+        let resultHTML = `
+            <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; font-family: var(--font-secondary); font-size: 0.65rem; font-weight: 800;">
+                <span class="action-roll-result" style="font-size: inherit; color: inherit; font-weight: inherit;${resultColor ? ` color: ${resultColor};` : ''}">HIT: ${total}</span>
+            </div>
+        `;
+        let dmg = null;
+        let dmgInfo = null;
         if (damageFormula) {
-            const dmg = damageFormula(bonus);
+            const dmgResult = damageFormula();
+            if (dmgResult && typeof dmgResult === 'object') {
+                dmg = dmgResult.total;
+                dmgInfo = dmgResult;
+            } else {
+                dmg = dmgResult;
+            }
             resultHTML = `
-                <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1;">
-                    <span class="action-roll-result">${total}</span>
-                    <span style="font-size: 0.5rem; opacity: 0.8; margin-top: 1px;">DMG: ${dmg}</span>
+                <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; font-family: var(--font-secondary); font-size: 0.65rem; font-weight: 800;">
+                    <span class="action-roll-result" style="font-size: inherit; color: inherit; font-weight: inherit;${resultColor ? ` color: ${resultColor};` : ''}">HIT: ${total}</span>
+                    <span style="opacity: 0.9; margin-top: 1px;">DMG: ${dmg}</span>
                 </div>
             `;
         }
 
         bonusDisplay.innerHTML = resultHTML;
 
+        this.logActionRoll(el, name, roll, bonus, dmg, dmgInfo);
+
         setTimeout(() => {
             el.classList.remove('action-rolling');
-            bonusDisplay.innerHTML = originalBonus;
-            el.classList.add('stat-fade-back');
-            setTimeout(() => el.classList.remove('stat-fade-back'), 400);
-        }, 2500);
+        }, 600);
     },
 
     async showAddActionPrompt() {
@@ -1115,9 +1284,9 @@ export const ProgressionManager = {
 
         const actionsList = document.getElementById('test-actions-list');
         if (!actionsList) return;
-        const newItem = DeochUtils.createCustomActionItem(result.name, result.bonus, result.icon, result.stat);
+        const newItem = DeochUtils.createCustomActionItem(result.name, result.bonus, result.icon, result.stat, result.dice, result.dmgBonus);
         actionsList.appendChild(newItem);
-        DeochUtils.queueIconRefresh();
+        DeochUtils.queueIconRefresh(newItem);
         if (window.DataManager && typeof window.DataManager.saveCharacter === 'function') {
             window.DataManager.saveCharacter();
         }
@@ -1138,18 +1307,12 @@ export const ProgressionManager = {
 
     // --- Math & Rule Helpers ---
 
-    calculateHPChange(currentHp, currentTemp, delta, maxHp) {
+    calculateHPChange(currentHp, currentTemp, delta, maxHp, _source = null) {
         let newHp = currentHp;
         let newTemp = currentTemp;
 
         if (delta > 0) {
-            const potential = currentHp + delta;
-            if (potential > maxHp) {
-                newHp = maxHp;
-                newTemp = Math.min(maxHp * 2, newTemp + (potential - maxHp));
-            } else {
-                newHp = potential;
-            }
+            newHp = Math.min(maxHp, currentHp + delta);
         } else if (delta < 0) {
             if (newTemp > 0) {
                 const remaining = newTemp + delta;

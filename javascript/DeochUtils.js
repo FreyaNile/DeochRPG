@@ -13,19 +13,39 @@ export const DeochUtils = {
             console.warn('DeochUtils: DataManager not ready for save.');
         }
     },
+    _iconRefreshRoots: new Set(),
     _iconRefreshScheduled: false,
 
     /**
-     * Schedules a Lucide icon refresh on the next animation frame.
+     * Schedules a Lucide icon refresh on the next animation frame, optionally scoped.
+     * @param {HTMLElement} [root] - Optional root element to restrict the search.
      */
-    queueIconRefresh: () => {
-        if (DeochUtils._iconRefreshScheduled) return;
+    queueIconRefresh: (root = null) => {
         if (!window.lucide || typeof window.lucide.createIcons !== 'function') return;
+
+        if (root) {
+            DeochUtils._iconRefreshRoots.add(root);
+        } else {
+            DeochUtils._iconRefreshRoots.add(document);
+        }
+
+        if (DeochUtils._iconRefreshScheduled) return;
 
         DeochUtils._iconRefreshScheduled = true;
         requestAnimationFrame(() => {
             DeochUtils._iconRefreshScheduled = false;
-            window.lucide.createIcons();
+            const roots = Array.from(DeochUtils._iconRefreshRoots);
+            DeochUtils._iconRefreshRoots.clear();
+
+            if (roots.includes(document)) {
+                window.lucide.createIcons();
+            } else {
+                roots.forEach(r => {
+                    if (document.body.contains(r)) {
+                        window.lucide.createIcons({ root: r });
+                    }
+                });
+            }
         });
     },
 
@@ -316,55 +336,59 @@ export const DeochUtils = {
      * @param {boolean} [options.isNew=false] - True to render as creation card.
      * @returns {HTMLElement}
      */
-    renderGalleryCard: (char, { activeId = null, variant = 'modern', isNew = false } = {}) => {
+    getCardMeta(char, isNew, totalLevel) {
+        if (isNew) return 'Begin a new journey';
+        if (char?.isMulticlass && char?.secondaryClass && totalLevel > 5) {
+            return `${char.primaryClass} 5 / ${char.secondaryClass} ${totalLevel - 5}`;
+        }
+        return `${char?.primaryClass || 'Hero'} ${totalLevel}`;
+    },
+
+    renderModernCard(isActive, isNew, avatarSrc, icon, name, meta) {
+        const card = document.createElement('div');
+        card.className = 'test-gallery-card' + (isNew ? ' new-char' : '') + (isActive ? ' active' : '');
+
+        const watermarkHtml = (avatarSrc && !isNew)
+            ? `<div class="char-watermark"><img src="${avatarSrc}" alt=""></div>`
+            : '';
+
+        const iconHtml = isNew
+            ? `<div class="char-avatar"><i data-lucide="${icon}"></i></div>`
+            : '';
+
+        card.innerHTML = `
+            <div class="card-bg"></div>
+            ${watermarkHtml}
+            <div class="card-content">
+                ${iconHtml}
+                <div class="char-info">
+                    <div class="char-name">${name}</div>
+                    <div class="char-meta">${meta}</div>
+                </div>
+            </div>
+        `;
+        return card;
+    },
+
+    renderGalleryCard(char, { activeId = null, variant = 'modern', isNew = false } = {}) {
         const isActive = char?.id === activeId;
         const rawName = isNew ? 'Create New' : (char?.name || 'Unknown Hero');
         const totalLevel = (char?.level !== undefined && char?.level !== null) ? parseInt(char.level) : 1;
-        let rawMeta = '';
-
-        if (isNew) {
-            rawMeta = 'Begin a new journey';
-        } else if (char?.isMulticlass && char?.secondaryClass && totalLevel > 5) {
-            rawMeta = `${char.primaryClass} 5 / ${char.secondaryClass} ${totalLevel - 5}`;
-        } else {
-            rawMeta = `${char?.primaryClass || 'Hero'} ${totalLevel}`;
-        }
+        const rawMeta = this.getCardMeta(char, isNew, totalLevel);
 
         const name = DeochUtils.escapeHtml(rawName);
         const meta = DeochUtils.escapeHtml(rawMeta);
         const icon = isNew ? 'plus' : 'user';
 
-        if (variant === 'modern') {
-            const card = document.createElement('div');
-            card.className = 'test-gallery-card' + (isNew ? ' new-char' : '') + (isActive ? ' active' : '');
-
-            const avatarSrc = char?.avatar ? DeochUtils.escapeHtml(char.avatar) : '';
-            const watermarkHtml = (char?.avatar && !isNew)
-                ? `<div class="char-watermark"><img src="${avatarSrc}" alt=""></div>`
-                : '';
-
-            const iconHtml = isNew
-                ? `<div class="char-avatar"><i data-lucide="${icon}"></i></div>`
-                : '';
-
-            card.innerHTML = `
-                <div class="card-bg"></div>
-                ${watermarkHtml}
-                <div class="card-content">
-                    ${iconHtml}
-                    <div class="char-info">
-                        <div class="char-name">${name}</div>
-                        <div class="char-meta">${meta}</div>
-                    </div>
-                </div>
-            `;
-            return card;
-        } else {
+        if (variant !== 'modern') {
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.innerHTML = `<i data-lucide="${icon}" style="width: 14px; height: 14px;"></i> ${name}`;
             return btn;
         }
+
+        const avatarSrc = char?.avatar ? DeochUtils.escapeHtml(char.avatar) : '';
+        return this.renderModernCard(isActive, isNew, avatarSrc, icon, name, meta);
     },
 
     /**
@@ -393,11 +417,11 @@ export const DeochUtils = {
 
         const infoEl = document.createElement('div');
         infoEl.className = 'log-info';
-        infoEl.textContent = info;
+        infoEl.innerHTML = info;
 
         const totalEl = document.createElement('div');
         totalEl.className = 'log-total';
-        totalEl.textContent = total;
+        totalEl.innerHTML = total;
 
         entry.appendChild(infoEl);
         entry.appendChild(totalEl);
@@ -443,23 +467,7 @@ export const DeochUtils = {
         `).join('');
     },
 
-    /**
-     * Generates attribute display cards HTML.
-     * @param {Array<Object>} stats - Array of stat attributes.
-     * @returns {string} HTML string.
-     */
-    generateAttributesHTML: (stats) => {
-        return stats.map(s => `
-            <div class="attribute-card">
-                <div class="attribute-label">
-                    <i data-lucide="${s.icon}"></i>
-                    <span>${s.name}</span>
-                </div>
-                <div id="${s.id}-display" class="attribute-value">--</div>
-                <div class="attribute-formula">${s.formula}</div>
-            </div>
-        `).join('');
-    },
+
 
     /**
      * Generates restoration/full rest controls and healing dice HTML.
@@ -472,7 +480,7 @@ export const DeochUtils = {
         dice.forEach((d, i) => {
             diceHTML += `
                 <button type="button" class="roll-h-die glass-btn" data-sides="${d.sides}"
-                    style="width: 100%; padding: 0.2rem 0; font-size: 0.6rem; border-radius: 4px; color: var(--color-success);">${d.label}</button>
+                    style="width: 100%; padding: 0.2rem 0; font-size: 0.75rem; border-radius: 4px; color: var(--color-success);">${d.label}</button>
             `;
             if (i === midIndex - 1 || (dice.length === 1 && i === 0)) {
                 diceHTML += '<span id="healing-roll-result" class="healing-roll-display" style="display: block; font-size: 1.4rem; font-weight: 800; color: var(--color-success); margin: 0;">--</span>';
@@ -489,20 +497,20 @@ export const DeochUtils = {
             ? `
                 <button type="button" id="short-rest-btn"
                     class="secondary-btn u-flex-1 u-bold u-flex-center u-gap-0-5 u-border-radius-md"
-                    style="background: rgba(245, 158, 11, 0.1); border-color: var(--color-warning); color: var(--color-warning); padding: 0.35rem 0; font-size: 0.7rem; height: 32px;">
-                    <i data-lucide="sun" class="u-icon-xs" style="width: 12px; height: 12px;"></i> WAKE UP
+                    style="background: rgba(245, 158, 11, 0.1); border-color: var(--color-warning); color: var(--color-warning); padding: 0.35rem 0; font-size: 0.75rem; height: 32px;">
+                    <i data-lucide="sun" class="u-icon-xs" style="width: 12px; height: 12px;"></i> Wake Up
                 </button>
             `
             : `
                 <button type="button" id="short-rest-btn"
                     class="secondary-btn u-flex-1 u-bold u-flex-center u-gap-0-5 u-border-radius-md"
-                    style="background: rgba(139, 92, 246, 0.1); border-color: var(--accent-primary); color: var(--accent-primary); padding: 0.35rem 0; font-size: 0.7rem; height: 32px;">
-                    <i data-lucide="moon" class="u-icon-xs" style="width: 12px; height: 12px;"></i> SLEEP
+                    style="background: rgba(139, 92, 246, 0.1); border-color: var(--accent-primary); color: var(--accent-primary); padding: 0.35rem 0; font-size: 0.75rem; height: 32px;">
+                    <i data-lucide="moon" class="u-icon-xs" style="width: 12px; height: 12px;"></i> Sleep
                 </button>
             `;
-
+ 
         return `
-            <div style="display: flex; flex-direction: column; gap: 0.4rem; padding: 0.5rem 1rem 1rem 1rem;">
+            <div style="display: flex; flex-direction: column; gap: 0.4rem; padding: 0.5rem 0 0 0;">
                 <p style="font-size: 0.75rem; color: var(--text-secondary); margin: 0; opacity: 0.8;">Sleep to use healing dice.</p>
                 <div id="healing-dice-section" style="display: ${sectionDisplay}; gap: 0.75rem; align-items: center; margin: 0.5rem 0;">
                     <div style="text-align: center; min-width: 60px; display: flex; flex-direction: column; gap: 0.25rem; align-items: center;">
@@ -510,17 +518,17 @@ export const DeochUtils = {
                     </div>
                     <div style="display: flex; flex: 1; gap: 0.4rem;">
                         <button type="button" id="apply-healing-hp" class="secondary-btn"
-                            style="background: var(--color-success); border-color: var(--color-success); color: white; padding: 0.5rem; font-size: 0.75rem; flex: 1; height: 38px;">+ HP</button>
+                            style="background: var(--color-success); border-color: var(--color-success); color: #EAE6DF; padding: 0.5rem; font-size: 0.75rem; flex: 1; height: 38px;">+ HP</button>
                         <button type="button" id="apply-healing-mana" class="secondary-btn"
-                            style="background: var(--color-mental); border-color: var(--color-mental); color: white; padding: 0.5rem; font-size: 0.75rem; flex: 1; height: 38px;">+ Mana</button>
+                            style="background: var(--color-mental); border-color: var(--color-mental); color: #EAE6DF; padding: 0.5rem; font-size: 0.75rem; flex: 1; height: 38px;">+ Mana</button>
                     </div>
                 </div>
                 <div class="u-flex u-gap-0-5 u-mt-0-5">
                     ${sleepBtnHTML}
                     <button type="button" id="rest-btn"
                         class="primary-btn u-flex-1 u-bold u-flex-center u-gap-0-5 u-border-radius-md"
-                        style="padding: 0.35rem 0; font-size: 0.7rem; height: 32px;">
-                        <i data-lucide="bed" class="u-icon-xs" style="width: 12px; height: 12px;"></i> FULL REST
+                        style="padding: 0.35rem 0; font-size: 0.75rem; height: 32px;">
+                        <i data-lucide="bed" class="u-icon-xs" style="width: 12px; height: 12px;"></i> Full Rest
                     </button>
                 </div>
             </div>
@@ -535,7 +543,7 @@ export const DeochUtils = {
     generateMonsterCatalogHTML: (bestiary) => {
         const esc = DeochUtils.escapeHtml;
         return bestiary.map(monster => `
-            <div class="monster-card-item glass-panel-dark" data-monster="${esc(monster.id)}">
+            <div class="monster-card-item glass-panel-frosted" data-monster="${esc(monster.id)}">
                 <div class="monster-icon-wrapper">
                     <i data-lucide="${esc(monster.icon)}" class="u-font-size-md"
                         style="color: var(--accent-primary);"></i>
@@ -561,7 +569,7 @@ export const DeochUtils = {
     generateMonsterDetailHTML: (monster) => {
         const esc = DeochUtils.escapeHtml;
         return `
-            <div class="glass-panel-dark" style="padding: 1.25rem; border-radius: 16px;">
+            <div class="glass-panel-frosted" style="padding: 1.25rem; border-radius: 16px;">
                 <h3 style="margin: 0 0 0.35rem 0; color: var(--accent-primary); letter-spacing: 0.08em;">${esc(monster.name)}</h3>
                 <div style="font-size: 0.72rem; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem;">${esc(monster.type)}</div>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
@@ -573,7 +581,7 @@ export const DeochUtils = {
                 <p style="margin: 0 0 1rem 0; line-height: 1.5; opacity: 0.9;">${esc(monster.summary)}</p>
                 <div style="display: grid; gap: 0.5rem;">
                     ${Array.isArray(monster.actions)
-                ? monster.actions.map(action => `<div class="glass-panel-dark" style="padding: 0.7rem 0.9rem; border-radius: 12px;">${esc(action)}</div>`).join('')
+                ? monster.actions.map(action => `<div class="glass-panel-frosted" style="padding: 0.7rem 0.9rem; border-radius: 12px;">${esc(action)}</div>`).join('')
                 : ''}
                 </div>
             </div>
@@ -586,24 +594,7 @@ export const DeochUtils = {
      * Instantiates the background Mastery Sparks.
      */
     initSparkles: () => {
-        const container = document.getElementById('spark-container');
-        if (!container) return;
-        container.innerHTML = '';
-        for (let i = 0; i < 25; i++) {
-            const spark = document.createElement('div');
-            spark.className = 'mastery-spark';
-            spark.style.position = 'absolute';
-            spark.style.width = '2px';
-            spark.style.height = '2px';
-            spark.style.background = '#fde68a';
-            spark.style.borderRadius = '50%';
-            spark.style.left = DeochUtils.random() * 100 + '%';
-            spark.style.bottom = '-20px';
-            spark.style.animationDelay = DeochUtils.random() * 3 + 's';
-            spark.style.opacity = '0';
-            spark.style.boxShadow = '0 0 10px #fde68a';
-            container.appendChild(spark);
-        }
+        // Sparks are rendered statically in HTML to prevent runtime DOM generation overhead.
     },
 
     /**
@@ -635,7 +626,7 @@ export const DeochUtils = {
     createClassOptionButton: (c, onClick) => {
         const btn = document.createElement('button');
         btn.className = 'glass-btn class-option-btn-layout'; // Managed in CSS
-        
+
         let iconHtml = '';
         if (c.iconType === 'svg') {
             iconHtml = c.icon;
@@ -653,7 +644,37 @@ export const DeochUtils = {
         return btn;
     },
 
-    createCustomActionItem: (name, bonus, icon = 'sword', stat = '') => {
+    parseDiceString(str) {
+        const counts = { 4: 0, 6: 0, 8: 0, 10: 0, 12: 0, 20: 0 };
+        if (!str) return counts;
+        const parts = str.split('+');
+        for (const part of parts) {
+            const trimmed = part.trim();
+            const match = trimmed.match(/^(\d+)d(\d+)$/);
+            if (match) {
+                const count = parseInt(match[1], 10);
+                const sides = parseInt(match[2], 10);
+                if (counts[sides] !== undefined) {
+                    counts[sides] += count;
+                }
+            }
+        }
+        return counts;
+    },
+
+    serializeDiceCounts(counts) {
+        const parts = [];
+        const orderedSides = [4, 6, 8, 10, 12, 20];
+        for (const sides of orderedSides) {
+            const count = counts[sides] || 0;
+            if (count > 0) {
+                parts.push(`${count}d${sides}`);
+            }
+        }
+        return parts.join(' + ');
+    },
+
+    createCustomActionItem: (name, bonus, icon = 'sword', stat = '', dice = '', dmgBonus = 0) => {
         const item = document.createElement('div');
         item.className = 'action-item';
         Object.assign(item.dataset, {
@@ -661,21 +682,38 @@ export const DeochUtils = {
             actionName: name,
             actionBonus: bonus,
             actionIcon: icon,
-            actionStat: stat
+            actionStat: stat,
+            actionDice: dice,
+            actionDmgBonus: dmgBonus
         });
-        
+
         let displayBonus = bonus;
         if (stat && window.ProgressionManager && typeof window.ProgressionManager.getStatMod === 'function') {
             displayBonus = window.ProgressionManager.getStatMod(stat) + bonus;
         }
 
-        const statText = stat ? ` • ${stat.toUpperCase()}` : '';
+        const statText = stat ? stat.toUpperCase() : '';
+        let subtext = '1';
+        let dmgBonusPart = '';
+        if (dmgBonus > 0) {
+            dmgBonusPart = ` + ${dmgBonus}`;
+        } else if (dmgBonus < 0) {
+            dmgBonusPart = ` - ${Math.abs(dmgBonus)}`;
+        }
+        if (dice) {
+            subtext = statText ? `${statText} • ${dice}${dmgBonusPart} DMG` : `${dice}${dmgBonusPart} DMG`;
+        } else if (statText) {
+            subtext = `${statText} + 1${dmgBonusPart}`;
+        } else if (dmgBonus) {
+            subtext = `1${dmgBonusPart}`;
+        }
+
         item.innerHTML = `
             <div class="flex-center-gap">
-                <div class="action-icon-circle"><i data-lucide="${icon}" class="u-font-size-xs u-text-accent"></i></div>
+                <div class="action-icon-circle"><i data-lucide="${icon}" class="u-icon-sm u-text-accent"></i></div>
                 <div>
-                    <div class="u-font-size-md u-bold u-text-white">${DeochUtils.escapeHtml(name)}</div>
-                    <div class="u-font-size-xs u-opacity-0-5">Custom Action${statText}</div>
+                    <div class="u-font-size-sm u-bold u-text-white">${DeochUtils.escapeHtml(name)}</div>
+                    <div class="u-font-size-xs u-opacity-0-5">${subtext}</div>
                 </div>
             </div>
             <div class="action-bonus-display"><div class="action-bonus">${displayBonus >= 0 ? '+' : ''}${displayBonus}</div></div>
@@ -688,7 +726,24 @@ export const DeochUtils = {
         // Let CSS handle the colors/borders based on the 'is-sleeping' class
         sleepBtn.classList.toggle('is-sleeping', isSleeping);
         sleepBtn.innerHTML = isSleeping
-            ? '<i data-lucide="sun" class="u-icon-xs"></i> WAKE UP'
-            : '<i data-lucide="moon" class="u-icon-xs"></i> SLEEP';
+            ? '<i data-lucide="sun" class="u-icon-xs"></i> Wake Up'
+            : '<i data-lucide="moon" class="u-icon-xs"></i> Sleep';
+        DeochUtils.queueIconRefresh(sleepBtn);
+    },
+
+    /**
+     * Restarts a CSS keyframe animation on an element by toggling a class.
+     * Uses double requestAnimationFrame to prevent forced synchronous layouts (reflows).
+     * @param {HTMLElement} el - Element to animate.
+     * @param {string} className - CSS class that triggers the animation.
+     */
+    restartAnimation: (el, className) => {
+        if (!el) return;
+        el.classList.remove(className);
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                el.classList.add(className);
+            });
+        });
     }
 };

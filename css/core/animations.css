@@ -27,12 +27,10 @@
 @keyframes statFadeIn {
     0% {
         opacity: 0;
-        filter: blur(4px);
     }
 
     100% {
         opacity: 1;
-        filter: blur(0);
     }
 }
 
@@ -51,31 +49,17 @@
 @keyframes pulse-green {
     0% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        opacity: 1;
     }
 
-    70% {
-        transform: scale(1.1);
-        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    50% {
+        transform: scale(1.15);
+        opacity: 0.85;
     }
 
     100% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-    }
-}
-
-@keyframes gold-flicker {
-    0% {
-        filter: drop-shadow(0 0 5px #f59e0b) drop-shadow(0 0 15px rgba(253, 230, 138, 0.4));
-    }
-
-    50% {
-        filter: drop-shadow(0 0 25px #fbbf24) drop-shadow(0 0 50px rgba(255, 255, 255, 0.8));
-    }
-
-    100% {
-        filter: drop-shadow(0 0 8px #f59e0b) drop-shadow(0 0 20px rgba(253, 230, 138, 0.6));
+        opacity: 1;
     }
 }
 
@@ -97,29 +81,15 @@
     0% {
         transform: translate(-50%, -40%) scale(0.8);
         opacity: 0;
-        filter: blur(10px);
     }
 
     100% {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
-        filter: blur(0);
     }
 }
 
-@keyframes mastery-glow {
-    0% {
-        text-shadow: 0 0 20px var(--accent-glow);
-    }
 
-    50% {
-        text-shadow: 0 0 50px var(--accent-glow), 0 0 100px var(--accent-primary);
-    }
-
-    100% {
-        text-shadow: 0 0 20px var(--accent-glow);
-    }
-}
 
 #mastery-celebration-dialog {
     outline: none;
@@ -127,13 +97,21 @@
 }
 
 #test-mastery-celebration {
-    background: transparent !important;
-    backdrop-filter: none !important;
+    background: transparent;
+    backdrop-filter: none;
+}
+
+body.mastery-celebration-active #play,
+html body.on-test-page.char-sheet-active.mastery-celebration-active .floating-vitality-orbs,
+body.mastery-celebration-active #top-mobile-hud,
+body.mastery-celebration-active .combat-utilities-wrapper,
+body.mastery-celebration-active #stat-points-tooltip,
+body.mastery-celebration-active #stat-points-indicator {
+    display: none;
 }
 
 #mastery-celebration-dialog::backdrop {
-    background: radial-gradient(circle, rgba(20, 20, 30, 0.95) 0%, rgba(0, 0, 0, 1) 100%) !important;
-    backdrop-filter: blur(8px) !important;
+    background: radial-gradient(circle, rgba(20, 20, 30, 0.95) 0%, rgba(0, 0, 0, 1) 100%);
 }
 
 @keyframes spark-drift {
@@ -163,7 +141,11 @@
     background: var(--accent-primary);
     border-radius: 50%;
     pointer-events: none;
-    box-shadow: 0 0 10px var(--accent-primary);
+    bottom: -20px;
+    opacity: 0;
+}
+
+#mastery-celebration-dialog[open] .mastery-spark {
     animation: spark-drift 3s linear infinite;
 }
 
@@ -174,41 +156,33 @@
     width: 600px;
     animation: mastery-reveal 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     overflow: visible;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
+    contain: none;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
 }
 
-.mastery-spark-container {
+#spark-container, .mastery-spark-container {
     position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: -1;
 }
 
-.mastery-crown-wrapper {
-    margin-bottom: 1.5rem;
-}
 
-.mastery-crown-icon {
-    width: 60px;
-    height: 60px;
-    color: var(--accent-primary);
-    filter: drop-shadow(0 0 20px var(--accent-glow));
-}
 
 .mastery-title {
     font-size: clamp(2.5rem, 10vw, 4rem);
     color: var(--accent-primary);
-    animation: mastery-glow 3s ease-in-out infinite;
+    text-shadow: 0 0 30px var(--accent-primary);
     margin-bottom: 0.75rem;
     line-height: 1.1;
 }
 
 .mastery-subtitle {
     font-family: var(--font-primary);
-    color: white;
+    color: #EAE6DF;
     opacity: 0.9;
     letter-spacing: 0.2em;
     font-size: clamp(0.8rem, 4vw, 1.2rem);
@@ -264,7 +238,7 @@
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--accent-primary);
+    border: 1px solid color-mix(in srgb, var(--accent-primary) 70%, transparent);
     border-radius: 10px;
     font-family: var(--font-primary);
     font-size: 1.25rem;
@@ -292,19 +266,40 @@
     width: calc(50% - 0.125rem);
 }
 
+.modal-dialog .upgrade-btn {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
 .upgrade-btn--hp {
-    border-color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
+    --btn-color: #ef4444;
+    border-color: var(--btn-color);
+    background: color-mix(in srgb, var(--btn-color) 10%, transparent);
 }
 
 .upgrade-btn--mp {
-    border-color: #3b82f6;
-    background: rgba(59, 130, 246, 0.1);
+    --btn-color: #3b82f6;
+    border-color: var(--btn-color);
+    background: color-mix(in srgb, var(--btn-color) 10%, transparent);
 }
 
 .upgrade-btn--stat {
-    border-color: #f59e0b;
-    background: rgba(245, 158, 11, 0.1);
+    --btn-color: var(--accent-primary);
+    border-color: var(--btn-color);
+    background: color-mix(in srgb, var(--btn-color) 10%, transparent);
+}
+
+/* Custom non-shifting hover and active highlighting states for Mastery Spend Buttons */
+.glass-btn.upgrade-btn:hover {
+    transform: none;
+    background: color-mix(in srgb, var(--btn-color) 20%, transparent);
+    box-shadow: 0 0 15px color-mix(in srgb, var(--btn-color) 30%, transparent);
+}
+
+.glass-btn.upgrade-btn:active {
+    transform: scale(0.98);
+    background: color-mix(in srgb, var(--btn-color) 30%, transparent);
+    box-shadow: 0 0 20px color-mix(in srgb, var(--btn-color) 50%, transparent);
 }
 
 .upgrade-btn-label {
@@ -321,20 +316,22 @@
 }
 
 .upgrade-btn-label--stat {
-    color: #f59e0b;
+    color: var(--accent-primary);
 }
 
 .upgrade-btn-cost {
     font-size: 0.6rem;
 }
 
-.mastery-return-btn {
+.mastery-return-btn,
+.mastery-return-btn:hover {
     padding: 0.8rem 2.5rem;
     font-size: 0.9rem;
     border-radius: 50px;
     width: auto;
     min-width: 180px;
     opacity: 0.7;
+    border-color: color-mix(in srgb, var(--accent-primary) 70%, transparent);
 }
 
 /* --- End H2 Refactor --- */
@@ -358,14 +355,14 @@
 @media (max-width: 480px) {
     #mastery-celebration-dialog.mastery-dialog {
         max-width: 98vw;
-        padding: 0.25rem !important;
+        padding: 0.25rem;
     }
 }
 
 /* Glass button active state in modal dialogues */
 .glass-btn.active {
-    border-color: var(--accent-primary) !important;
-    background: rgba(255, 255, 255, 0.15) !important;
-    color: var(--accent-primary) !important;
-    box-shadow: 0 0 10px var(--accent-glow) !important;
+    border-color: color-mix(in srgb, var(--accent-primary) 70%, transparent);
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--accent-primary);
+    box-shadow: 0 0 10px var(--accent-glow);
 }
