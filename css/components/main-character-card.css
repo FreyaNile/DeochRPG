@@ -288,13 +288,14 @@ body.on-test-page .tabs-card .tab-nav {
     animation: toastPop 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-
 body.on-test-page:not(.tour-active) .mobile-sheet-container {
-    padding-top: 5.5rem;
-    min-height: 100vh;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 5.5rem;
+    padding-bottom: 9.5rem;
+    min-height: 100vh;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -356,8 +357,6 @@ body.on-test-page:not(.tour-active) .mobile-sheet-container {
 .action-item:hover {
     border-color: rgba(255, 255, 255, 0.3);
 }
-
-.action-item:active {}
 
 .action-icon-circle {
     width: 32px;
@@ -546,11 +545,6 @@ body.on-test-page:not(.tour-active) #test-tabs-card .test-tab-pane {
     .rest-actions-grid {
         margin-left: calc(60px + 0.75rem);
     }
-}
-
-body.on-test-page:not(.tour-active) .mobile-sheet-container {
-    gap: 0.75rem;
-    padding-bottom: 6rem;
 }
 
 body.on-test-page:not(.tour-active) #test-tabs-card {

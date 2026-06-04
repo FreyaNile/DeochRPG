@@ -873,6 +873,7 @@ body:not(.gm-mode-active) #test-hud-primary-line .hud-dot-sep {
     letter-spacing: 0.05em;
     line-height: 1.1;
 }
+
 .stats-header-summary {
     display: flex;
     gap: 0.5rem;
@@ -895,7 +896,6 @@ body:not(.gm-mode-active) #test-hud-primary-line .hud-dot-sep {
     transition: transform var(--transition-elastic), opacity 0.3s;
     opacity: 1;
     pointer-events: auto;
-}
 }
 
 .floating-widget.minimized {
