@@ -25,23 +25,30 @@ html {
     width: 100%;
 }
 
-/* More robust fixed background for mobile */
 body::before {
     content: "";
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100svh;
+    height: 100vh;
     background-image: url("../../images/talos.png");
     background-position: center center;
-    background-size: 100% 100svh;
+    background-size: cover;
+    /* Guarantees edge-to-edge coverage on desktop */
     background-repeat: no-repeat;
     z-index: var(--z-neg);
     pointer-events: none;
 }
 
-
+/* Mobile-specific override to kill the Safari/Chrome URL bar jitter without squishing */
+@media (max-width: 768px) {
+    body::before {
+        height: 100svh;
+        /* FIX: Prevents layout jump AND preserves original art proportions on mobile */
+        background-size: auto 100svh;
+    }
+}
 
 summary {
     color: var(--text-secondary);
@@ -95,9 +102,6 @@ h6 {
 }
 
 /* --- Step 3: Utility & Semantic Classes --- */
-
-/* --- Consolidated from tokens.css (M1 Refactor) --- */
-
 .u-flex-center {
     display: flex;
     align-items: center;
@@ -115,8 +119,6 @@ h6 {
     align-items: center;
     gap: 0.5rem;
 }
-
-
 
 .glass-panel-premium {
     background: var(--surface-glass);
@@ -159,7 +161,6 @@ h6 {
     margin-top: calc(var(--space-xl) + var(--space-sm));
 }
 
-
 .u-mt-0-5 {
     margin-top: var(--space-xs);
 }
@@ -188,10 +189,6 @@ h6 {
 .u-pt-2-5 {
     padding-top: calc(var(--space-md) + var(--space-sm));
 }
-
-
-
-/* .u-icon-xs = 14×14 already exists above */
 
 .u-icon-sm {
     width: 16px;
@@ -267,8 +264,6 @@ h6 {
     position: absolute;
 }
 
-
-
 .u-z-floor {
     z-index: var(--z-floor);
 }
@@ -300,8 +295,6 @@ h6 {
 .u-border-glass {
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
-
-
 
 .u-p-0-5 {
     padding: var(--space-xs);
@@ -368,8 +361,6 @@ h6 {
 .u-align-start {
     align-items: flex-start;
 }
-
-
 
 .u-justify-center {
     justify-content: center;
@@ -440,8 +431,6 @@ h6 {
     font-family: var(--font-primary);
 }
 
-
-
 .u-font-size-xs {
     font-size: 0.75rem;
 }
@@ -500,8 +489,6 @@ h6 {
     border-color: rgba(162, 131, 82, 0.7);
 }
 
-
-
 .u-mx-auto {
     margin: 0 auto;
 }
@@ -527,10 +514,6 @@ h6 {
     height: 24px;
 }
 
-
-
-
-
 .u-gap-0-1 {
     gap: 0.1rem;
 }
@@ -550,7 +533,6 @@ h6 {
 .u-gap-1 {
     gap: var(--space-sm);
 }
-
 
 .u-flex-1 {
     flex: 1;
@@ -600,8 +582,6 @@ h6 {
     background: var(--color-success);
 }
 
-
-
 .u-w-48 {
     width: 48px;
 }
@@ -635,8 +615,6 @@ h6 {
 .u-bg-danger {
     background-color: var(--color-danger) !important;
 }
-
-
 
 .u-border-none {
     border: none !important;
@@ -728,12 +706,9 @@ h6 {
     padding-top: 0.5rem !important;
 }
 
-
 .u-pt-0-8 {
     padding-top: 0.8rem !important;
 }
-
-
 
 .u-pb-0-5 {
     padding-bottom: 0.5rem !important;
@@ -837,14 +812,6 @@ h6 {
     object-fit: cover;
 }
 
-
-
-/* Custom Select Styling removed - decommissioned */
-
-
-
-
-
 .header-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -920,7 +887,6 @@ h6 {
     transform: translateY(-2px);
 }
 
-
 .primary-btn:active,
 .secondary-btn:active {
     transform: translateY(0);
@@ -948,13 +914,6 @@ h6 {
 .secondary-btn.premium-interactive:hover {
     background: rgba(255, 255, 255, 0.05);
 }
-
-
-
-
-
-
-
 
 .stat-points-display.hidden {
     opacity: 0;
@@ -1007,20 +966,6 @@ input[type="number"]::-webkit-inner-spin-button {
     resize: vertical;
 }
 
-
-
-
-
-/* Media queries consolidated at the end of the file */
-
-
-/* Relocated to combat-utilities.css */
-
-
-/* Relocated to main-character-card.css */
-
-
-
 /* Icon Toggles */
 .icon-toggle {
     cursor: pointer;
@@ -1042,8 +987,6 @@ input[type="number"]::-webkit-inner-spin-button {
     border-color: color-mix(in srgb, var(--accent-primary) 70%, transparent);
     box-shadow: 0 0 15px var(--accent-glow);
 }
-
-
 
 .icon-toggle i {
     width: 20px;
@@ -1092,7 +1035,6 @@ input[type="number"]::-webkit-inner-spin-button {
     /* Direct theme color — no hue math */
     background-color: var(--accent-primary);
 }
-
 
 /* Attunement Specific (Link/Cyan Glow) */
 .hidden {
@@ -1151,18 +1093,6 @@ input[type="number"]::-webkit-inner-spin-button {
     border: none;
 }
 
-/* rules-grid media query consolidated at the end of the file */
-
-
-
-
-
-
-
-
-
-
-
 /* --- Premium Interactive Styles --- */
 .premium-interactive {
     position: relative;
@@ -1183,8 +1113,6 @@ input[type="number"]::-webkit-inner-spin-button {
     transform: translateY(-2px);
 }
 
-
-
 body.on-test-page .mobile-bottom-nav {
     bottom: 6.5rem;
     z-index: var(--z-floating);
@@ -1198,9 +1126,6 @@ body.on-test-page {
     width: 100%;
     position: fixed;
 }
-
-/* Ensure specific buttons and summaries are always clickable */
-/* Relocated to navigation.css */
 
 body.on-test-page .form-header {
     gap: 0.75rem;
@@ -1217,7 +1142,6 @@ body.on-test-page .vitals-status-grid {
     margin-bottom: 0.85rem;
     padding-bottom: 0.85rem;
 }
-
 
 .glass-btn-circle {
     width: 28px;
@@ -1249,12 +1173,6 @@ body.on-test-page .vitals-status-grid {
     transform: rotate(90deg);
 }
 
-
-
-
-
-
-
 /* --- Reusable Glass Button System --- */
 .glass-btn {
     display: flex;
@@ -1279,10 +1197,6 @@ body.on-test-page .vitals-status-grid {
     border-color: rgba(255, 255, 255, 0.3);
     background: rgba(255, 255, 255, 0.1);
 }
-
-/* ==========================================================================
-   CONSOLIDATED MEDIA QUERIES (Phase 5 Refactor — F7 / M5)
-   ========================================================================== */
 
 /* Tablet & Smaller Devices */
 @media (max-width: 1024px) {
@@ -1410,8 +1324,6 @@ body.on-test-page .vitals-status-grid {
 #new-lore-input:focus {
     border-color: color-mix(in srgb, var(--accent-primary) 70%, transparent);
 }
-
-
 
 /* Tiny Mobiles (400px and below) */
 @media (max-width: 400px) {}
