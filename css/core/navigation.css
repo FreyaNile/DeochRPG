@@ -309,17 +309,10 @@ body.on-test-page .tab-btn.active::after {
     }
 }
 
-@media (max-width: 400px) {
-    .tab-btn {
-        font-size: 0.6rem;
-        padding: 0.4rem 0.35rem;
-    }
-}
-
-@media (max-width: 360px) {
+@media (max-width: 375px) {
     .tab-btn {
         font-size: 0.65rem;
-        padding: 0.45rem 0.45rem;
+        padding: 0.45rem 0.4rem;
     }
 }
 

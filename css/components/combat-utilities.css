@@ -441,7 +441,7 @@ details[open] .restoration-content-wrapper,
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .combat-utilities-wrapper {
         gap: 0.5rem;
         width: auto;
@@ -571,7 +571,7 @@ body.sleep-shade-active #toggle-dice-tray-btn {
     gap: 0.5rem;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 425px) {
     .u-grid-dice-layout {
         grid-template-columns: repeat(2, 1fr);
     }

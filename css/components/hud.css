@@ -930,7 +930,7 @@ body.on-test-page .vitals-status-grid {
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .tooltip--stat-points {
         left: 50%;
         bottom: auto;
@@ -978,7 +978,7 @@ body.on-test-page .vitals-status-grid {
 
 
 
-@media (max-width: 360px) {
+@media (max-width: 375px) {
     .summary-item {
         padding: 3px 2px;
         font-size: 0.7rem;

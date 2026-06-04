@@ -357,7 +357,7 @@ body.on-test-page .management-menu-content button {
     outline: none;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 425px) {
     .modal-dialog {
         padding: 2rem 1.5rem;
         width: 94%;

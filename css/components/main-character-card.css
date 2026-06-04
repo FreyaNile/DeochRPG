@@ -550,7 +550,7 @@ body.on-test-page:not(.tour-active) #test-tabs-card .test-tab-pane {
 
 body.on-test-page:not(.tour-active) .mobile-sheet-container {
     gap: 0.75rem;
-    padding-bottom: 4.5rem;
+    padding-bottom: 6rem;
 }
 
 body.on-test-page:not(.tour-active) #test-tabs-card {
@@ -638,7 +638,7 @@ body.on-test-page:not(.tour-active) .exhaustion-dots {
     }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 375px) {
     body .info-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0.75rem;
@@ -659,7 +659,15 @@ body.on-test-page:not(.tour-active) .exhaustion-dots {
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 320px) {
+    .condition-item {
+        font-size: 0.78rem;
+        padding: 0.25rem 0.35rem;
+        gap: 0.4rem;
+    }
+}
+
+@media (max-width: 768px) {
     .languages-grid {
         flex-direction: column;
     }

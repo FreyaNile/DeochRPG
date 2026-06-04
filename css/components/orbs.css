@@ -28,7 +28,7 @@ body.on-test-page.char-sheet-active .floating-vitality-orbs:not(.splash-transpar
     visibility: visible;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .floating-vitality-orbs {
         padding: 0 0.75rem;
     }

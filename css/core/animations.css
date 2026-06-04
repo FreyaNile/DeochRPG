@@ -352,7 +352,7 @@ body.mastery-celebration-active #stat-points-indicator {
     overflow: hidden;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 425px) {
     #mastery-celebration-dialog.mastery-dialog {
         max-width: 98vw;
         padding: 0.25rem;

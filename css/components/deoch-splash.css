@@ -109,18 +109,18 @@ body #creation-tour .char-splash-title {
     animation: fadeIn 1s ease forwards;
 }
 
-@media (max-width: 360px) {
-  .char-splash-title {
+@media (max-width: 375px) {
+    .char-splash-title {
         letter-spacing: 0.05em;
         font-size: clamp(4.5rem, 20vw, 6rem);
     }
-.char-splash-subtitle {
+    .char-splash-subtitle {
         font-size: 0.95rem;
         letter-spacing: 0.25em;
         margin-bottom: 1.5rem;
-    }#splash-welcome-msg {
+    }
+    #splash-welcome-msg {
         font-size: 0.65rem;
-        /* Slightly smaller still to be sure */
         letter-spacing: 0.1em;
         margin-bottom: 1rem;
     }
