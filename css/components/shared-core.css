@@ -23,6 +23,7 @@ html {
     scroll-behavior: smooth;
     overflow-x: hidden;
     width: 100%;
+    background-color: #0d0d0d;
 }
 
 body::before {
