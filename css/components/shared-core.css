@@ -5,9 +5,15 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
+    background-color: #0d0d0d;
+}
+
 body {
     background-color: transparent;
-    /* Allow body::before background to show */
     color: var(--text-primary);
     font-family: var(--font-body);
     line-height: 1.6;
@@ -17,13 +23,6 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-}
-
-html {
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-    width: 100%;
-    background-color: #0d0d0d;
 }
 
 body::before {
@@ -36,22 +35,20 @@ body::before {
     background-image: url("../../images/talos.png");
     background-position: center center;
     background-size: cover;
-    /* Guarantees edge-to-edge coverage on desktop */
     background-repeat: no-repeat;
     z-index: var(--z-neg);
     pointer-events: none;
 }
 
-/* Mobile-specific override to kill the Safari/Chrome URL bar jitter without squishing */
 @media (max-width: 768px) {
     body::before {
+        position: fixed;
         top: 0;
-        bottom: 0;
-        /* FIX 1: Pins the background container to the true bottom edge */
-        height: 100%;
-        /* FIX 2: Forces it to fill the body container dynamically */
+        left: 0;
+        width: 100vw;
+        height: 100lvh;
         background-size: auto 100svh;
-        /* KEEPS the static image height to stop jitter */
+        background-position: center center;
     }
 }
 
