@@ -159,10 +159,6 @@ h6 {
 
 /* --- End M1 Refactor --- */
 
-.u-mt-4 {
-    margin-top: calc(var(--space-xl) + var(--space-sm));
-}
-
 .u-mt-0-5 {
     margin-top: var(--space-xs);
 }
@@ -274,6 +270,10 @@ h6 {
     z-index: var(--z-max);
 }
 
+.u-opacity-0-4 {
+    opacity: 0.4;
+}
+
 .u-opacity-0-5 {
     opacity: 0.5;
 }
@@ -315,11 +315,11 @@ h6 {
 }
 
 .u-border-danger {
-    border: 1px solid #ef4444;
+    border: 1px solid var(--color-danger);
 }
 
 .u-border-info {
-    border: 1px solid #3b82f6;
+    border: 1px solid var(--color-mental);
 }
 
 .u-text-white {
@@ -331,11 +331,11 @@ h6 {
 }
 
 .u-text-danger {
-    color: #ef4444;
+    color: var(--color-danger);
 }
 
 .u-text-info {
-    color: #3b82f6;
+    color: var(--color-mental);
 }
 
 .u-icon-xs {
@@ -744,10 +744,6 @@ h6 {
     margin-bottom: calc(var(--space-md) + var(--space-sm)) !important;
 }
 
-.u-gap-3 {
-    gap: 3rem !important;
-}
-
 .verified-link {
     color: var(--accent-primary);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1124,7 +1120,7 @@ body.on-test-page .mobile-bottom-nav {
 /* Ensure the background never scrolls on the test page */
 body.on-test-page {
     overflow: hidden;
-    height: 100vh;
+    height: 100dvh;
     width: 100%;
     position: fixed;
 }
@@ -1356,5 +1352,30 @@ body.on-test-page .vitals-status-grid {
 
     .contact-footer-form {
         padding: 1.25rem;
+    }
+}
+
+.logo-wrapper {
+    display: contents;
+    margin: 0;
+    padding: 0;
+}
+
+.glass-panel-premium.lore-item {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 320px) {
+    .logo-container {
+        padding: 1rem 1.25rem !important;
+    }
+    .nav-links {
+        flex-wrap: nowrap !important;
+        gap: 0.5rem !important;
+    }
+    .nav-btn {
+        padding: 0.4rem 0.5rem !important;
+        font-size: 0.75rem !important;
     }
 }

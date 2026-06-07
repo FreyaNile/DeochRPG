@@ -45,12 +45,16 @@ export const ProgressionManager = {
     ],
 
     LANGUAGES: [
+        { id: 'lang-arcana', name: 'Arcana', key: 'lang_arcana' },
         { id: 'lang-common', name: 'Common', key: 'lang_common' },
-        { id: 'lang-elvish', name: 'Elvish', key: 'lang_elvish' },
-        { id: 'lang-dwarven', name: 'Dwarven', key: 'lang_dwarven' },
-        { id: 'lang-orcish', name: 'Orcish', key: 'lang_orcish' },
-        { id: 'lang-celestial', name: 'Celestial', key: 'lang_celestial' },
-        { id: 'lang-draconic', name: 'Draconic', key: 'lang_draconic' }
+        { id: 'lang-draconic', name: 'Draconic', key: 'lang_draconic' },
+        { id: 'lang-dwelsh', name: 'Dwelsh', key: 'lang_dwelsh' },
+        { id: 'lang-gish', name: 'Gish', key: 'lang_gish' },
+        { id: 'lang-newelvish', name: 'Newelvish', key: 'lang_newelvish' },
+        { id: 'lang-oldelvish', name: 'Oldelvish', key: 'lang_oldelvish' },
+        { id: 'lang-oren', name: 'Oren', key: 'lang_oren' },
+        { id: 'lang-runic', name: 'Runic', key: 'lang_runic' },
+        { id: 'lang-savvy', name: 'Savvy', key: 'lang_savvy' }
     ],
 
     ATTRIBUTES: [
@@ -86,6 +90,43 @@ export const ProgressionManager = {
     init(sheet, signal) {
         if (this.initialized) return;
         this.signal = signal;
+
+        // Dynamically build Dice Tray Stats Header Row if empty
+        const diceTrayStats = document.getElementById('dice-tray-stats-container');
+        if (diceTrayStats && diceTrayStats.children.length === 0) {
+            const fragment = document.createDocumentFragment();
+            ['str', 'dex', 'con', 'int', 'wis', 'cha'].forEach(stat => {
+                const box = document.createElement('div');
+                box.className = 'stat-box stat-box-compact';
+                box.setAttribute('data-stat', stat);
+                box.innerHTML = `
+                    <span class="stat-label">${stat.toUpperCase()}</span>
+                    <div class="value">9</div>
+                    <div class="mod">+0</div>
+                `;
+                fragment.appendChild(box);
+            });
+            diceTrayStats.appendChild(fragment);
+        }
+
+        // Dynamically build HUD Stats Summary Row if empty
+        const hudStatsSummary = document.getElementById('hud-stats-summary');
+        if (hudStatsSummary && hudStatsSummary.children.length === 0) {
+            const fragment = document.createDocumentFragment();
+            ['str', 'dex', 'con', 'int', 'wis', 'cha'].forEach(stat => {
+                const item = document.createElement('div');
+                item.className = 'summary-item';
+                item.setAttribute('data-stat', stat);
+                item.innerHTML = `
+                    <span class="stat-label">${stat.toUpperCase()}</span>
+                    <div class="u-flex u-align-center u-gap-0-1">
+                        <span class="val">9</span><span class="mod">(+0)</span>
+                    </div>
+                `;
+                fragment.appendChild(item);
+            });
+            hudStatsSummary.appendChild(fragment);
+        }
 
         // Initialize Stat Logic
         this.initStatTooltip();
@@ -545,6 +586,53 @@ export const ProgressionManager = {
         if (expDisplay) expDisplay.textContent = currentExp;
         DeochUtils.setText('test-exp-value-display', currentExp);
 
+        const masteryGrid = document.getElementById('mastery-buttons-grid');
+        if (masteryGrid && masteryGrid.children.length === 0) {
+            const fragment = document.createDocumentFragment();
+            
+            // HP
+            const hpBtn = document.createElement('button');
+            hpBtn.id = 'test-cel-mastery-hp-btn';
+            hpBtn.className = 'glass-btn upgrade-btn upgrade-btn--hp';
+            hpBtn.innerHTML = `
+                <div class="upgrade-btn-label upgrade-btn-label--hp">+1 Vitality</div>
+                <div id="test-cel-mastery-hp-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
+            `;
+            fragment.appendChild(hpBtn);
+
+            // MP
+            const mpBtn = document.createElement('button');
+            mpBtn.id = 'test-cel-mastery-mp-btn';
+            mpBtn.className = 'glass-btn upgrade-btn upgrade-btn--mp';
+            mpBtn.innerHTML = `
+                <div class="upgrade-btn-label upgrade-btn-label--mp">+1 Mana</div>
+                <div id="test-cel-mastery-mp-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
+            `;
+            fragment.appendChild(mpBtn);
+
+            // Stats
+            const statLabels = {
+                str: 'Strength',
+                dex: 'Dexterity',
+                con: 'Constitution',
+                int: 'Intelligence',
+                wis: 'Wisdom',
+                cha: 'Charisma'
+            };
+            ['str', 'dex', 'con', 'int', 'wis', 'cha'].forEach(stat => {
+                const btn = document.createElement('button');
+                btn.id = `test-cel-mastery-${stat}-btn`;
+                btn.className = 'glass-btn upgrade-btn upgrade-btn--stat';
+                btn.innerHTML = `
+                    <div class="upgrade-btn-label upgrade-btn-label--stat">+1 ${statLabels[stat]}</div>
+                    <div id="test-cel-mastery-${stat}-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
+                `;
+                fragment.appendChild(btn);
+            });
+
+            masteryGrid.appendChild(fragment);
+        }
+
         const stats = ['hp', 'mp', 'str', 'dex', 'con', 'int', 'wis', 'cha'];
         stats.forEach(stat => {
             const btn = document.getElementById(`test-cel-mastery-${stat}-btn`);
@@ -780,6 +868,21 @@ export const ProgressionManager = {
     // --- Exhaustion & Conditions ---
 
     initExhaustionListeners() {
+        const container = document.getElementById('exhaustion-dots-container');
+        if (container && container.children.length === 0) {
+            const fragment = document.createDocumentFragment();
+            for (let level = 1; level <= 7; level++) {
+                const label = document.createElement('label');
+                label.className = 'icon-toggle exhaustion-toggle';
+                label.title = `Exhaustion Level ${level}`;
+                label.htmlFor = `char-ex-${level}`;
+                label.innerHTML = `<input type="checkbox" id="char-ex-${level}" name="ex_${level}" class="hidden"><i data-lucide="activity"></i>`;
+                fragment.appendChild(label);
+            }
+            container.appendChild(fragment);
+            DeochUtils.queueIconRefresh(container);
+        }
+
         const inputs = document.querySelectorAll('.exhaustion-dots input');
         inputs.forEach((input, index) => {
             input.addEventListener('change', (e) => {
@@ -1287,8 +1390,8 @@ export const ProgressionManager = {
         const newItem = DeochUtils.createCustomActionItem(result.name, result.bonus, result.icon, result.stat, result.dice, result.dmgBonus);
         actionsList.appendChild(newItem);
         DeochUtils.queueIconRefresh(newItem);
-        if (window.DataManager && typeof window.DataManager.saveCharacter === 'function') {
-            window.DataManager.saveCharacter();
+        if (DataManager && typeof DataManager.saveCharacter === 'function') {
+            DataManager.saveCharacter();
         }
     },
 

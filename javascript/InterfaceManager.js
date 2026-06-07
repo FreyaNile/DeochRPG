@@ -31,6 +31,7 @@ export const InterfaceManager = {
         this.initGlobalListeners();
         this.initLoreEvents();
         this.initNewsletterForm();
+        this.initShowcaseTabs();
 
         const activeTabBtn = document.getElementById('test-tab-nav')?.querySelector('.test-tab-btn.active');
         if (activeTabBtn && activeTabBtn.getAttribute('data-tab') === 'test-tab-lore') {
@@ -212,7 +213,8 @@ export const InterfaceManager = {
                     list.push(item.getAttribute('data-lore-text'));
                 });
                 return list;
-            })()
+            })(),
+            equipment: window.Deoch.EquipmentManager ? window.Deoch.EquipmentManager.gatherData() : null
         };
     },
 
@@ -236,6 +238,10 @@ export const InterfaceManager = {
                 if (vEl) vEl.checked = false;
                 if (lEl) lEl.checked = false;
             });
+        }
+
+        if (window.Deoch && window.Deoch.EquipmentManager) {
+            window.Deoch.EquipmentManager.resetToDefaults();
         }
 
         this.updateAvatarDisplay(null);
@@ -361,6 +367,29 @@ export const InterfaceManager = {
         }
     },
 
+    initShowcaseTabs() {
+        const containers = document.querySelectorAll('.class-showcase-container');
+        containers.forEach(container => {
+            container.addEventListener('click', (e) => {
+                const tab = e.target.closest('.class-showcase-tab');
+                if (!tab) return;
+
+                const targetTab = tab.getAttribute('data-showcase-tab');
+                const tabs = container.querySelectorAll('.class-showcase-tab');
+                const panels = container.querySelectorAll('.class-showcase-panel');
+
+                tabs.forEach(t => t.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+
+                tab.classList.add('active');
+                const targetPanel = container.querySelector(`#showcase-${targetTab}`);
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                }
+            }, { signal: this.signal });
+        });
+    },
+
     handleHashChange() {
         let target = window.location.hash.substring(1) || 'home';
         this.navigateTo(target);
@@ -383,6 +412,9 @@ export const InterfaceManager = {
         if (targetId === 'play') {
             if (typeof window.ensureTestPageInitialized === 'function') window.ensureTestPageInitialized();
             this.handleTestPageEntry();
+            if (VitalsManager && typeof VitalsManager.startOrbSync === 'function') {
+                VitalsManager.startOrbSync();
+            }
         } else {
             document.body.classList.remove('tour-active');
             const splash = document.getElementById('char-sheet-splash');
@@ -476,7 +508,7 @@ export const InterfaceManager = {
 
     toggleSplashTransparency(isActive) {
         const selectors = [
-            '.global-header', '.site-footer', '#toggle-dice-btn',
+            '.global-header', '.site-footer', '#toggle-dice-tray-btn',
             '.floating-vitality-orbs', '#top-mobile-hud', '.combat-utilities-wrapper',
             '.tooltip--stat-points', '#stat-points-tooltip', '#stat-points-indicator'
         ];
@@ -869,10 +901,10 @@ export const InterfaceManager = {
         const target = btn.dataset.tab;
         const container = btn.closest('#test-tabs-card') || document.body;
         container.querySelectorAll('.test-tab-btn').forEach(b => b.classList.remove('active'));
-        container.querySelectorAll('.test-tab-pane').forEach(p => p.style.display = 'none');
+        container.querySelectorAll('.test-tab-pane').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
         const pane = document.getElementById(target);
-        if (pane) pane.style.display = 'block';
+        if (pane) pane.classList.add('active');
 
         if (target === 'test-tab-lore') {
             document.body.classList.add('lore-tab-active');
@@ -1070,17 +1102,17 @@ export const InterfaceManager = {
 
         if (title) {
             let label = 'ADJUST HEALTH';
-            let color = '#ef4444';
-            if (stat === 'mana') { label = 'ADJUST MANA'; color = '#3b82f6'; }
-            if (stat === 'stamina') { label = 'ADJUST STAMINA'; color = '#fbbf24'; }
+            let color = 'var(--color-danger)';
+            if (stat === 'mana') { label = 'ADJUST MANA'; color = 'var(--color-mental)'; }
+            if (stat === 'stamina') { label = 'ADJUST STAMINA'; color = 'var(--color-stamina)'; }
             title.textContent = label;
             title.style.color = color;
         }
 
         if (content) {
-            let borderColor = '#ef4444';
-            if (stat === 'mana') borderColor = '#3b82f6';
-            if (stat === 'stamina') borderColor = '#fbbf24';
+            let borderColor = 'var(--color-danger)';
+            if (stat === 'mana') borderColor = 'var(--color-mental)';
+            if (stat === 'stamina') borderColor = 'var(--color-stamina)';
             content.style.borderColor = borderColor;
         }
 
@@ -1207,8 +1239,6 @@ export const InterfaceManager = {
         const item = document.createElement('div');
         item.className = 'lore-item glass-panel-premium u-p-md u-flex-between u-align-start u-gap-1 u-border-radius-md u-mb-0-5';
         item.setAttribute('data-lore-text', text);
-        item.style.border = '1px solid rgba(255,255,255,0.08)';
-        item.style.background = 'rgba(0,0,0,0.15)';
         item.innerHTML = `
             <div class="u-font-size-xl u-text-white u-line-height-1-4" style="text-align: left; flex: 1; overflow-wrap: anywhere;">
                 ${DeochUtils.escapeHtml(text)}

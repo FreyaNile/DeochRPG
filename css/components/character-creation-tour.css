@@ -5,7 +5,7 @@
     right: 0;
     bottom: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     margin: 0;
     z-index: var(--z-tour);
     display: flex;
@@ -30,7 +30,7 @@
     padding: 1.5rem;
     border-radius: 16px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -60,7 +60,7 @@
     padding: 1rem;
     border-radius: 16px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, border-color 0.3s ease;
     position: relative;
     overflow: hidden;
 }
@@ -127,12 +127,10 @@ body.tour-active {
     0%,
     100% {
         transform: translateY(0) rotate(0deg);
-        filter: drop-shadow(0 0 15px var(--accent-glow));
     }
 
     50% {
         transform: translateY(-15px) rotate(2deg);
-        filter: drop-shadow(0 0 30px var(--accent-glow));
     }
 }
 
@@ -146,6 +144,7 @@ body.tour-active {
 
 #creation-tour .ra-player-pyromaniac {
     animation: tourIconFloat 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px var(--accent-glow));
 }
 
 
@@ -157,7 +156,7 @@ body.tour-active:not(.char-sheet-active) .global-header,
 body.tour-active:not(.char-sheet-active) .top-mobile-hud,
 body.tour-active:not(.char-sheet-active) .floating-vitality-orbs,
 body.tour-active:not(.char-sheet-active) .combat-utilities-wrapper,
-body.tour-active:not(.char-sheet-active) #toggle-dice-btn {
+body.tour-active:not(.char-sheet-active) #toggle-dice-tray-btn {
     display: none;
 }
 
@@ -220,7 +219,7 @@ body.tour-active:not(.char-sheet-active) #toggle-dice-btn {
     font-size: 1.4rem;
     outline: none;
     box-shadow: 0 0 20px var(--accent-glow);
-    transition: all 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .tour-input:focus {

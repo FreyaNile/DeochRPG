@@ -7,8 +7,8 @@ export const DeochUtils = {
      * Saves the active character to database.
      */
     saveCharacter() {
-        if (window.DataManager && typeof window.DataManager.saveCharacter === 'function') {
-            window.DataManager.saveCharacter();
+        if (window.Deoch && window.Deoch.DataManager && typeof window.Deoch.DataManager.saveCharacter === 'function') {
+            window.Deoch.DataManager.saveCharacter();
         } else {
             console.warn('DeochUtils: DataManager not ready for save.');
         }
@@ -395,14 +395,14 @@ export const DeochUtils = {
      * Unified character creation trigger.
      */
     newHero: () => {
-        if (window.DataManager) window.DataManager.newCharacter();
+        if (window.Deoch && window.Deoch.DataManager) window.Deoch.DataManager.newCharacter();
     },
 
     /**
      * Unified character save trigger.
      */
     saveHero: () => {
-        if (window.DataManager) window.DataManager.saveCharacter();
+        if (window.Deoch && window.Deoch.DataManager) window.Deoch.DataManager.saveCharacter();
     },
 
     /**
@@ -497,14 +497,14 @@ export const DeochUtils = {
             ? `
                 <button type="button" id="short-rest-btn"
                     class="secondary-btn u-flex-1 u-bold u-flex-center u-gap-0-5 u-border-radius-md"
-                    style="background: rgba(245, 158, 11, 0.1); border-color: var(--color-warning); color: var(--color-warning); padding: 0.35rem 0; font-size: 0.75rem; height: 32px;">
+                    style="background: color-mix(in srgb, var(--color-warning) 10%, transparent); border-color: var(--color-warning); color: var(--color-warning); padding: 0.35rem 0; font-size: 0.75rem; height: 32px;">
                     <i data-lucide="sun" class="u-icon-xs" style="width: 12px; height: 12px;"></i> Wake Up
                 </button>
             `
             : `
                 <button type="button" id="short-rest-btn"
                     class="secondary-btn u-flex-1 u-bold u-flex-center u-gap-0-5 u-border-radius-md"
-                    style="background: rgba(139, 92, 246, 0.1); border-color: var(--accent-primary); color: var(--accent-primary); padding: 0.35rem 0; font-size: 0.75rem; height: 32px;">
+                    style="background: color-mix(in srgb, var(--accent-primary) 10%, transparent); border-color: var(--accent-primary); color: var(--accent-primary); padding: 0.35rem 0; font-size: 0.75rem; height: 32px;">
                     <i data-lucide="moon" class="u-icon-xs" style="width: 12px; height: 12px;"></i> Sleep
                 </button>
             `;
@@ -518,9 +518,9 @@ export const DeochUtils = {
                     </div>
                     <div style="display: flex; flex: 1; gap: 0.4rem;">
                         <button type="button" id="apply-healing-hp" class="secondary-btn"
-                            style="background: var(--color-success); border-color: var(--color-success); color: #EAE6DF; padding: 0.5rem; font-size: 0.75rem; flex: 1; height: 38px;">+ HP</button>
+                            style="background: var(--color-success); border-color: var(--color-success); color: var(--text-primary); padding: 0.5rem; font-size: 0.75rem; flex: 1; height: 38px;">+ HP</button>
                         <button type="button" id="apply-healing-mana" class="secondary-btn"
-                            style="background: var(--color-mental); border-color: var(--color-mental); color: #EAE6DF; padding: 0.5rem; font-size: 0.75rem; flex: 1; height: 38px;">+ Mana</button>
+                            style="background: var(--color-mental); border-color: var(--color-mental); color: var(--text-primary); padding: 0.5rem; font-size: 0.75rem; flex: 1; height: 38px;">+ Mana</button>
                     </div>
                 </div>
                 <div class="u-flex u-gap-0-5 u-mt-0-5">
@@ -594,7 +594,28 @@ export const DeochUtils = {
      * Instantiates the background Mastery Sparks.
      */
     initSparkles: () => {
-        // Sparks are rendered statically in HTML to prevent runtime DOM generation overhead.
+        const container = document.getElementById('spark-container');
+        if (!container || container.children.length > 0) return;
+
+        const fragment = document.createDocumentFragment();
+        const totalSparks = 25;
+
+        for (let i = 0; i < totalSparks; i++) {
+            const spark = document.createElement('div');
+            spark.className = 'mastery-spark';
+            
+            // eslint-disable-next-line sonarjs/pseudo-random
+            const leftPosition = (i * (100 / totalSparks)) + (Math.random() * 2 - 1);
+            // eslint-disable-next-line sonarjs/pseudo-random
+            const animationDelay = (Math.random() * 3).toFixed(1);
+
+            spark.style.left = `${Math.min(95, Math.max(5, leftPosition))}%`;
+            spark.style.animationDelay = `${animationDelay}s`;
+            
+            fragment.appendChild(spark);
+        }
+
+        container.appendChild(fragment);
     },
 
     /**

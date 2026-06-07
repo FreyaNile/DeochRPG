@@ -89,7 +89,7 @@ body.on-test-page:not(.tour-active) #combat-log-widget {
     -webkit-backdrop-filter: blur(10px);
 }
 
-#combat-log-widget > div:first-child {
+#combat-log-widget>div:first-child {
     margin-bottom: 0.2rem;
 }
 
@@ -98,6 +98,7 @@ body.on-test-page:not(.tour-active) #combat-log-widget {
 body.on-test-page #combat-log-widget.minimized {
     transform: translateX(calc(-100% - 380px));
 }
+
 #toggle-dice-tray-btn {
     position: fixed;
     top: 50%;
@@ -119,7 +120,7 @@ body.on-test-page #combat-log-widget.minimized {
     align-items: center;
     z-index: var(--z-max);
     /* Above HUD */
-    transition: transform 0.3s ease, opacity 0.3s ease, top 0.3s ease, background 0.2s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.2s ease;
     pointer-events: auto;
     cursor: pointer;
 }
@@ -146,12 +147,8 @@ body.on-test-page:not(.tour-active) #toggle-dice-tray-btn.active .dice-icon {
     transform: rotate(360deg);
 }
 
-body.on-test-page:not(.tour-active) #toggle-dice-tray-btn {
-    /* Base properties now handle layout */
-}
-
 body.on-test-page.hud-expanded #toggle-dice-tray-btn {
-    top: 80%;
+    transform: translateY(calc(-50% + 30vh));
     /* Move down to clear expanded HUD */
 }
 
@@ -391,7 +388,7 @@ body.on-test-page:not(.tour-active) #toggle-dice-tray-btn.active svg {
     background: var(--color-danger-muted);
     border-color: var(--color-danger);
     color: var(--color-danger);
-    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+    box-shadow: 0 0 15px color-mix(in srgb, var(--color-danger) 30%, transparent);
     transform: scale(1.05);
 }
 
@@ -414,22 +411,19 @@ body.on-test-page:not(.tour-active) #toggle-dice-tray-btn.active svg {
 }
 
 .restoration-content-wrapper {
-    max-height: 0;
+    transform: scaleY(0);
+    transform-origin: top;
     opacity: 0;
     overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 details[open] .restoration-content-wrapper,
 .restoration-content-wrapper.expanded {
-    max-height: 1000px;
+    transform: scaleY(1);
     opacity: 1;
 }
 
-.damage-calc-content-wrapper.expanded {
-    max-height: 1000px;
-    opacity: 1;
-}
 
 /* ==========================================================================
    CONSOLIDATED MEDIA QUERIES
@@ -453,17 +447,12 @@ details[open] .restoration-content-wrapper,
         transform: translateY(-50%);
     }
 
-    body.on-test-page:not(.tour-active) .combat-utilities-wrapper {
-        /* Base properties handle layout now */
-    }
-
-
     .dice-controls-row {
         gap: 0.35rem;
     }
 
     body.on-test-page.hud-expanded #toggle-dice-tray-btn {
-        top: 80%;
+        transform: translateY(calc(-50% + 30vh));
     }
 
     body.lore-tab-active #toggle-dice-tray-btn {
@@ -479,7 +468,7 @@ details[open] .restoration-content-wrapper,
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     background: rgba(0, 0, 0, 0.85);
     z-index: 999;
     opacity: 0;
@@ -546,12 +535,15 @@ body.sleep-shade-active #toggle-dice-tray-btn {
 .qty-btn {
     display: inline-flex;
 }
+
 .qty-val {
     display: inline-block;
 }
+
 .u-justify-between {
     justify-content: space-between;
 }
+
 .u-p-0-25 {
     padding: 0.25rem;
 }

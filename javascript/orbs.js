@@ -50,7 +50,11 @@ export class HealthOrbShader {
         if (typeof window.IntersectionObserver !== 'undefined') {
             this._observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
+                    const wasVisible = this.isVisible;
                     this.isVisible = entry.isIntersecting;
+                    if (this.isVisible && !wasVisible && !document.hidden) {
+                        this.startLoop();
+                    }
                 });
             }, { threshold: 0 });
             this._observer.observe(this.canvas);
@@ -110,10 +114,18 @@ export class HealthOrbShader {
      * Starts the requestAnimationFrame render loop.
      */
     startLoop() {
+        if (this.isCancelled || this._raf) return;
         let lastTime = performance.now();
         const fpsInterval = 1000 / 60; // ~16.67ms
         const loop = (timestamp) => {
-            if (this.isCancelled) return;
+            if (this.isCancelled) {
+                this._raf = null;
+                return;
+            }
+            if (document.hidden || !this.isVisible) {
+                this._raf = null;
+                return;
+            }
             this._raf = requestAnimationFrame(loop);
 
             const elapsed = timestamp - lastTime;
@@ -384,6 +396,7 @@ export const VitalsManager = {
     lastKnownMP: null,
     lastKnownSP: null,
     initialized: false,
+    cachedElements: null,
 
     /**
      * Initializes the VitalsManager with an AbortSignal.
@@ -399,12 +412,24 @@ export const VitalsManager = {
 
         // Only start sync loop once
         if (!this.initialized) {
+            this.cacheElements();
             this.visualsTimeout = setTimeout(() => this.initVisuals(), 50);
             this.startOrbSync();
             this.refreshOrbVisibility();
             this.initialized = true;
             console.log('VitalsManager: Initialized');
         }
+    },
+
+    /**
+     * Caches references to DOM elements used in hot sync loops.
+     */
+    cacheElements() {
+        this.cachedElements = {
+            hpText: document.getElementById('hud-hp-text'),
+            mpText: document.getElementById('hud-mp-text'),
+            spText: document.getElementById('hud-sp-text')
+        };
     },
 
     /**
@@ -450,6 +475,7 @@ export const VitalsManager = {
         this.initialized = false;
         this.lastKnownHP = null;
         this.lastKnownDeathHP = null;
+        this.cachedElements = null;
         console.log('VitalsManager: Cleanup called');
     },
 
@@ -457,19 +483,20 @@ export const VitalsManager = {
      * Registers touch zone listeners for vitals adjustment.
      */
     initListeners() {
-        // Direct event binding on touch zones for maximum responsiveness
-        document.querySelectorAll('.orb-touch-zone').forEach(el => {
-            el.addEventListener('click', (_e) => {
-                // Prevent interference with long-press logic in InterfaceManager
-                if (InterfaceManager && InterfaceManager.wasLongPress) return;
+        const container = document.getElementById('floating-vitality-orbs') || document.body;
+        container.addEventListener('click', (e) => {
+            const el = e.target.closest('.orb-touch-zone');
+            if (!el) return;
 
-                const stat = el.getAttribute('data-stat');
-                const delta = parseInt(el.getAttribute('data-delta')) || 0;
-                if (stat && delta !== 0) {
-                    this.adjust(stat, delta, 'orb');
-                }
-            }, { signal: this.signal });
-        });
+            // Prevent interference with long-press logic in InterfaceManager
+            if (InterfaceManager && InterfaceManager.wasLongPress) return;
+
+            const stat = el.getAttribute('data-stat');
+            const delta = parseInt(el.getAttribute('data-delta')) || 0;
+            if (stat && delta !== 0) {
+                this.adjust(stat, delta, 'orb');
+            }
+        }, { signal: this.signal });
     },
 
     /**
@@ -483,6 +510,12 @@ export const VitalsManager = {
         if (hpInput) hpInput.addEventListener('change', () => this.updateMaxStat('hp'), { signal: this.signal });
         if (mpInput) mpInput.addEventListener('change', () => this.updateMaxStat('mana'), { signal: this.signal });
         if (spInput) spInput.addEventListener('change', () => this.updateMaxStat('stamina'), { signal: this.signal });
+
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && this.initialized) {
+                this.startOrbSync();
+            }
+        }, { signal: this.signal });
     },
 
     /**
@@ -544,10 +577,26 @@ export const VitalsManager = {
      * Starts the requestAnimationFrame synchronization loop.
      */
     startOrbSync() {
+        if (this._syncRaf) {
+            cancelAnimationFrame(this._syncRaf);
+            this._syncRaf = null;
+        }
+
+        // Ensure shader loops are running if they are visible
+        [window.hudHealthOrbShader, window.hudManaOrbShader, window.hudStaminaOrbShader].forEach(s => {
+            if (s && s.isVisible && !document.hidden) {
+                s.startLoop();
+            }
+        });
+
         let lastTime = performance.now();
         const fpsInterval = 1000 / 60; // 60fps
         const sync = (timestamp) => {
-            if (!this.initialized || (this.signal && this.signal.aborted)) return;
+            const isPlayPage = document.body.classList.contains('on-test-page');
+            if (document.hidden || !this.initialized || (this.signal && this.signal.aborted) || !isPlayPage) {
+                this._syncRaf = null;
+                return;
+            }
             this._syncRaf = requestAnimationFrame(sync);
 
             const elapsed = timestamp - lastTime;
@@ -557,7 +606,10 @@ export const VitalsManager = {
                 this.syncToHUDText();
             }
         };
-        this._syncRaf = requestAnimationFrame(sync);
+        const isPlayPage = document.body.classList.contains('on-test-page');
+        if (isPlayPage && !document.hidden && this.initialized) {
+            this._syncRaf = requestAnimationFrame(sync);
+        }
     },
 
     /**
@@ -595,8 +647,12 @@ export const VitalsManager = {
         const mpChanged = currentMp !== this.lastKnownMP;
         const spChanged = currentSp !== this.lastKnownSP;
 
+        if (!this.cachedElements) {
+            this.cacheElements();
+        }
+        const { hpText, mpText, spText } = this.cachedElements;
+
         if (hpChanged) {
-            const hpText = document.getElementById('hud-hp-text');
             if (hpText) {
                 const total = Math.round(currentHp + tempHp);
                 hpText.textContent = total;
@@ -607,12 +663,16 @@ export const VitalsManager = {
         }
 
         if (mpChanged) {
-            DeochUtils.setText('hud-mp-text', Math.round(currentMp));
+            if (mpText) {
+                mpText.textContent = Math.round(currentMp);
+            }
             this.lastKnownMP = currentMp;
         }
 
         if (spChanged) {
-            DeochUtils.setText('hud-sp-text', Math.round(currentSp));
+            if (spText) {
+                spText.textContent = Math.round(currentSp);
+            }
             this.lastKnownSP = currentSp;
         }
     },
@@ -639,12 +699,12 @@ export const VitalsManager = {
         if (!dialog) return;
 
         const config = isMercy ? {
-            title: 'MERCY', color: '#a28352', glow: 'rgba(162, 131, 82, 0.4)',
+            title: 'MERCY', color: 'var(--accent-primary)', glow: 'color-mix(in srgb, var(--accent-primary) 40%, transparent)',
             msg: 'Inspiration has saved you from the brink. You cling to life with 1 HP remaining.',
             icon: 'sparkles',
             btnText: 'CLING TO LIFE'
         } : {
-            title: 'YOU ARE DEAD', color: '#ef4444', glow: 'rgba(239, 68, 68, 0.4)',
+            title: 'YOU ARE DEAD', color: 'var(--color-danger)', glow: 'color-mix(in srgb, var(--color-danger) 40%, transparent)',
             msg: 'The darkness claims your soul. This character has met their end.',
             icon: 'skull',
             btnText: 'ACCEPT FATE'
@@ -677,7 +737,7 @@ export const VitalsManager = {
         }
         if (deathText) {
             deathText.textContent = config.msg;
-            deathText.style.color = '#EAE6DF';
+            deathText.style.color = 'var(--text-primary)';
         }
         if (deathIconContainer) {
             deathIconContainer.classList.toggle('u-text-danger', !isMercy);
@@ -689,7 +749,7 @@ export const VitalsManager = {
         if (deathClose) {
             deathClose.classList.toggle('u-bg-danger', !isMercy);
             deathClose.style.background = config.color;
-            deathClose.style.setProperty('color', '#EAE6DF', 'important');
+            deathClose.style.setProperty('color', 'var(--text-primary)', 'important');
             deathClose.textContent = config.btnText;
         }
     },

@@ -34,7 +34,7 @@ body.on-test-page.char-sheet-active:not(.tour-active).has-available-points:not(.
     position: absolute;
     top: -5px;
     right: -5px;
-    background: #10b981;
+    background: var(--color-success);
     color: black;
     width: 16px;
     height: 16px;
@@ -44,15 +44,15 @@ body.on-test-page.char-sheet-active:not(.tour-active).has-available-points:not(.
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--color-success) 60%, transparent);
     animation: pulse-green 2s infinite;
     z-index: var(--z-floor);
 }
 
 .summary-item.allocated,
 .stat-box.allocated {
-    border-color: #10b981;
-    background: rgba(16, 185, 129, 0.1);
+    border-color: var(--color-success);
+    background: var(--color-success-muted);
 }
 
 /* Floating Top HUD Styles */
@@ -475,6 +475,8 @@ body.hud-expanded .tooltip--stat-points {
 /* Add EXP confirm button */
 #test-add-exp-btn {
     border-color: color-mix(in srgb, var(--accent-primary) 70%, transparent);
+    width: 40px;
+    height: 40px;
 }
 
 
@@ -495,8 +497,9 @@ body.hud-expanded .tooltip--stat-points {
 #test-hud-exp-trigger>div:first-child {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.25rem;
+    margin-left: 15px;
 }
 
 #test-exp-modal-trigger {
@@ -549,7 +552,7 @@ body.hud-expanded .tooltip--stat-points {
 .hud-detail-value--danger {
     font-size: 0.7rem;
     font-weight: 700;
-    color: #ef4444;
+    color: var(--color-danger);
 }
 
 /* --- HUD Max Stat Cards --- */
@@ -569,8 +572,8 @@ body.hud-expanded .tooltip--stat-points {
 }
 
 .hud-max-stat-card--hp {
-    background: rgba(239, 68, 68, 0.08);
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    background: color-mix(in srgb, var(--color-danger) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-danger) 20%, transparent);
 }
 
 .hud-max-stat-card--sp {
@@ -579,8 +582,8 @@ body.hud-expanded .tooltip--stat-points {
 }
 
 .hud-max-stat-card--mp {
-    background: rgba(59, 130, 246, 0.08);
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    background: color-mix(in srgb, var(--color-mental) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-mental) 20%, transparent);
 }
 
 .hud-max-stat-label {
@@ -604,7 +607,7 @@ body.hud-expanded .tooltip--stat-points {
 }
 
 .hud-max-stat-input--hp {
-    color: #ef4444;
+    color: var(--color-danger);
 }
 
 .hud-max-stat-input--sp {
@@ -612,7 +615,7 @@ body.hud-expanded .tooltip--stat-points {
 }
 
 .hud-max-stat-input--mp {
-    color: #3b82f6;
+    color: var(--color-mental);
 }
 
 .hud-max-stat-btn {
@@ -627,8 +630,8 @@ body.hud-expanded .tooltip--stat-points {
 }
 
 .hud-max-stat-btn--hp {
-    background: rgba(239, 68, 68, 0.2);
-    border: 1px solid rgba(239, 68, 68, 0.4);
+    background: color-mix(in srgb, var(--color-danger) 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-danger) 40%, transparent);
 }
 
 .hud-max-stat-btn--sp {
@@ -637,8 +640,8 @@ body.hud-expanded .tooltip--stat-points {
 }
 
 .hud-max-stat-btn--mp {
-    background: rgba(59, 130, 246, 0.2);
-    border: 1px solid rgba(59, 130, 246, 0.4);
+    background: color-mix(in srgb, var(--color-mental) 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-mental) 40%, transparent);
 }
 
 body.on-test-page #test-settings-btn,
@@ -1007,4 +1010,22 @@ body.on-test-page .vitals-status-grid {
 #experience-modal-close,
 #experience-modal-close:hover {
     border-color: color-mix(in srgb, var(--accent-primary) 70%, transparent);
+}
+
+/* Lore Tab & Actions Layout Modifications */
+#test-lore-list {
+    max-height: 250px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.lore-add-entry-container {
+    text-align: left;
+}
+
+.glass-btn-circle.action-btn-header-pos {
+    position: absolute;
+    left: 7rem;
+    top: 0.5rem;
+    z-index: 10;
 }

@@ -21,7 +21,11 @@ export const AvatarManager = {
         isDragging: false,
         startX: 0,
         startY: 0,
-        callback: null
+        callback: null,
+        rafScheduled: false,
+        lastClientX: 0,
+        lastClientY: 0,
+        containerSize: 400
     },
 
     /**
@@ -60,6 +64,7 @@ export const AvatarManager = {
         if (this.elements.zoom) {
             this.elements.zoom.addEventListener('input', (e) => {
                 this.state.scale = parseFloat(e.target.value);
+                this.state.containerSize = this.elements.container.offsetWidth || 400;
                 this.updateTransform();
             }, { signal: this.signal });
         }
@@ -101,6 +106,7 @@ export const AvatarManager = {
      */
     startDrag(e) {
         this.state.isDragging = true;
+        this.state.containerSize = this.elements.container.offsetWidth || 400;
         this.state.startX = e.clientX - this.state.posX;
         this.state.startY = e.clientY - this.state.posY;
         this.elements.container.classList.add('is-grabbing');
@@ -113,9 +119,27 @@ export const AvatarManager = {
     onDrag(e) {
         if (!this.state.isDragging) return;
         
-        this.state.posX = e.clientX - this.state.startX;
-        this.state.posY = e.clientY - this.state.startY;
+        this.state.lastClientX = e.clientX;
+        this.state.lastClientY = e.clientY;
+
+        if (!this.state.rafScheduled) {
+            this.state.rafScheduled = true;
+            requestAnimationFrame(() => this.tickDrag());
+        }
+    },
+
+    /**
+     * Executes the dragging update aligned with the animation frame.
+     */
+    tickDrag() {
+        if (!this.state.isDragging) {
+            this.state.rafScheduled = false;
+            return;
+        }
+        this.state.posX = this.state.lastClientX - this.state.startX;
+        this.state.posY = this.state.lastClientY - this.state.startY;
         this.updateTransform();
+        this.state.rafScheduled = false;
     },
 
     /**
@@ -132,7 +156,7 @@ export const AvatarManager = {
      * Constrains scale and position of the image to stay inside the crop boundaries.
      */
     constrain() {
-        const containerSize = this.elements.container.offsetWidth;
+        const containerSize = this.state.containerSize || this.elements.container.offsetWidth || 400;
         const selectionSize = containerSize * 0.85;
         
         // Calculate current display dimensions
@@ -195,7 +219,8 @@ export const AvatarManager = {
                 // Show modal first to ensure layout dimensions are available
                 this.elements.dialog.showModal();
                 
-                const containerSize = this.elements.container.offsetWidth || 400;
+                this.state.containerSize = this.elements.container.offsetWidth || 400;
+                const containerSize = this.state.containerSize;
                 const selectionSize = containerSize * 0.85;
 
                 // Calculate the minimum scale required to fill the 85% circle
@@ -238,7 +263,7 @@ export const AvatarManager = {
         canvas.width = 400;
         canvas.height = 400;
 
-        const containerSize = this.elements.container.offsetWidth || 400;
+        const containerSize = this.state.containerSize || this.elements.container.offsetWidth || 400;
         const selectionSize = containerSize * 0.85;
         
         // The selection is a square of selectionSize x selectionSize in the middle of containerSize

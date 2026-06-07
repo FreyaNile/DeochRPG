@@ -1,6 +1,6 @@
 .global-header.splash-transparent,
 .site-footer.splash-transparent,
-#toggle-dice-btn.splash-transparent,
+#toggle-dice-tray-btn.splash-transparent,
 .floating-vitality-orbs.splash-transparent,
 #top-mobile-hud.splash-transparent,
 .combat-utilities-wrapper.splash-transparent,
@@ -32,7 +32,7 @@ body #creation-tour .char-splash-title {
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     padding: 7rem 1.5rem 2rem; /* Adjusted to user preference */
@@ -97,6 +97,7 @@ body #creation-tour .char-splash-title {
 }
 
 #splash-welcome-msg {
+    display: none;
     color: var(--accent-primary);
     font-size: 0.9rem;
     font-weight: 700;

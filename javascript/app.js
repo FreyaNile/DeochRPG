@@ -15,6 +15,7 @@ import { InterfaceManager } from './InterfaceManager.js';
 import { DeochDB } from './DeochDB.js';
 import { AvatarManager } from './AvatarManager.js';
 import { ModalManager } from './ModalManager.js';
+import { EquipmentManager } from './EquipmentManager.js';
 
 // Centralized Namespace
 window.Deoch = {
@@ -31,23 +32,12 @@ window.Deoch = {
     DeochDB,
     AvatarManager,
     ModalManager,
+    EquipmentManager,
     SUSPEND_SAVING: false
 };
 
 // Legacy Bridge for Inline Event Handlers & Testing Suite
-window.DiceTray = window.Deoch.DiceTray;
-window.VitalsManager = window.Deoch.VitalsManager;
-window.ProgressionManager = window.Deoch.ProgressionManager;
-
-window.CreationTour = window.Deoch.CreationTour;
-window.DeochUtils = window.Deoch.DeochUtils;
-window.DataManager = window.Deoch.DataManager;
-window.HealthOrbShader = window.Deoch.HealthOrbShader;
-window.GMManager = window.Deoch.GMManager;
-window.InterfaceManager = window.Deoch.InterfaceManager;
 window.DeochDB = window.Deoch.DeochDB;
-window.AvatarManager = window.Deoch.AvatarManager;
-window.ModalManager = window.Deoch.ModalManager;
 
 class App {
     /**
@@ -102,17 +92,18 @@ class App {
 
         document.addEventListener('deoch-tour-complete', (e) => {
             const { isGMMode } = e.detail;
-            if (isGMMode && window.GMManager?.activateGMMode) {
-                window.GMManager.activateGMMode();
-            } else if (window.GMManager?.setGMMode) {
-                window.GMManager.setGMMode(false);
+            if (isGMMode && GMManager?.activateGMMode) {
+                GMManager.activateGMMode();
+            } else if (GMManager?.setGMMode) {
+                GMManager.setGMMode(false);
             }
-            if (window.ProgressionManager && !window.ProgressionManager.initialized) {
-                window.ProgressionManager.init(null, this.signal);
+            if (ProgressionManager && !ProgressionManager.initialized) {
+                ProgressionManager.init(null, this.signal);
             }
         }, { signal: this.signal });
 
-        if (window.VitalsManager) window.VitalsManager.init(this.signal);
+        if (VitalsManager) VitalsManager.init(this.signal);
+        EquipmentManager.init(this.signal);
 
         // Load the last character
         DataManager.loadLastCharacter();
@@ -139,7 +130,7 @@ class App {
 
         [
             DataManager, DiceTray, VitalsManager, ProgressionManager, 
-            CreationTour, InterfaceManager, AvatarManager, ModalManager
+            CreationTour, InterfaceManager, AvatarManager, ModalManager, EquipmentManager
         ].forEach(m => {
             if (m && typeof m.cleanup === 'function') m.cleanup();
         });

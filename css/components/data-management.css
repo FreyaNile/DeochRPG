@@ -29,7 +29,7 @@
 
 .management-menu-content .menu-item.danger {
     background: rgba(239, 68, 68, 0.05);
-    color: #ef4444;
+    color: var(--color-danger);
     border-color: rgba(239, 68, 68, 0.2);
 }
 
@@ -371,7 +371,7 @@ body.on-test-page .management-menu-content button {
 }
 
 .modal-dialog.border-danger {
-    border-color: #ef4444;
+    border-color: var(--color-danger);
 }
 
 .modal-dialog.p-xl {
@@ -395,10 +395,12 @@ body.on-test-page .management-menu-content button {
     top: 0;
     left: 0;
     height: 100%;
-    width: 0;
+    width: 100%;
     background: rgba(239, 68, 68, 0.25);
     z-index: 0;
     pointer-events: none;
+    transform: scaleX(0);
+    transform-origin: left;
 }
 
 #test-delete-btn.holding {
@@ -407,8 +409,8 @@ body.on-test-page .management-menu-content button {
 }
 
 #test-delete-btn.holding::before {
-    width: 100%;
-    transition: width 1.75s linear;
+    transform: scaleX(1);
+    transition: transform 1.75s linear;
 }
 
 #test-delete-btn * {
@@ -488,4 +490,18 @@ body.on-test-page .management-menu-content button {
 .gallery-footer {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+}
+
+#custom-action-dialog {
+    max-width: 450px;
+}
+
+#custom-action-dialog .u-flex-1 label {
+    font-size: 0.65rem;
+}
+
+#custom-action-delete {
+    display: none;
+    border-color: var(--color-danger);
+    padding: 0.75rem;
 }

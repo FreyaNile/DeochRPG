@@ -166,6 +166,29 @@ export const ModalManager = {
         const dialog = document.getElementById('custom-action-dialog');
         if (!dialog) return Promise.resolve(null);
 
+        const diceGrid = document.getElementById('custom-action-dice-grid');
+        if (diceGrid && diceGrid.children.length === 0) {
+            const fragment = document.createDocumentFragment();
+            [4, 6, 8, 10, 12, 20].forEach(sides => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'u-flex u-align-center u-justify-between u-bg-black-60 u-border-glass u-border-radius-md u-p-0-25';
+                wrapper.style.height = '40px';
+                wrapper.innerHTML = `
+                    <button type="button" class="qty-btn" data-dice-qty-dec="${sides}"
+                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">-</button>
+                    <div class="u-flex u-flex-column u-align-center" style="line-height: 1.1;">
+                        <span style="font-size: 0.7rem; font-weight: bold; color: var(--accent-primary);">d${sides}</span>
+                        <span class="qty-val" id="custom-dice-qty-${sides}"
+                            style="font-weight: bold; font-size: 0.85rem; color: var(--text-primary);">0</span>
+                    </div>
+                    <button type="button" class="qty-btn" data-dice-qty-inc="${sides}"
+                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">+</button>
+                `;
+                fragment.appendChild(wrapper);
+            });
+            diceGrid.appendChild(fragment);
+        }
+
         const nameInput = document.getElementById('custom-action-name');
         const hitBonusInput = document.getElementById('custom-action-hit-bonus');
         const dmgBonusInput = document.getElementById('custom-action-dmg-bonus');

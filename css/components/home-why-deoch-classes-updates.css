@@ -16,6 +16,7 @@ body:not(.on-test-page) .site-footer {
     justify-content: center;
     gap: 0.75rem;
     flex-wrap: wrap;
+    margin-top: 1.5rem;
 }
 
 .hero-actions .secondary-btn {
@@ -290,11 +291,13 @@ body:not(.on-test-page) .site-footer {
 .privacy-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
 }
 
 .privacy-content.open {
-    max-height: 5000px;
+    max-height: 1000px;
+    opacity: 1;
 }
 
 .privacy-body {
@@ -520,7 +523,7 @@ body:not(.on-test-page) .site-footer {
         gap: 0.75rem;
         width: 100%;
         max-width: 500px;
-        margin: 0 auto;
+        margin: 1.5rem auto 0;
     }
 
     .hero-actions a,
@@ -608,6 +611,16 @@ body:not(.on-test-page) .site-footer {
     box-shadow: var(--glass-shadow);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
+}
+
+@media (max-width: 1024px) {
+    .class-showcase-container {
+        grid-template-columns: 200px 1fr;
+    }
+    .class-showcase-tab {
+        padding: 1rem 1rem 1rem calc(1rem - 4px);
+        gap: 0.75rem;
+    }
 }
 
 .class-showcase-tabs {
@@ -821,7 +834,7 @@ body:not(.on-test-page) .site-footer {
 }
 
 /* Responsive Showcase */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .class-showcase-container {
         grid-template-columns: 70px 1fr;
     }
@@ -898,13 +911,13 @@ body:not(.on-test-page) .site-footer {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .ethos-grid {
         grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .class-showcase-container {
         grid-template-columns: 60px 1fr;
     }
@@ -928,6 +941,10 @@ body:not(.on-test-page) .site-footer {
         padding-right: 4.5rem;
     }
 
+    #showcase-ethos .class-pane-header {
+        padding-right: 0;
+    }
+
     .class-pane-watermark {
         position: absolute;
         right: 0;
@@ -940,4 +957,39 @@ body:not(.on-test-page) .site-footer {
         grid-template-columns: 1fr;
         gap: 0.75rem;
     }
+}
+
+/* Voices Testimonial Badges */
+.badge.badge-veteran {
+    background-color: var(--accent-secondary);
+    color: var(--text-primary);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.badge.badge-alpha {
+    background-color: var(--accent-primary);
+    color: #000000;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+/* Hero Description Panel */
+.hero-desc-panel {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-lg);
+    background: rgba(0, 0, 0, 0.45);
+    border: none;
+}
+
+.hero-subtitle.hero-desc-subtitle {
+    margin-bottom: 0;
+}
+
+.voices-quote-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }

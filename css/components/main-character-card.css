@@ -50,7 +50,7 @@
 
 .mobile-sheet-container {
     width: 100%;
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .stat-roll-result {
@@ -159,10 +159,22 @@ body.on-test-page .tabs-card .tab-nav {
     gap: 0.75rem 1.5rem;
 }
 
+@media (min-width: 768px) {
+    #test-conditions-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
 .languages-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+}
+
+@media (min-width: 425px) {
+    .languages-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .condition-item {
@@ -197,8 +209,6 @@ body.on-test-page .tabs-card .tab-nav {
     background: rgba(10, 10, 15, 0.4);
     border: 1px solid transparent;
     border-radius: 12px;
-    flex: 1 1 calc(33.333% - 1rem);
-    min-width: 160px;
 }
 
 .language-item:hover {
@@ -259,7 +269,7 @@ body.on-test-page .tabs-card .tab-nav {
 
 .exhaustion-dots .exhaustion-toggle:has(input:checked) {
     color: var(--color-danger);
-    filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.6));
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-danger) 60%, transparent));
 }
 
 .exhaustion-dots .exhaustion-toggle:has(input:checked) i {
@@ -273,7 +283,7 @@ body.on-test-page .tabs-card .tab-nav {
 
 .rest-toast {
     position: absolute;
-    background: rgba(239, 68, 68, 0.95);
+    background: color-mix(in srgb, var(--color-danger) 95%, transparent);
     color: #EAE6DF;
     padding: 0.5rem 0.85rem;
     border-radius: 8px;
@@ -282,7 +292,7 @@ body.on-test-page .tabs-card .tab-nav {
     z-index: var(--z-toast);
     pointer-events: none;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: nowrap;
     border: 1px solid rgba(255, 255, 255, 0.1);
     animation: toastPop 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -294,13 +304,13 @@ body.on-test-page:not(.tour-active) .mobile-sheet-container {
     gap: 0.75rem;
     padding-top: 5.5rem;
     padding-bottom: 9.5rem;
-    min-height: 100vh;
+    min-height: 100dvh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
 
 #test-tabs-card {
-    height: calc(100vh - 15rem);
+    height: calc(100dvh - 15rem);
     display: flex;
     flex-direction: column;
     margin-bottom: 0.5rem;
@@ -342,7 +352,7 @@ body.on-test-page:not(.tour-active) .mobile-sheet-container {
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
     border: 1px solid var(--glass-border);
     background: rgba(10, 10, 15, 0.4);
 }
@@ -401,6 +411,10 @@ body.on-test-page:not(.tour-active) .mobile-sheet-container {
     padding-bottom: 1rem;
 }
 
+#test-tabs-card .test-tab-pane:not(.active) {
+    display: none;
+}
+
 body.on-test-page:not(.tour-active) #test-tabs-card .test-tab-pane {
     padding-bottom: 0.5rem;
 }
@@ -419,7 +433,7 @@ body.on-test-page:not(.tour-active) #test-tabs-card .test-tab-pane {
     align-items: center;
     justify-content: space-between;
     padding: 0 1.25rem;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), margin 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     z-index: var(--z-menu);
     opacity: 0;
     pointer-events: none;
@@ -450,7 +464,7 @@ body.on-test-page:not(.tour-active) #test-tabs-card .test-tab-pane {
     font-weight: 900;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
 }
 
 .confirm-btn-mini.yes {
@@ -465,7 +479,6 @@ body.on-test-page:not(.tour-active) #test-tabs-card .test-tab-pane {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-
 .section-toggle-btn {
     background: none;
     border: none;
@@ -475,7 +488,7 @@ body.on-test-page:not(.tour-active) #test-tabs-card .test-tab-pane {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--transition-smooth);
+    transition: color var(--transition-smooth), background-color var(--transition-smooth);
     border-radius: 4px;
 }
 
@@ -506,7 +519,7 @@ body.on-test-page:not(.tour-active) #test-tabs-card .test-tab-pane {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
 
 .modal-btn-confirm {
@@ -517,7 +530,7 @@ body.on-test-page:not(.tour-active) #test-tabs-card .test-tab-pane {
     border-radius: 8px;
     cursor: pointer;
     font-weight: 700;
-    transition: all 0.2s;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
 
 /* ==========================================================================
@@ -661,15 +674,7 @@ body.on-test-page:not(.tour-active) .exhaustion-dots {
     }
 }
 
-@media (max-width: 768px) {
-    .languages-grid {
-        flex-direction: column;
-    }
-
-    .language-item {
-        flex: 1 1 100%;
-    }
-}
+/* Media query overrides removed as grid display handles mobile columns natively */
 
 #custom-action-cancel,
 #unarmed-stat-cancel,

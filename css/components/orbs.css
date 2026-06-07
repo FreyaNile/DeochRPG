@@ -254,7 +254,7 @@ body.on-test-page.char-sheet-active .floating-vitality-orbs:not(.splash-transpar
 .bulk-btn.shield {
     background: rgba(22, 163, 74, 0.2);
     color: #4ade80;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
 }

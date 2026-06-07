@@ -102,7 +102,7 @@
 }
 
 body.mastery-celebration-active #play,
-html body.on-test-page.char-sheet-active.mastery-celebration-active .floating-vitality-orbs,
+body.mastery-celebration-active .floating-vitality-orbs,
 body.mastery-celebration-active #top-mobile-hud,
 body.mastery-celebration-active .combat-utilities-wrapper,
 body.mastery-celebration-active #stat-points-tooltip,
@@ -163,7 +163,8 @@ body.mastery-celebration-active #stat-points-indicator {
     backdrop-filter: none;
 }
 
-#spark-container, .mastery-spark-container {
+#spark-container,
+.mastery-spark-container {
     position: absolute;
     inset: 0;
     pointer-events: none;
@@ -272,13 +273,13 @@ body.mastery-celebration-active #stat-points-indicator {
 }
 
 .upgrade-btn--hp {
-    --btn-color: #ef4444;
+    --btn-color: var(--color-danger);
     border-color: var(--btn-color);
     background: color-mix(in srgb, var(--btn-color) 10%, transparent);
 }
 
 .upgrade-btn--mp {
-    --btn-color: #3b82f6;
+    --btn-color: var(--color-mental);
     border-color: var(--btn-color);
     background: color-mix(in srgb, var(--btn-color) 10%, transparent);
 }
@@ -308,11 +309,11 @@ body.mastery-celebration-active #stat-points-indicator {
 }
 
 .upgrade-btn-label--hp {
-    color: #ef4444;
+    color: var(--color-danger);
 }
 
 .upgrade-btn-label--mp {
-    color: #3b82f6;
+    color: var(--color-mental);
 }
 
 .upgrade-btn-label--stat {
@@ -350,6 +351,28 @@ body.mastery-celebration-active #stat-points-indicator {
 .u-shimmer {
     position: relative;
     overflow: hidden;
+}
+
+.u-shimmer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.08) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: translateX(-100%);
+    animation: u-shimmer-animation 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes u-shimmer-animation {
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 @media (max-width: 425px) {

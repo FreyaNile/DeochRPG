@@ -117,6 +117,7 @@ html {
     --color-warning: #f59e0b;
     --color-warning-glow: rgba(245, 158, 11, 0.2);
     --color-mental: #3b82f6;
+    --color-stamina: #fbbf24;
 
     /* Spacing Tokens */
     --space-xs: 0.5rem;

@@ -145,6 +145,7 @@ export const DataManager = {
         this.applyCharacterStatsAndActions(char);
         this.applyCharacterProgression(char);
         this.applyCharacterLore(char);
+        this.applyCharacterEquipment(char);
 
         console.log('Character loaded:', char.name);
         this.renderGallery();
@@ -207,6 +208,12 @@ export const DataManager = {
         }
         InterfaceManager.updateLoreEmptyState();
         DeochUtils.queueIconRefresh(loreList);
+    },
+
+    applyCharacterEquipment(char) {
+        if (window.Deoch && window.Deoch.EquipmentManager) {
+            window.Deoch.EquipmentManager.loadData(char.equipment);
+        }
     },
 
     applyCharacterStatsAndActions(char) {

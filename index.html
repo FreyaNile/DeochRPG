@@ -40,8 +40,7 @@
 
     <!-- fonts.gstatic.com preconnect moved to head, alongside fonts.googleapis.com -->
 
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,700,1,200"
-        rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rpg-awesome@0.2.0/css/rpg-awesome.min.css">
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -58,7 +57,8 @@
     <link rel="stylesheet" href="css/components/main-character-card.css">
     <link rel="stylesheet" href="css/components/combat-utilities.css">
     <link rel="stylesheet" href="css/components/home-why-deoch-classes-updates.css">
-    <link rel="stylesheet" href="css/components/shared-core.css?v=1.0.5">
+    <link rel="stylesheet" href="css/components/shared-core.css">
+    <link rel="stylesheet" href="css/components/equipment.css">
 
     <link rel="stylesheet" href="css/core/themes.css">
     <link rel="stylesheet" href="css/core/navigation.css">
@@ -90,7 +90,7 @@
             <!-- Main Navigation -->
             <nav class="main-navbar">
                 <div class="logo-container">
-                    <a href="#home" class="logo">Deoch</a>
+                    <h1 class="logo-wrapper"><a href="#home" class="logo">Deoch</a></h1>
                     <span class="logo-subtitle">GET GOOD & SURVIVE</span>
                 </div>
 
@@ -110,9 +110,8 @@
                 <div class="hero-content">
                     <div class="hero-text-content">
 
-                        <div class="glass-panel-frosted"
-                            style="padding: 0.75rem 1rem; border-radius: var(--radius-lg); background: rgba(0, 0, 0, 0.45); border: none;">
-                            <p class="hero-subtitle" style="margin-bottom: 0;">
+                        <div class="glass-panel-frosted hero-desc-panel">
+                            <p class="hero-subtitle hero-desc-subtitle">
                                 A MINIMALIST, RULES-LITE RPG. PLAY IS FAST AND CONSEQUENCES LINGER IN A
                                 WORLD WHERE SURVIVAL MEETS SCARCITY.
                             </p>
@@ -123,7 +122,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="hero-actions" style="margin-top: 1.5rem;">
+                        <div class="hero-actions">
                             <a href="https://discord.com/invite/N6SnrNNGBV" target="_blank"
                                 class="secondary-btn premium-interactive u-shimmer u-no-underline">
                                 <span class="btn-prefix">Join </span>Discord
@@ -149,7 +148,7 @@
             <!-- Showcase Grid Component -->
             <div class="class-showcase-container">
                 <!-- Tabs Sidebar Left -->
-                <div class="class-showcase-tabs">
+                <div class="class-showcase-tabs" data-allow-repetition>
                     <button type="button" class="class-showcase-tab active" data-showcase-tab="ethos">
                         <i class="talosflame-icon"></i>
                         <span>Deoch Ethos</span>
@@ -181,7 +180,7 @@
                 </div>
 
                 <!-- Showcase Content Right -->
-                <div class="class-showcase-content">
+                <div class="class-showcase-content" data-allow-repetition>
                     <!-- Ethos -->
                     <article class="class-showcase-panel active" id="showcase-ethos">
                         <div class="class-pane-header">
@@ -189,7 +188,6 @@
                                 <h3 class="class-title">Deoch Ethos</h3>
                                 <div class="class-meta">Design Philosophy</div>
                             </div>
-                            <i class="ra ra-scroll class-pane-watermark" style="font-size: 4rem;"></i>
                         </div>
                         <div class="ethos-grid">
                             <ul class="ethos-list">
@@ -216,7 +214,7 @@
                                 <h3 class="class-title">Kill the Slog</h3>
                                 <div class="class-meta">Initiative & Combat Flow</div>
                             </div>
-                            <i class="ra ra-spinning-sword class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="ra ra-spinning-sword class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Deoch replaces the turn-order grind with <strong>Unit Initiative</strong>.
                             Combat is fast, tactical, and stays out of the way of the story. No more 20-minute waits for
@@ -231,7 +229,7 @@
                                 <h3 class="class-title">Proxy Roleplaying</h3>
                                 <div class="class-meta">Immersive Narratives</div>
                             </div>
-                            <i class="ra ra-player class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="ra ra-player class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Our <strong>Proxy Roll</strong> system lets mechanics inspire roleplay,
                             making immersion accessible to every player at your table. Bridging the gap between player
@@ -246,7 +244,7 @@
                                 <h3 class="class-title">100% Core Stat-Based</h3>
                                 <div class="class-meta">Intuitive Actions</div>
                             </div>
-                            <i class="ra ra-perspective-dice-random class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="ra ra-perspective-dice-random class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Zero skill-bloat. No math-heavy proficiency bonuses. Every roll is
                             intuitive, derived from your hero's core stats. By removing the separate layer of
@@ -261,7 +259,7 @@
                                 <h3 class="class-title">The Arcane Toll</h3>
                                 <div class="class-meta">Elfrot Corruption</div>
                             </div>
-                            <i class="ra ra-burning-book class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="ra ra-burning-book class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Magic is a rare and volatile force. Wielding it alone is a risk. Every
                             spell cast taints the soul leading to eventual death.. Do you tempt fate?</p>
@@ -274,7 +272,7 @@
                                 <h3 class="class-title">Bloodlines & Mastery</h3>
                                 <div class="class-meta">Progression & Legacy</div>
                             </div>
-                            <i class="ra ra-bone-bite class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="ra ra-bone-bite class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Your origin defines your traits, but your will defines your legacy.
                             No two heroes are ever truly alike. Mastery awaits those willing to acheive it.</p>
@@ -287,10 +285,9 @@
                                 <h3 class="class-title">Voices from the Table</h3>
                                 <div class="class-meta">Player Testimonials</div>
                             </div>
-                            <i class="fa-solid fa-comments class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="fa-solid fa-comments class-pane-watermark"></i>
                         </div>
-                        <div class="u-gap-3 u-relative u-w-full"
-                            style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="u-relative u-w-full voices-quote-container" data-allow-repetition>
                             <!-- Quote 1: Moryen -->
                             <div class="u-relative">
                                 <p class="u-italic u-font-size-base u-mb-0-5 u-pl-1-5 u-border-left-accent">
@@ -301,8 +298,7 @@
                                     proxy rolls! Which made it much less intimidating."
                                 </p>
                                 <div class="u-flex-center u-gap-0-75 u-pl-1-75">
-                                    <span class="badge badge-veteran u-font-size-xs u-bg-accent-secondary"
-                                        style="background-color: var(--accent-secondary); color: var(--text-primary); padding: 0.1rem 0.4rem; border-radius: 4px;">Moryen</span>
+                                    <span class="badge badge-veteran u-font-size-xs u-bg-accent-secondary">Moryen</span>
                                     <span class="u-font-size-sm u-opacity-0-6">58 Sessions Played</span>
                                 </div>
                             </div>
@@ -317,8 +313,7 @@
                                     5th Edition."
                                 </p>
                                 <div class="u-flex-center u-gap-0-75 u-pl-1-75">
-                                    <span class="badge badge-veteran u-font-size-xs u-bg-accent-secondary"
-                                        style="background-color: var(--accent-secondary); color: var(--text-primary); padding: 0.1rem 0.4rem; border-radius: 4px;">Kyle</span>
+                                    <span class="badge badge-veteran u-font-size-xs u-bg-accent-secondary">Kyle</span>
                                     <span class="u-font-size-sm u-opacity-0-6">2 Sessions Played</span>
                                 </div>
                             </div>
@@ -333,8 +328,7 @@
                                     a greater world."
                                 </p>
                                 <div class="u-flex-center u-gap-0-75 u-pl-1-75">
-                                    <span class="badge badge-veteran u-font-size-xs u-bg-accent-secondary"
-                                        style="background-color: var(--accent-secondary); color: var(--text-primary); padding: 0.1rem 0.4rem; border-radius: 4px;">Mavam</span>
+                                    <span class="badge badge-veteran u-font-size-xs u-bg-accent-secondary">Mavam</span>
                                     <span class="u-font-size-sm u-opacity-0-6">42 Sessions Played</span>
                                 </div>
                             </div>
@@ -348,17 +342,14 @@
                                     fun."
                                 </p>
                                 <div class="u-flex-center u-gap-0-75 u-pl-1-75">
-                                    <span class="badge badge-alpha u-font-size-xs"
-                                        style="background-color: var(--accent-primary); color: #000000; padding: 0.1rem 0.4rem; border-radius: 4px;">Nyndyn</span>
+                                    <span class="badge badge-alpha u-font-size-xs">Nyndyn</span>
                                     <span class="u-font-size-sm u-opacity-0-6">50 Sessions Played</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="u-mt-4 u-text-center u-flex-column u-flex-center u-gap-0-5"
-                            style="margin-top: 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-                            <div class="u-opacity-0-6 u-font-size-sm u-flex-center u-gap-0-5"
-                                style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div class="u-mt-1 u-text-center u-flex-column u-align-center u-gap-0-5">
+                            <div class="u-opacity-0-6 u-font-size-sm u-flex-center u-gap-0-5">
                                 <i class="fa-solid fa-dice-d20 u-text-accent"></i>
                                 VERIFIED VIA STARTPLAYING.GAMES
                             </div>
@@ -412,11 +403,10 @@
             </div>
             <div class="class-showcase-container">
                 <!-- Class Tabs Left -->
-                <div class="class-showcase-tabs">
+                <div class="class-showcase-tabs" data-allow-repetition>
                     <button type="button" class="class-showcase-tab active" data-showcase-tab="barbarian">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            style="width: 20px; height: 20px;">
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <g transform="rotate(45 12 12)">
                                 <line x1="12" y1="6" x2="12" y2="22" />
                                 <path d="M 12 6 c -3 0 -5 -1 -7 -2 a 6 6 0 0 0 0 10 c 2 -1 4 -2 7 -2 Z"
@@ -466,7 +456,7 @@
                 </div>
 
                 <!-- Class Content Display Right -->
-                <div class="class-showcase-content">
+                <div class="class-showcase-content" data-allow-repetition>
                     <!-- Barbarian -->
                     <article class="class-showcase-panel active" id="showcase-barbarian">
                         <div class="class-pane-header">
@@ -476,7 +466,7 @@
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="class-pane-watermark" style="width: 64px; height: 64px;">
+                                stroke-linejoin="round" class="class-pane-watermark">
                                 <g transform="rotate(45 12 12)">
                                     <line x1="12" y1="6" x2="12" y2="22" />
                                     <path d="M 12 6 c -3 0 -5 -1 -7 -2 a 6 6 0 0 0 0 10 c 2 -1 4 -2 7 -2 Z"
@@ -494,9 +484,7 @@
                             <div class="stat-highlight-item">
                                 <span class="stat-highlight-label">Complexity</span>
                                 <span class="stat-highlight-val u-text-accent">
-                                    <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"
-                                        style="opacity: 0.4;"></i><i class="fa-regular fa-star"
-                                        style="opacity: 0.4;"></i>
+                                    <i class="fa-solid fa-star"></i><i class="fa-regular fa-star u-opacity-0-4"></i><i class="fa-regular fa-star u-opacity-0-4"></i>
                                 </span>
                             </div>
                             <div class="stat-highlight-item">
@@ -517,7 +505,7 @@
                                 <h3 class="class-title">Druid</h3>
                                 <div class="class-meta">One with Nature</div>
                             </div>
-                            <i data-lucide="paw-print" class="class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i data-lucide="paw-print" class="class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Guardians of the natural world. Druids harness the power of flora and
                             fauna, shifting their forms and calling upon the elements to protect the balance of Tirnoch.
@@ -549,7 +537,7 @@
                                 <h3 class="class-title">Fighter</h3>
                                 <div class="class-meta">Combat Tactician</div>
                             </div>
-                            <i data-lucide="shield" class="class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i data-lucide="shield" class="class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Masters of weapon and shield. Fighters are the backbone of any party,
                             combining martial discipline with tactical expertise to dominate the field of battle.</p>
@@ -558,9 +546,7 @@
                             <div class="stat-highlight-item">
                                 <span class="stat-highlight-label">Complexity</span>
                                 <span class="stat-highlight-val u-text-accent">
-                                    <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"
-                                        style="opacity: 0.4;"></i><i class="fa-regular fa-star"
-                                        style="opacity: 0.4;"></i>
+                                    <i class="fa-solid fa-star"></i><i class="fa-regular fa-star u-opacity-0-4"></i><i class="fa-regular fa-star u-opacity-0-4"></i>
                                 </span>
                             </div>
                             <div class="stat-highlight-item">
@@ -581,7 +567,7 @@
                                 <h3 class="class-title">Monk</h3>
                                 <div class="class-meta">Master of Discipline</div>
                             </div>
-                            <i class="fa-solid fa-hand-fist class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="fa-solid fa-hand-fist class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Disciplined warriors who weaponize their own life force. Monks strike with
                             lightning speed and supernatural precision, maneuvering through combat with unmatched grace.
@@ -592,7 +578,7 @@
                                 <span class="stat-highlight-label">Complexity</span>
                                 <span class="stat-highlight-val u-text-accent">
                                     <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                        class="fa-regular fa-star" style="opacity: 0.4;"></i>
+                                        class="fa-regular fa-star u-opacity-0-4"></i>
                                 </span>
                             </div>
                             <div class="stat-highlight-item">
@@ -613,7 +599,7 @@
                                 <h3 class="class-title">Paladin</h3>
                                 <div class="class-meta">Agent of Faith</div>
                             </div>
-                            <i class="fa-solid fa-sun class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="fa-solid fa-sun class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Champions of divine will. Paladins are bulwarks of faith, shielding their
                             allies and smiting their foes with celestial power fueled by their unwavering conviction.
@@ -624,7 +610,7 @@
                                 <span class="stat-highlight-label">Complexity</span>
                                 <span class="stat-highlight-val u-text-accent">
                                     <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                        class="fa-regular fa-star" style="opacity: 0.4;"></i>
+                                        class="fa-regular fa-star u-opacity-0-4"></i>
                                 </span>
                             </div>
                             <div class="stat-highlight-item">
@@ -645,7 +631,7 @@
                                 <h3 class="class-title">Ranger</h3>
                                 <div class="class-meta">Commander of Nature</div>
                             </div>
-                            <i class="fa-solid fa-leaf class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="fa-solid fa-leaf class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Expert survivalists and deadly marksmen. Rangers stalk their prey through
                             the harshest environments, striking from the shadows before vanishing without a trace.</p>
@@ -655,7 +641,7 @@
                                 <span class="stat-highlight-label">Complexity</span>
                                 <span class="stat-highlight-val u-text-accent">
                                     <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                        class="fa-regular fa-star" style="opacity: 0.4;"></i>
+                                        class="fa-regular fa-star u-opacity-0-4"></i>
                                 </span>
                             </div>
                             <div class="stat-highlight-item">
@@ -676,7 +662,7 @@
                                 <h3 class="class-title">Rogue</h3>
                                 <div class="class-meta">Civilization Expert</div>
                             </div>
-                            <i data-lucide="venetian-mask" class="class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i data-lucide="venetian-mask" class="class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Cunning scoundrels who excel at the unexpected. Rogues disable traps, pick
                             locks, and exploit enemy weaknesses to deliver lethal sneak attacks.</p>
@@ -685,9 +671,7 @@
                             <div class="stat-highlight-item">
                                 <span class="stat-highlight-label">Complexity</span>
                                 <span class="stat-highlight-val u-text-accent">
-                                    <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"
-                                        style="opacity: 0.4;"></i><i class="fa-regular fa-star"
-                                        style="opacity: 0.4;"></i>
+                                    <i class="fa-solid fa-star"></i><i class="fa-regular fa-star u-opacity-0-4"></i><i class="fa-regular fa-star u-opacity-0-4"></i>
                                 </span>
                             </div>
                             <div class="stat-highlight-item">
@@ -708,7 +692,7 @@
                                 <h3 class="class-title">Sorcerer</h3>
                                 <div class="class-meta">Avatar of The Weave</div>
                             </div>
-                            <i data-lucide="sparkles" class="class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i data-lucide="sparkles" class="class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Vessels of raw, untamed magic. Sorcerers draw upon their powerful
                             bloodlines to bend reality, unleashing explosive spells born of sheer willpower.</p>
@@ -718,7 +702,7 @@
                                 <span class="stat-highlight-label">Complexity</span>
                                 <span class="stat-highlight-val u-text-accent">
                                     <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                        class="fa-regular fa-star" style="opacity: 0.4;"></i>
+                                        class="fa-regular fa-star u-opacity-0-4"></i>
                                 </span>
                             </div>
                             <div class="stat-highlight-item">
@@ -739,7 +723,7 @@
                                 <h3 class="class-title">Wizard</h3>
                                 <div class="class-meta">Academic of Arcana</div>
                             </div>
-                            <i class="fa-solid fa-hat-wizard class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="fa-solid fa-hat-wizard class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Students of the arcane arts. Wizards rely on years of study and their
                             spellbooks to cast a vast array of magics, offering unmatched utility and control.</p>
@@ -770,7 +754,7 @@
                                 <h3 class="class-title">Psychic</h3>
                                 <div class="class-meta">Master of Mind</div>
                             </div>
-                            <i class="fa-solid fa-eye class-pane-watermark" style="font-size: 4rem;"></i>
+                            <i class="fa-solid fa-eye class-pane-watermark"></i>
                         </div>
                         <p class="class-desc">Masters of the mind. Psychics weaponize thought itself, shattering enemy
                             resolve, predicting attacks, and manipulating the battlefield through sheer cognition.
@@ -788,7 +772,7 @@
                             </div>
                             <div class="stat-highlight-item">
                                 <span class="stat-highlight-label">Key Feature</span>
-                                <span class="stat-highlight-val">Mentalist</span>
+                                <span class="stat-highlight-val">Telekinesis</span>
                             </div>
                             <div class="stat-highlight-item">
                                 <span class="stat-highlight-label">Resource</span>
@@ -808,7 +792,7 @@
             <!-- Privacy Policy Accordion -->
             <div class="privacy-accordion">
                 <div class="privacy-content" id="privacy-content">
-                    <div class="privacy-body">
+                    <div class="privacy-body" data-allow-repetition>
                         <div class="policy-section">
                             <h4>1. Introduction</h4>
                             <p>This Privacy Policy explains how we collect, use, and protect the personal information of
@@ -927,10 +911,10 @@
     <div id="sleep-shade-overlay" class="sleep-shade-overlay"></div>
 
     <!-- Splash Screen Overlay -->
-    <div id="char-sheet-splash" class="char-splash-overlay" style="display: none;">
+    <div id="char-sheet-splash" class="char-splash-overlay">
         <div class="char-splash-content">
-            <div id="splash-welcome-msg" style="display: none;"></div>
-            <h1 class="char-splash-title">DEOCH</h1>
+            <div id="splash-welcome-msg"></div>
+            <div class="char-splash-title">DEOCH</div>
             <p class="char-splash-subtitle">GET GOOD AND SURVIVE</p>
         </div>
     </div>
@@ -1001,8 +985,7 @@
                                 </div>
                             </div>
                         </summary>
-                        <button type="button" id="add-action-btn" class="glass-btn-circle" title="Create Custom Action"
-                            style="position: absolute; left: 7rem; top: 0.5rem; z-index: 10;">
+                        <button type="button" id="add-action-btn" class="glass-btn-circle action-btn-header-pos" title="Create Custom Action">
                             <i data-lucide="plus" class="u-icon-sm"></i>
                         </button>
                         <div id="test-actions-list" class="u-flex-column u-gap-0-75 u-p-0-5 u-pt-0">
@@ -1029,29 +1012,7 @@
                             </div>
                         </summary>
                         <div id="test-cond-content" class="u-p-0-5 u-pt-0">
-                            <div class="exhaustion-dots u-mb-1">
-                                <label class="icon-toggle exhaustion-toggle" title="Exhaustion Level 1"
-                                    for="char-ex-1"><input type="checkbox" id="char-ex-1" name="ex_1" class="hidden"><i
-                                        data-lucide="activity"></i></label>
-                                <label class="icon-toggle exhaustion-toggle" title="Exhaustion Level 2"
-                                    for="char-ex-2"><input type="checkbox" id="char-ex-2" name="ex_2" class="hidden"><i
-                                        data-lucide="activity"></i></label>
-                                <label class="icon-toggle exhaustion-toggle" title="Exhaustion Level 3"
-                                    for="char-ex-3"><input type="checkbox" id="char-ex-3" name="ex_3" class="hidden"><i
-                                        data-lucide="activity"></i></label>
-                                <label class="icon-toggle exhaustion-toggle" title="Exhaustion Level 4"
-                                    for="char-ex-4"><input type="checkbox" id="char-ex-4" name="ex_4" class="hidden"><i
-                                        data-lucide="activity"></i></label>
-                                <label class="icon-toggle exhaustion-toggle" title="Exhaustion Level 5"
-                                    for="char-ex-5"><input type="checkbox" id="char-ex-5" name="ex_5" class="hidden"><i
-                                        data-lucide="activity"></i></label>
-                                <label class="icon-toggle exhaustion-toggle" title="Exhaustion Level 6"
-                                    for="char-ex-6"><input type="checkbox" id="char-ex-6" name="ex_6" class="hidden"><i
-                                        data-lucide="activity"></i></label>
-                                <label class="icon-toggle exhaustion-toggle" title="Exhaustion Level 7"
-                                    for="char-ex-7"><input type="checkbox" id="char-ex-7" name="ex_7" class="hidden"><i
-                                        data-lucide="activity"></i></label>
-                            </div>
+                            <div class="exhaustion-dots u-mb-1" id="exhaustion-dots-container"></div>
                             <div id="exhaustion-badge-container"
                                 class="u-font-size-xs u-bold u-mt-0-5 u-mb-1 u-text-center u-flex-center u-gap-0-5 u-border-radius-full exhaustion-badge hidden">
                                 <i data-lucide="activity" class="u-font-size-xs"></i> EXHAUSTION LEVEL <span
@@ -1098,25 +1059,116 @@
                                 <i data-lucide="chevron-down"></i>
                             </div>
                         </summary>
-                        <div class="languages-wrapper u-p-md u-pt-0" id="test-lang-content">
-                            <div id="test-languages-grid" class="languages-grid u-flex u-gap-0-75 u-pt-1">
+                        <div class="languages-wrapper u-p-0-5 u-pt-0" id="test-lang-content">
+                            <div id="test-languages-grid" class="languages-grid u-pt-1">
                                 <!-- Populated by InterfaceManager.renderLanguages() -->
                             </div>
                         </div>
                     </details>
                 </div>
 
-                <div class="tab-pane test-tab-pane u-p-1 u-text-center" id="test-tab-equipment" style="display: none;">
-                    <i data-lucide="package" class="u-mt-1 u-mb-1 u-w-48 u-h-48 u-text-accent u-opacity-0-3"></i>
-                    <h3 class="u-mb-0-5 u-font-primary u-font-size-2xl">Equipment</h3>
-                    <p class="u-font-size-sm u-opacity-0-7 u-text-secondary u-line-height-1-5">
-                        The armory is currently being restocked. Gear management and inventory systems will return
-                        in a future update.
-                    </p>
+                <div class="tab-pane test-tab-pane" id="test-tab-equipment" style="position: relative;">
+                    <!-- ROLL RESULT POPUP MODAL -->
+                    <div class="v5-roll-popup-overlay" id="v5-roll-popup-overlay">
+                        <div class="v5-roll-popup-card">
+                            <div class="v5-roll-popup-die">
+                                <i data-lucide="dices"></i>
+                            </div>
+                            <div class="v5-roll-popup-title" id="v5-popup-title">WEAR TEST ROLL</div>
+                            <div class="v5-roll-popup-number" id="v5-popup-number">8</div>
+                            <div class="v5-roll-popup-desc" id="v5-popup-desc">Rolled stable. Item holds together!</div>
+                            <button type="button" class="insp-btn" id="v5-popup-dismiss-btn" style="margin-top: 0.5rem; width: 100%;">DISMISS</button>
+                        </div>
+                    </div>
+
+                    <div class="v5-main-content-wrapper">
+                        <div class="equipment-header-panel">
+                            <!-- Encumbrance Load System -->
+                            <div class="encumbrance-indicator" title="Current Character Encumbrance">
+                                <i data-lucide="dumbbell" style="width: 12px; height: 12px;"></i>
+                                <span>LOAD: <span id="v5-weight-val">0.0</span> / 15 Stones</span>
+                                <div class="encumbrance-bar-bg">
+                                    <div class="encumbrance-bar-fill" id="v5-weight-bar"></div>
+                                </div>
+                            </div>
+
+                            <div class="attunement-indicator" id="attunement-indicator-v5">
+                                <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+                                ATTUNE: <span id="attuned-count-v5">0</span> / 3
+                            </div>
+                        </div>
+
+                        <div class="u-p-0-5">
+                            <div class="v5-showcase-container">
+                                <!-- COLUMN 1: Central grid representation -->
+                                <div class="v5-grid-area">
+                                    <div class="v5-grid-title">
+                                        <span>MAJOR GEAR</span>
+                                        <span style="font-size:0.7rem; opacity:0.6;">10 Slots</span>
+                                    </div>
+                                    <div class="v5-pane-content" id="pane-majors">
+                                        <div class="v5-tile-grid" id="grid-majors">
+                                            <!-- Populated dynamically by EquipmentManager -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- COLUMN 2: Persistent Card Inspector (No Modals!) -->
+                                <div class="v5-inspector-panel" id="v5-inspector" style="display: none;">
+                                    <!-- Inspector Detail Layout (Hidden until slot selected) -->
+                                    <div id="insp-detail-area" style="display: flex; flex-direction: column; gap: 1rem; height: 100%;">
+                                        <div class="insp-title-row">
+                                            <div class="insp-meta-box">
+                                                <input type="text" class="insp-name-field" id="insp-name" placeholder="Item Name">
+                                            </div>
+                                        </div>
+
+                                        <div class="insp-config-grid">
+                                            <button type="button" class="insp-btn" id="insp-attune-btn">
+                                                <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+                                                Attune
+                                            </button>
+                                            <button type="button" class="insp-btn" id="insp-usage-btn">
+                                                <i data-lucide="dice-5" style="width: 12px; height: 12px;"></i>
+                                                Usage Die
+                                            </button>
+                                        </div>
+
+                                        <!-- Usage Roll panel inside inspector -->
+                                        <div class="insp-usage-drawer" id="insp-usage-drawer">
+                                            <div class="flex-between" style="font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
+                                                <span>Wear Die:</span>
+                                                <select class="usage-die-select" id="insp-die-size">
+                                                    <option value="d4">d4</option>
+                                                    <option value="d6">d6</option>
+                                                    <option value="d8">d8</option>
+                                                    <option value="d10">d10</option>
+                                                </select>
+                                            </div>
+                                            <button type="button" class="insp-roll-btn" id="insp-roll-btn">
+                                                <i data-lucide="dices" style="width: 14px; height: 14px;"></i> Roll Wear Test
+                                            </button>
+                                        </div>
+
+                                        <div class="flex-between" style="font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.04); padding: 0.4rem 0.5rem; border-radius: var(--radius-sm);">
+                                            <span>Encumbrance (Stones):</span>
+                                            <input type="number" step="0.5" min="0" max="50" id="insp-weight" 
+                                                style="width: 55px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; color: var(--accent-primary); text-align: center;">
+                                        </div>
+
+                                        <div class="u-flex-column u-gap-0-25" style="flex: 1; display: flex; flex-direction: column;">
+                                            <span class="insp-slot-label">Description & Rules</span>
+                                            <textarea class="insp-desc-area" id="insp-desc" placeholder="Write rules and item attributes here..." style="flex: 1; min-height: 80px;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Tab 3: Grimoire (Static) -->
-                <div class="tab-pane test-tab-pane u-p-1 u-text-center" id="test-tab-grimoire" style="display: none;">
+                <div class="tab-pane test-tab-pane u-p-1 u-text-center" id="test-tab-grimoire">
                     <i data-lucide="sparkles" class="u-mt-1 u-mb-1 u-w-48 u-h-48 u-text-accent u-opacity-0-3"></i>
                     <h3 class="u-mb-0-5 u-font-primary u-font-size-2xl">
                         Grimoire</h3>
@@ -1125,16 +1177,14 @@
                     </p>
                 </div>
 
-                <div class="tab-pane test-tab-pane u-p-1" id="test-tab-lore" style="display: none;">
+                <div class="tab-pane test-tab-pane u-p-1" id="test-tab-lore">
                     <!-- Lore Entries List -->
-                    <div id="test-lore-list" class="u-flex-column u-gap-0-75 u-mt-0-5 u-mb-1"
-                        style="max-height: 250px; overflow-y: auto; text-align: left;">
+                    <div id="test-lore-list" class="u-flex-column u-gap-0-75 u-mt-0-5 u-mb-1">
                         <!-- Dynamically populated -->
                     </div>
 
                     <!-- Add Entry Form -->
-                    <div class="glass-panel-premium u-p-md u-bg-surface-glass-dark u-border-radius-lg"
-                        style="text-align: left;">
+                    <div class="glass-panel-premium lore-add-entry-container u-p-md u-bg-surface-glass-dark u-border-radius-lg">
                         <label for="new-lore-input"
                             class="u-font-size-xs u-text-accent u-bold u-mb-0-5 u-display-block">NEW RECORD</label>
                         <textarea id="new-lore-input"
@@ -1155,38 +1205,7 @@
         <div id="dice-tray-widget" class="glass-panel-frosted floating-widget minimized">
             <div class="u-flex-column u-gap-0-75">
                 <div class="dice-widget-mobile-stats u-mb-0-75 u-pb-0-75 u-border-bottom-glass">
-                    <div class="u-grid u-gap-0-4 u-grid-3col">
-                        <div class="stat-box stat-box-compact" data-stat="str">
-                            <span class="stat-label">STR</span>
-                            <div class="value">14</div>
-                            <div class="mod">+2</div>
-                        </div>
-                        <div class="stat-box stat-box-compact" data-stat="dex">
-                            <span class="stat-label">DEX</span>
-                            <div class="value">12</div>
-                            <div class="mod">+1</div>
-                        </div>
-                        <div class="stat-box stat-box-compact" data-stat="con">
-                            <span class="stat-label">CON</span>
-                            <div class="value">16</div>
-                            <div class="mod">+3</div>
-                        </div>
-                        <div class="stat-box stat-box-compact" data-stat="int">
-                            <span class="stat-label">INT</span>
-                            <div class="value">10</div>
-                            <div class="mod">+0</div>
-                        </div>
-                        <div class="stat-box stat-box-compact" data-stat="wis">
-                            <span class="stat-label">WIS</span>
-                            <div class="value">13</div>
-                            <div class="mod">+1</div>
-                        </div>
-                        <div class="stat-box stat-box-compact" data-stat="cha">
-                            <span class="stat-label">CHA</span>
-                            <div class="value">11</div>
-                            <div class="mod">+0</div>
-                        </div>
-                    </div>
+                    <div class="u-grid u-gap-0-4 u-grid-3col" id="dice-tray-stats-container"></div>
                 </div>
                 <div class="dice-result-container">
                     <div id="roller-dice-count-badge" class="dice-count-badge u-fade-in">
@@ -1339,7 +1358,7 @@
 
         <!-- Hidden Legacy Bridge (Ensures JS Managers stay functional) -->
         <!-- Unified Data Bridge (Source of Truth) -->
-        <form id="char-form" style="display: none;">
+        <form id="char-form" class="hidden">
             <input type="hidden" id="char-id" name="id">
             <input type="hidden" id="char-name" name="name" value="Unknown Hero">
             <input type="hidden" id="char-hp" name="hp" value="24">
@@ -1357,9 +1376,7 @@
             <input type="hidden" id="char-ac-value" value="10">
             <input type="hidden" id="char-init-value" value="+0">
             <input type="hidden" id="char-exp" name="exp" value="20">
-            <input type="hidden" id="char-gold" name="gold" value="0">
             <input type="hidden" id="char-elfrot" name="elfrot" value="0">
-            <input type="hidden" id="char-heritage" name="heritage" value="h1">
             <input type="hidden" id="char-class" name="class" value="Human">
             <input type="hidden" id="char-class-2" name="class_secondary" value="">
 
@@ -1373,15 +1390,10 @@
 
 
             <input type="hidden" id="char-healing-dice" name="healing_dice" value="1">
-            <input type="hidden" id="char-fatigue" name="fatigue" value="0">
             <input type="hidden" id="char-insp-1" name="inspiration" value="false">
-            <input type="hidden" id="form-attune-1" name="attune1" value="false">
-            <input type="hidden" id="form-attune-2" name="attune2" value="false">
-            <input type="hidden" id="form-attune-3" name="attune3" value="false">
 
             <textarea id="char-inventory-raw" name="inventory_raw"></textarea>
             <textarea id="test-lore-notes" name="lore_notes"></textarea>
-            <textarea id="test-legendmarks-raw" name="legendmarks_raw"></textarea>
         </form>
     </div>
 
@@ -1396,7 +1408,7 @@
             </div>
 
             <!-- Tour Steps Container -->
-            <div id="tour-steps" class="tour-content">
+            <div id="tour-steps" class="tour-content" data-allow-repetition>
 
                 <!-- Step 0: Name Your Hero -->
                 <div class="tour-step tour-step-layout active" data-step="0">
@@ -1405,7 +1417,7 @@
                         WHO ARE YOU?</h2>
 
                     <div class="tour-input-wrapper">
-                        <input type="text" id="tour-name-input" placeholder="Name your legend..." class="tour-input">
+                        <input type="text" id="tour-name-input" placeholder="Name your legend..." class="tour-input" aria-label="Name your legend">
                     </div>
 
                 </div>
@@ -1417,7 +1429,7 @@
                     <p class="u-text-center u-font-size-sm u-opacity-0-7 u-mb-2">Select your
                         bloodline and origin.</p>
 
-                    <div class="tour-option-grid">
+                    <div class="tour-option-grid" data-allow-repetition>
                         <button class="tour-option-btn glass-panel-frosted" data-tour-action="select-heritage"
                             data-heritage-id="h1" data-heritage-name="Human">
                             <i class="ra ra-human-ear"></i>
@@ -1613,14 +1625,14 @@
                         <span class="inspiration-symbol" aria-hidden="true"></span>
                     </label>
                 </div>
-                <input type="file" id="test-avatar-upload" accept="image/*" style="display: none;">
+                <input type="file" id="test-avatar-upload" accept="image/*" class="hidden">
                 <div class="hud-main-info-block">
                     <!-- Row 1: Name -->
                     <div id="test-hud-name" class="hud-name u-font-primary u-font-size-xl">Unknown</div>
                     <!-- Row 2: Subtitle + Inspiration + Chevron -->
                     <div class="hud-details-row">
                         <div id="test-hud-sub" class="hud-sub-container">
-                            <span id="test-hud-level" style="display:none;">0</span>
+                            <span id="test-hud-level" class="hidden">0</span>
                             <div id="test-hud-primary-line" class="hud-info-line">
                                 <span id="test-hud-level-text">Level <span class="hud-level-val">0</span></span>
                                 <span class="hud-dot-sep">•</span>
@@ -1632,7 +1644,7 @@
                                 <span class="hud-dot-sep">•</span>
                                 <span id="test-hud-secondary-class-visible">Human</span>
                             </div>
-                            <div id="test-hud-multiclass-line" class="hud-info-line" style="display: none;"></div>
+                            <div id="test-hud-multiclass-line" class="hud-info-line hidden"></div>
                         </div>
                         <button class="hud-menu-btn">
                             <i data-lucide="chevron-down" id="hud-expand-icon"></i>
@@ -1652,44 +1664,7 @@
             </div>
         </div>
 
-        <div id="hud-stats-summary" class="stats-header-summary hud-stats-summary">
-            <div class="summary-item" data-stat="str">
-                <span class="stat-label">STR</span>
-                <div class="u-flex u-align-center u-gap-0-1">
-                    <span class="val">9</span><span class="mod">(+0)</span>
-                </div>
-            </div>
-            <div class="summary-item" data-stat="dex">
-                <span class="stat-label">DEX</span>
-                <div class="u-flex u-align-center u-gap-0-1">
-                    <span class="val">9</span><span class="mod">(+0)</span>
-                </div>
-            </div>
-            <div class="summary-item" data-stat="con">
-                <span class="stat-label">CON</span>
-                <div class="u-flex u-align-center u-gap-0-1">
-                    <span class="val">9</span><span class="mod">(+0)</span>
-                </div>
-            </div>
-            <div class="summary-item" data-stat="int">
-                <span class="stat-label">INT</span>
-                <div class="u-flex u-align-center u-gap-0-1">
-                    <span class="val">9</span><span class="mod">(+0)</span>
-                </div>
-            </div>
-            <div class="summary-item" data-stat="wis">
-                <span class="stat-label">WIS</span>
-                <div class="u-flex u-align-center u-gap-0-1">
-                    <span class="val">9</span><span class="mod">(+0)</span>
-                </div>
-            </div>
-            <div class="summary-item" data-stat="cha">
-                <span class="stat-label">CHA</span>
-                <div class="u-flex u-align-center u-gap-0-1">
-                    <span class="val">9</span><span class="mod">(+0)</span>
-                </div>
-            </div>
-        </div>
+        <div id="hud-stats-summary" class="stats-header-summary hud-stats-summary"></div>
 
         <div id="stat-points-indicator" class="stat-points-badge splash-transparent">
             <div class="stat-points-text-container">
@@ -1709,7 +1684,7 @@
         <!-- Expanded Content: Quick Stats -->
         <div class="top-hud-expanded-content">
             <!-- Quick Info Section (Moved to top) -->
-            <div class="hud-detail-grid">
+            <div class="hud-detail-grid" data-allow-repetition>
                 <div class="hud-detail-cell">
                     <div class="hud-detail-label">Renown</div>
                     <div id="test-hud-detail-renown" class="hud-detail-value--accent">Renown 1</div>
@@ -1746,29 +1721,23 @@
 
             <div class="hud-max-stat-grid">
                 <div class="hud-max-stat-card hud-max-stat-card--hp">
-                    <div>
-                        <div class="hud-max-stat-label">Max Health</div>
-                        <input type="number" id="hud-max-hp-input" min="1" value="28"
-                            class="hud-max-stat-input hud-max-stat-input--hp" onclick="event.stopPropagation()">
-                    </div>
+                    <div class="hud-max-stat-label">Max Health</div>
+                    <input type="number" id="hud-max-hp-input" min="1" value="28"
+                        class="hud-max-stat-input hud-max-stat-input--hp" onclick="event.stopPropagation()" aria-label="Max Health">
                     <button type="button" class="hud-max-stat-btn hud-max-stat-btn--hp" data-action="update-max-stat"
                         data-stat="hp">Update</button>
                 </div>
                 <div class="hud-max-stat-card hud-max-stat-card--sp">
-                    <div>
-                        <div class="hud-max-stat-label">Max Stamina</div>
-                        <input type="number" id="mobile-max-sp-input" min="1" value="10"
-                            class="hud-max-stat-input hud-max-stat-input--sp" onclick="event.stopPropagation()">
-                    </div>
+                    <div class="hud-max-stat-label">Max Stamina</div>
+                    <input type="number" id="mobile-max-sp-input" min="1" value="10"
+                        class="hud-max-stat-input hud-max-stat-input--sp" onclick="event.stopPropagation()" aria-label="Max Stamina">
                     <button type="button" class="hud-max-stat-btn hud-max-stat-btn--sp" data-action="update-max-stat"
                         data-stat="sp">Update</button>
                 </div>
                 <div class="hud-max-stat-card hud-max-stat-card--mp">
-                    <div>
-                        <div class="hud-max-stat-label">Max Mana</div>
-                        <input type="number" id="hud-max-mp-input" min="1" value="12"
-                            class="hud-max-stat-input hud-max-stat-input--mp" onclick="event.stopPropagation()">
-                    </div>
+                    <div class="hud-max-stat-label">Max Mana</div>
+                    <input type="number" id="hud-max-mp-input" min="1" value="12"
+                        class="hud-max-stat-input hud-max-stat-input--mp" onclick="event.stopPropagation()" aria-label="Max Mana">
                     <button type="button" class="hud-max-stat-btn hud-max-stat-btn--mp" data-action="update-max-stat"
                         data-stat="mp">Update</button>
                 </div>
@@ -1779,7 +1748,7 @@
             <div id="test-hud-exp-trigger">
 
                 <!-- Left Column: Options -->
-                <div style="display: flex; flex-direction: column; align-items: center; margin-left: 15px;">
+                <div>
                     <span class="u-font-size-xs u-text-accent u-bold text-uppercase-tracked u-block">Options</span>
                     <div class="u-flex u-align-center u-gap-1 u-mt-0-25 u-relative u-z-max">
                         <details class="management-menu u-relative u-z-max">
@@ -1898,8 +1867,7 @@
                     <input type="number" id="test-add-exp-input" placeholder="ENTER AMOUNT"
                         class="u-h-40 u-flex-1 u-font-size-xl u-bg-black-60 u-border-glass u-border-radius-md u-p-0-0-5 u-text-white u-font-primary u-outline-none u-text-center"
                         autocomplete="off">
-                    <button type="button" id="test-add-exp-btn" class="icon-btn-circle premium-interactive"
-                        style="width: 40px; height: 40px;">
+                    <button type="button" id="test-add-exp-btn" class="icon-btn-circle premium-interactive">
                         <i data-lucide="check" class="u-icon-sm"></i>
                     </button>
                 </div>
@@ -1996,33 +1964,7 @@
 
         <dialog id="mastery-celebration-dialog"
             class="modal-dialog mastery-dialog u-bg-none u-flex-column u-align-center u-text-center u-p-0-5">
-            <div id="spark-container" class="mastery-spark-container">
-                <div class="mastery-spark" style="left: 5%; animation-delay: 0.1s;"></div>
-                <div class="mastery-spark" style="left: 10%; animation-delay: 1.8s;"></div>
-                <div class="mastery-spark" style="left: 15%; animation-delay: 0.5s;"></div>
-                <div class="mastery-spark" style="left: 20%; animation-delay: 2.3s;"></div>
-                <div class="mastery-spark" style="left: 25%; animation-delay: 0.9s;"></div>
-                <div class="mastery-spark" style="left: 30%; animation-delay: 1.4s;"></div>
-                <div class="mastery-spark" style="left: 35%; animation-delay: 2.8s;"></div>
-                <div class="mastery-spark" style="left: 40%; animation-delay: 0.3s;"></div>
-                <div class="mastery-spark" style="left: 45%; animation-delay: 1.7s;"></div>
-                <div class="mastery-spark" style="left: 50%; animation-delay: 0.8s;"></div>
-                <div class="mastery-spark" style="left: 55%; animation-delay: 2.1s;"></div>
-                <div class="mastery-spark" style="left: 60%; animation-delay: 1.2s;"></div>
-                <div class="mastery-spark" style="left: 65%; animation-delay: 0.4s;"></div>
-                <div class="mastery-spark" style="left: 70%; animation-delay: 2.9s;"></div>
-                <div class="mastery-spark" style="left: 75%; animation-delay: 1.5s;"></div>
-                <div class="mastery-spark" style="left: 80%; animation-delay: 0.7s;"></div>
-                <div class="mastery-spark" style="left: 85%; animation-delay: 2.4s;"></div>
-                <div class="mastery-spark" style="left: 90%; animation-delay: 1.1s;"></div>
-                <div class="mastery-spark" style="left: 95%; animation-delay: 1.9s;"></div>
-                <div class="mastery-spark" style="left: 8%; animation-delay: 2.6s;"></div>
-                <div class="mastery-spark" style="left: 28%; animation-delay: 0.6s;"></div>
-                <div class="mastery-spark" style="left: 48%; animation-delay: 2.2s;"></div>
-                <div class="mastery-spark" style="left: 68%; animation-delay: 1.3s;"></div>
-                <div class="mastery-spark" style="left: 78%; animation-delay: 0.2s;"></div>
-                <div class="mastery-spark" style="left: 88%; animation-delay: 1.6s;"></div>
-            </div>
+            <div id="spark-container" class="mastery-spark-container"></div>
 
             <h2 class="gothic-header mastery-title">MASTERY ACHIEVED</h2>
             <h2 class="mastery-subtitle">YOU HAVE TRANSCENDED</h2>
@@ -2041,43 +1983,7 @@
                     </div>
                 </div>
 
-                <div id="mastery-buttons-grid" class="mastery-btn-grid">
-                    <!-- HP -->
-                    <button id="test-cel-mastery-hp-btn" class="glass-btn upgrade-btn upgrade-btn--hp">
-                        <div class="upgrade-btn-label upgrade-btn-label--hp">+1 Vitality</div>
-                        <div id="test-cel-mastery-hp-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
-                    </button>
-                    <!-- MP -->
-                    <button id="test-cel-mastery-mp-btn" class="glass-btn upgrade-btn upgrade-btn--mp">
-                        <div class="upgrade-btn-label upgrade-btn-label--mp">+1 Mana</div>
-                        <div id="test-cel-mastery-mp-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
-                    </button>
-                    <!-- Stats -->
-                    <button id="test-cel-mastery-str-btn" class="glass-btn upgrade-btn upgrade-btn--stat">
-                        <div class="upgrade-btn-label upgrade-btn-label--stat">+1 Strength</div>
-                        <div id="test-cel-mastery-str-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
-                    </button>
-                    <button id="test-cel-mastery-dex-btn" class="glass-btn upgrade-btn upgrade-btn--stat">
-                        <div class="upgrade-btn-label upgrade-btn-label--stat">+1 Dexterity</div>
-                        <div id="test-cel-mastery-dex-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
-                    </button>
-                    <button id="test-cel-mastery-con-btn" class="glass-btn upgrade-btn upgrade-btn--stat">
-                        <div class="upgrade-btn-label upgrade-btn-label--stat">+1 Constitution</div>
-                        <div id="test-cel-mastery-con-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
-                    </button>
-                    <button id="test-cel-mastery-int-btn" class="glass-btn upgrade-btn upgrade-btn--stat">
-                        <div class="upgrade-btn-label upgrade-btn-label--stat">+1 Intelligence</div>
-                        <div id="test-cel-mastery-int-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
-                    </button>
-                    <button id="test-cel-mastery-wis-btn" class="glass-btn upgrade-btn upgrade-btn--stat">
-                        <div class="upgrade-btn-label upgrade-btn-label--stat">+1 Wisdom</div>
-                        <div id="test-cel-mastery-wis-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
-                    </button>
-                    <button id="test-cel-mastery-cha-btn" class="glass-btn upgrade-btn upgrade-btn--stat">
-                        <div class="upgrade-btn-label upgrade-btn-label--stat">+1 Charisma</div>
-                        <div id="test-cel-mastery-cha-cost" class="upgrade-btn-cost">Cost: -- EXP</div>
-                    </button>
-                </div>
+                <div id="mastery-buttons-grid" class="mastery-btn-grid"></div>
             </div>
 
             <button class="secondary-btn premium-interactive mastery-return-btn" data-action="close-celebration">
@@ -2102,7 +2008,7 @@
             <div class="bulk-grid">
                 <button class="bulk-btn minus" id="bulk-sub-btn">-</button>
                 <button class="bulk-btn plus" id="bulk-add-btn">+</button>
-                <button class="bulk-btn shield" id="bulk-temp-btn" style="display: none;"><i
+                <button class="bulk-btn shield" id="bulk-temp-btn"><i
                         data-lucide="shield"></i></button>
             </div>
         </div>
@@ -2167,7 +2073,7 @@
     </dialog>
 
     <!-- Custom Action Creation Dialog -->
-    <dialog id="custom-action-dialog" class="modal-dialog u-text-center" style="max-width: 450px;">
+    <dialog id="custom-action-dialog" class="modal-dialog u-text-center" data-allow-repetition>
         <h2 class="gothic-header u-mb-1-5 u-font-size-3xl u-tracking-wider u-text-upper">Custom Action</h2>
 
         <div class="u-text-left u-mb-1">
@@ -2221,80 +2127,7 @@
             <span id="custom-action-dice-label"
                 class="u-font-size-xs u-text-accent u-tracking-wider text-uppercase-tracked u-mb-0-5 u-display-block">Damage
                 Dice (optional)</span>
-            <div class="u-grid u-gap-0-5 u-grid-dice-layout" role="group" aria-labelledby="custom-action-dice-label">
-                <div class="u-flex u-align-center u-justify-between u-bg-black-60 u-border-glass u-border-radius-md u-p-0-25"
-                    style="height: 40px;">
-                    <button type="button" class="qty-btn" data-dice-qty-dec="4"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">-</button>
-                    <div class="u-flex u-flex-column u-align-center" style="line-height: 1.1;">
-                        <span style="font-size: 0.7rem; font-weight: bold; color: var(--accent-primary);">d4</span>
-                        <span class="qty-val" id="custom-dice-qty-4"
-                            style="font-weight: bold; font-size: 0.85rem; color: #EAE6DF;">0</span>
-                    </div>
-                    <button type="button" class="qty-btn" data-dice-qty-inc="4"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">+</button>
-                </div>
-                <div class="u-flex u-align-center u-justify-between u-bg-black-60 u-border-glass u-border-radius-md u-p-0-25"
-                    style="height: 40px;">
-                    <button type="button" class="qty-btn" data-dice-qty-dec="6"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">-</button>
-                    <div class="u-flex u-flex-column u-align-center" style="line-height: 1.1;">
-                        <span style="font-size: 0.7rem; font-weight: bold; color: var(--accent-primary);">d6</span>
-                        <span class="qty-val" id="custom-dice-qty-6"
-                            style="font-weight: bold; font-size: 0.85rem; color: #EAE6DF;">0</span>
-                    </div>
-                    <button type="button" class="qty-btn" data-dice-qty-inc="6"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">+</button>
-                </div>
-                <div class="u-flex u-align-center u-justify-between u-bg-black-60 u-border-glass u-border-radius-md u-p-0-25"
-                    style="height: 40px;">
-                    <button type="button" class="qty-btn" data-dice-qty-dec="8"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">-</button>
-                    <div class="u-flex u-flex-column u-align-center" style="line-height: 1.1;">
-                        <span style="font-size: 0.7rem; font-weight: bold; color: var(--accent-primary);">d8</span>
-                        <span class="qty-val" id="custom-dice-qty-8"
-                            style="font-weight: bold; font-size: 0.85rem; color: #EAE6DF;">0</span>
-                    </div>
-                    <button type="button" class="qty-btn" data-dice-qty-inc="8"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">+</button>
-                </div>
-                <div class="u-flex u-align-center u-justify-between u-bg-black-60 u-border-glass u-border-radius-md u-p-0-25"
-                    style="height: 40px;">
-                    <button type="button" class="qty-btn" data-dice-qty-dec="10"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">-</button>
-                    <div class="u-flex u-flex-column u-align-center" style="line-height: 1.1;">
-                        <span style="font-size: 0.7rem; font-weight: bold; color: var(--accent-primary);">d10</span>
-                        <span class="qty-val" id="custom-dice-qty-10"
-                            style="font-weight: bold; font-size: 0.85rem; color: #EAE6DF;">0</span>
-                    </div>
-                    <button type="button" class="qty-btn" data-dice-qty-inc="10"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">+</button>
-                </div>
-                <div class="u-flex u-align-center u-justify-between u-bg-black-60 u-border-glass u-border-radius-md u-p-0-25"
-                    style="height: 40px;">
-                    <button type="button" class="qty-btn" data-dice-qty-dec="12"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">-</button>
-                    <div class="u-flex u-flex-column u-align-center" style="line-height: 1.1;">
-                        <span style="font-size: 0.7rem; font-weight: bold; color: var(--accent-primary);">d12</span>
-                        <span class="qty-val" id="custom-dice-qty-12"
-                            style="font-weight: bold; font-size: 0.85rem; color: #EAE6DF;">0</span>
-                    </div>
-                    <button type="button" class="qty-btn" data-dice-qty-inc="12"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">+</button>
-                </div>
-                <div class="u-flex u-align-center u-justify-between u-bg-black-60 u-border-glass u-border-radius-md u-p-0-25"
-                    style="height: 40px;">
-                    <button type="button" class="qty-btn" data-dice-qty-dec="20"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">-</button>
-                    <div class="u-flex u-flex-column u-align-center" style="line-height: 1.1;">
-                        <span style="font-size: 0.7rem; font-weight: bold; color: var(--accent-primary);">d20</span>
-                        <span class="qty-val" id="custom-dice-qty-20"
-                            style="font-weight: bold; font-size: 0.85rem; color: #EAE6DF;">0</span>
-                    </div>
-                    <button type="button" class="qty-btn" data-dice-qty-inc="20"
-                        style="background: none; border: none; color: var(--text-secondary); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; padding: 0;">+</button>
-                </div>
-            </div>
+            <div class="u-grid u-gap-0-5 u-grid-dice-layout" id="custom-action-dice-grid" role="group" aria-labelledby="custom-action-dice-label"></div>
         </div>
 
         <div class="u-mb-1-5">
@@ -2304,16 +2137,14 @@
             <div class="u-flex u-gap-1">
                 <div class="u-flex-1">
                     <label for="custom-action-hit-bonus"
-                        class="u-text-accent u-tracking-wider text-uppercase-tracked u-mb-0-25 u-display-block u-text-center"
-                        style="font-size: 0.65rem;">To Hit</label>
+                        class="u-text-accent u-tracking-wider text-uppercase-tracked u-mb-0-25 u-display-block u-text-center">To Hit</label>
                     <input type="text" id="custom-action-hit-bonus"
                         class="u-w-full u-bg-black-60 u-border-glass u-border-radius-md u-p-0-5 u-text-white u-font-primary u-outline-none u-text-center u-h-40"
                         placeholder="0" autocomplete="off">
                 </div>
                 <div class="u-flex-1">
                     <label for="custom-action-dmg-bonus"
-                        class="u-text-accent u-tracking-wider text-uppercase-tracked u-mb-0-25 u-display-block u-text-center"
-                        style="font-size: 0.65rem;">To Dmg</label>
+                        class="u-text-accent u-tracking-wider text-uppercase-tracked u-mb-0-25 u-display-block u-text-center">To Dmg</label>
                     <input type="text" id="custom-action-dmg-bonus"
                         class="u-w-full u-bg-black-60 u-border-glass u-border-radius-md u-p-0-5 u-text-white u-font-primary u-outline-none u-text-center u-h-40"
                         placeholder="0" autocomplete="off">
@@ -2324,7 +2155,7 @@
         <div class="u-flex-center u-gap-1">
             <button type="button" id="custom-action-delete"
                 class="secondary-btn u-font-size-xl u-border-radius-md u-cursor-pointer u-text-danger"
-                style="display: none; border-color: #ef4444; padding: 0.75rem;" title="Delete Action">
+                title="Delete Action">
                 <i data-lucide="trash-2" class="u-icon-sm"></i>
             </button>
             <button type="button" id="custom-action-cancel"
@@ -2334,32 +2165,7 @@
         </div>
     </dialog>
 
-
-
-    <!-- Script to handle tab behavior -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const containers = document.querySelectorAll('.class-showcase-container');
-            containers.forEach(container => {
-                const tabs = container.querySelectorAll('.class-showcase-tab');
-                const panels = container.querySelectorAll('.class-showcase-panel');
-
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        const targetTab = tab.getAttribute('data-showcase-tab');
-                        tabs.forEach(t => t.classList.remove('active'));
-                        panels.forEach(p => p.classList.remove('active'));
-
-                        tab.classList.add('active');
-                        const targetPanel = container.querySelector(`#showcase-${targetTab}`);
-                        if (targetPanel) {
-                            targetPanel.classList.add('active');
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    <!-- Tab behavior moved dynamically to InterfaceManager.js -->
 
     <!-- App Entry Point (Modular) -->
     <script type="module" src="javascript/app.js"></script>
